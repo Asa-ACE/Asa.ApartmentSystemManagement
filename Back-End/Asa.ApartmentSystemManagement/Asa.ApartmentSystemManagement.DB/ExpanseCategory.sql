@@ -1,7 +1,7 @@
-﻿CREATE TABLE [dbo].[Expanse Category]
+﻿CREATE TABLE [dbo].[ExpanseCategory]
 (
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [name] NVARCHAR(50) NOT NULL, 
-    [formulaType] TINYINT NOT NULL, 
+	[CategoryID] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Name] NVARCHAR(50) NOT NULL, 
+    [FormulaType] TINYINT NOT NULL, 
     [IsForOwner] BIT NOT NULL
 )
