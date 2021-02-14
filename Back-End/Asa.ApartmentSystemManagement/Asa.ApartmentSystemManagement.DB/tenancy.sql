@@ -1,4 +1,4 @@
-﻿Create table [dbo].[Tenancy]
+﻿CREATE TABLE [dbo].[Tenancy]
 (
 	[TenancyID] int identity(1,1) PRIMARY KEY not null,
 	[UnitID] int not null,

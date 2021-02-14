@@ -1,4 +1,4 @@
-﻿Create table [dbo].[Unit] 
+﻿CREATE TABLE [dbo].[Unit] 
 (
 	[UnitID] int identity(1,1) PRIMARY KEY not null,
 	[BuildingID] int not null,

@@ -1,4 +1,4 @@
-﻿Create table [dbo].[Ownership]
+﻿CREATE TABLE [dbo].[Ownership]
 (
 	[OwnershipID] int identity(1,1) PRIMARY KEY NOT null,
 	[UnitID] int NOT null,
