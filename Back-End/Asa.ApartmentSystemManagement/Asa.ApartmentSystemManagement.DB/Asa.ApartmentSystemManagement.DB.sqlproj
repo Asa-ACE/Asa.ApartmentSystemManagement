@@ -59,9 +59,13 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Building.sql" />
-    <Build Include="tenancy.sql" />
+    <Build Include="Tenancy.sql" />
     <Build Include="Unit.sql" />
     <Build Include="Ownership.sql" />
     <Build Include="Person.sql" />
+    <Build Include="Admin.sql" />
+    <Build Include="Expanse.sql" />
+    <Build Include="Expanse Category.sql" />
+    <Build Include="Charge.sql" />
   </ItemGroup>
 </Project>
