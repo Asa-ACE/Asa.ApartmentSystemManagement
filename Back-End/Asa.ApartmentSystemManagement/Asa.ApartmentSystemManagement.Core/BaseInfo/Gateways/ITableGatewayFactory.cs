@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Asa.ApartmentSystemManagement.Core.Gateways
+namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
 {
     public interface ITableGatewayFactory
     {
