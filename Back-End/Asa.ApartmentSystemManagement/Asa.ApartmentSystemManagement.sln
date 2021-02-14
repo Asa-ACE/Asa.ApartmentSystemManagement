@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asa.ApartmentSystemManagement.Core", "Asa.ApartmentSystemManagement.Core\Asa.ApartmentSystemManagement.Core.csproj", "{4E25EC00-3413-40E1-A0E5-7B6BB44A816C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asa.ApartmentSystemManagement.Core", "Asa.ApartmentSystemManagement.Core\Asa.ApartmentSystemManagement.Core.csproj", "{4E25EC00-3413-40E1-A0E5-7B6BB44A816C}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Asa.ApartmentSystemManagement.DB", "Asa.ApartmentSystemManagement.DB\Asa.ApartmentSystemManagement.DB.sqlproj", "{091F4941-59C3-4FCC-8E74-759F5664A561}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,12 @@ Global
 		{4E25EC00-3413-40E1-A0E5-7B6BB44A816C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E25EC00-3413-40E1-A0E5-7B6BB44A816C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E25EC00-3413-40E1-A0E5-7B6BB44A816C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{091F4941-59C3-4FCC-8E74-759F5664A561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{091F4941-59C3-4FCC-8E74-759F5664A561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{091F4941-59C3-4FCC-8E74-759F5664A561}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{091F4941-59C3-4FCC-8E74-759F5664A561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{091F4941-59C3-4FCC-8E74-759F5664A561}.Release|Any CPU.Build.0 = Release|Any CPU
+		{091F4941-59C3-4FCC-8E74-759F5664A561}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
