@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
 {
-    public interface IUnitTableGateway
+    public interface IPersonTableGateway
     {
-        Task<int> InsertUnitAsync(UnitDTO unit);
-        Task<UnitDTO> GetUnitById(int id);
-        Task<IEnumerable<UnitDTO>> GetUnitByBuildingId(int id);
+        Task<int> InsertPerson(PersonDTO person);
+        Task<PersonDTO> GetPersonById(int id);
     }
 }
