@@ -65,7 +65,10 @@
     <Build Include="Person.sql" />
     <Build Include="Admin.sql" />
     <Build Include="Expanse.sql" />
-    <Build Include="Expanse Category.sql" />
+    <Build Include="ExpanseCategory.sql" />
     <Build Include="Charge.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Asa.ApartmentSystemManagement.DB.refactorlog" />
   </ItemGroup>
 </Project>
