@@ -51,6 +51,14 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             }
         }
 
+        public async Task UpdateBuildingName(int id, string name)
+		{
+            var gateway = _gatewayFactory.CreateBuildingTableGateway();
+            var building = await gateway.GetBuildingById(id);
+            building.Name = name;
+            ValidateBuilding(building);
+            await gateway.UpdateBuilding(building);
+		}
 
     }
 }
