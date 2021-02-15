@@ -50,5 +50,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
                 throw new ArgumentOutOfRangeException("Unit area cannot be less than 20!");
             }
         }
+
+
     }
 }
