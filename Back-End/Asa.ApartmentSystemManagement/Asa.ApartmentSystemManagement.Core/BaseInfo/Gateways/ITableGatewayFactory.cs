@@ -8,5 +8,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
     {
         IBuildingTableGateway CreateBuildingTableGateway();
         IUnitTableGateway CreateUnitTableGateway();
-    }
+        IOwnershipTableGateway CreateOwnershipTableGateway();
+	}
 }

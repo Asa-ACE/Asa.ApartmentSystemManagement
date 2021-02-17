@@ -51,6 +51,27 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             }
         }
 
+        public async Task UpdateBuildingName(int id, string name)
+		{
+            var gateway = _gatewayFactory.CreateBuildingTableGateway();
+            var building = await gateway.GetBuildingById(id);
+            building.Name = name;
+            ValidateBuilding(building);
+            await gateway.UpdateBuilding(building);
+		}
 
-    }
+        public async Task<int> AddOwnership(OwnershipDTO ownership)
+		{
+            var gateway = _gatewayFactory.CreateOwnershipTableGateway();
+            ValidateOwership(ownership);
+            var id = await gateway.InsertOwnershipAsync(ownership);
+            ownership.Id = id;
+            
+		}
+
+		private void ValidateOwership(OwnershipDTO ownership)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

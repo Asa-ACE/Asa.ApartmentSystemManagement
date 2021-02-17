@@ -10,7 +10,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
     {
         Task<int> InsertBuildingAsync(BuildingDTO building);
         Task<BuildingDTO> GetBuildingById(int id);
-        Task UpdateName(int id,string name);
+        Task UpdateBuilding(BuildingDTO building);
         Task RemoveBuildingById(int id);
     }
 }
