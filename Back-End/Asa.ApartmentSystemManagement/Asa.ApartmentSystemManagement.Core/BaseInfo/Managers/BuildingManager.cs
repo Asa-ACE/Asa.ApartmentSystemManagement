@@ -60,13 +60,12 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             await gateway.UpdateBuilding(building);
 		}
 
-        public async Task<int> AddOwnership(OwnershipDTO ownership)
+        public async Task AddOwnership(OwnershipDTO ownership)
 		{
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
             ValidateOwership(ownership);
             var id = await gateway.InsertOwnershipAsync(ownership);
             ownership.Id = id;
-            
 		}
 
 		private void ValidateOwership(OwnershipDTO ownership)
