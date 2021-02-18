@@ -17,35 +17,41 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             _connectionString = connectionString;
         }
 
-        public async Task<IEnumerable<BuildingDTO>> GetBuildingById(int id)
+        public async Task<BuildingDTO> GetBuildingByIdAsync(int id)
         {
-            var result = new List<BuildingDTO>();
-            DataTable dataTable = new DataTable();
+            SqlDataReader reader;
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[buildings_get_all]";
+                    cmd.CommandText = "[dbo].[building_get]";
                     cmd.Parameters.AddWithValue("@BuildingId", id);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
-                    SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
-                    dataAdapter.Fill(dataTable);
+                    reader = await cmd.ExecuteReaderAsync();
                 }
             }
 
-            foreach (DataRow item in dataTable.Rows)
+            await reader.ReadAsync();
+            var result = new BuildingDTO
             {
-                var dto = new BuildingDTO
-                {
-                    //Id = Convert.ToInt32(item["BuildingId"]),
-                    Name = Convert.ToString(item["Name"]),
-                    NumberOfUnits = Convert.ToInt32(item["NumberOfUnits"]),
-                    Id = id,
-                };
-                result.Add(dto);
-            }
+                Id = id,
+                Name = Convert.ToString(reader["Name"]),
+                NumberOfUnits = Convert.ToInt32(reader["NumberOfUnits"])
+            };
+
+            //foreach (DataRow item in dataTable.Rows)
+            //{
+            //    var dto = new BuildingDTO
+            //    {
+            //        //Id = Convert.ToInt32(item["BuildingId"]),
+            //        Name = Convert.ToString(item["Name"]),
+            //        NumberOfUnits = Convert.ToInt32(item["NumberOfUnits"]),
+            //        Id = id,
+            //    };
+            //    result.Add(dto);
+            //}
             return result;
         }
 
@@ -57,7 +63,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[buildings_create]";
+                    cmd.CommandText = "[dbo].[building_create]";
                     cmd.Parameters.AddWithValue("@Name", building.Name);
                     cmd.Parameters.AddWithValue("@NumberOfUnits", building.NumberOfUnits);
                     cmd.Connection = connection;
@@ -69,43 +75,37 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
-        public async Task RemoveBuildingById(int id)
+        public async Task RemoveBuildingAsync(int id)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[buildings_remove]";
-                    if (cmd.Parameters.Contains(id))
-                        cmd.Parameters.Remove(id);
+                    cmd.CommandText = "[dbo].[building_remove]";
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    //felan gozashtam intor bemune
+                    await cmd.ExecuteNonQueryAsync();
                 }
-
-                connection.Close();
             }
 
         }
 
-        public async Task UpdateBuilding(BuildingDTO building)
+        public async Task UpdateBuildingAsync(BuildingDTO building)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[buildings_update]";
+                    cmd.CommandText = "[dbo].[building_update]";
                     cmd.Parameters.AddWithValue("@Name", building.Name).Value = building.Name;
                     cmd.Connection = connection;
                     cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
+                    await cmd.ExecuteNonQueryAsync();
                 }
             }
-        }
-
-        Task<BuildingDTO> IBuildingTableGateway.GetBuildingById(int id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

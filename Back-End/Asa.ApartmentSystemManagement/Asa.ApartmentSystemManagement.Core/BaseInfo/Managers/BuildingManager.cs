@@ -54,10 +54,10 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         public async Task UpdateBuildingName(int id, string name)
 		{
             var gateway = _gatewayFactory.CreateBuildingTableGateway();
-            var building = await gateway.GetBuildingById(id);
+            var building = await gateway.GetBuildingByIdAsync(id);
             building.Name = name;
             ValidateBuilding(building);
-            await gateway.UpdateBuilding(building);
+            await gateway.UpdateBuildingAsync(building);
 		}
 
         public async Task AddOwnership(OwnershipDTO ownership)

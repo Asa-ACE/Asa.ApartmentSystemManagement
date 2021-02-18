@@ -9,8 +9,8 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
     public interface IBuildingTableGateway
     {
         Task<int> InsertBuildingAsync(BuildingDTO building);
-        Task<BuildingDTO> GetBuildingById(int id);
-        Task UpdateBuilding(BuildingDTO building);
-        Task RemoveBuildingById(int id);
+        Task<BuildingDTO> GetBuildingByIdAsync(int id);
+        Task UpdateBuildingAsync(BuildingDTO building);
+        Task RemoveBuildingAsync(int id);
     }
 }

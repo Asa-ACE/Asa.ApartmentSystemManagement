@@ -9,7 +9,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
     public interface IUnitTableGateway
     {
         Task<int> InsertUnitAsync(UnitDTO unit);
-        Task<UnitDTO> GetUnitById(int id);
+        Task<UnitDTO> GetUnitByIdAsync(int id);
         Task<IEnumerable<UnitDTO>> GetUnitByBuildingId(int id);
     }
 }
