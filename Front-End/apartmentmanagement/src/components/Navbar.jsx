@@ -19,8 +19,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Navbar() {
+function Navbar(props) {
   const classes = useStyles();
+  const { children } = props;
   return (
     <AppBar position="static">
       <Toolbar>
@@ -35,6 +36,7 @@ function Navbar() {
         <Typography variant="h6" className={classes.title}>
           شارژآسا
         </Typography>
+        {children}
       </Toolbar>
     </AppBar>
   );

@@ -8,7 +8,8 @@ import Register from "./components/Register";
 function App() {
   return (
     <>
-      <Navbar/>
+      <Navbar>
+      </Navbar>
       <Register/>
     </>
   );
