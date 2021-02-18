@@ -25,7 +25,8 @@ namespace Asa.ApartmentSystemManagement.Test
             BuildingManager buildingManager = new BuildingManager(mock_ITableGatwayFactory.Object);
             BuildingDTO building = new BuildingDTO { Id = 0, Name = string.Empty, NumberOfUnits = 30 };
 
-            Assert.ThrowsAsync<ArgumentNullException>(() => buildingManager.AddBuilding(building));
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => buildingManager.AddBuilding(building));
+            Assert.That(ex.ParamName, Is.EqualTo("Building Cannot be empty!"));
         }
 
         [Test]
@@ -40,7 +41,8 @@ namespace Asa.ApartmentSystemManagement.Test
             BuildingManager buildingManager = new BuildingManager(mock_ITableGatwayFactory.Object);
             BuildingDTO building = new BuildingDTO { Id = 20, Name = string.Empty, NumberOfUnits = 0 };
 
-            Assert.ThrowsAsync<ArgumentNullException>(() => buildingManager.AddBuilding(building));
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => buildingManager.AddBuilding(building));
+            Assert.That(ex.ParamName, Is.EqualTo("Building Cannot be empty!"));
         }
 
         [Test]
@@ -54,7 +56,8 @@ namespace Asa.ApartmentSystemManagement.Test
             BuildingManager buildingManager = new BuildingManager(mock_ITableGatwayFactory.Object);
             BuildingDTO building = new BuildingDTO { Id = 20, Name = "buildingname", NumberOfUnits = 1 };
 
-            Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => buildingManager.AddBuilding(building));
+            var ex = Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => buildingManager.AddBuilding(building));
+            Assert.That(ex.ParamName, Is.EqualTo("Building cannot have less than two units!"));
         }
 
         [Test]
