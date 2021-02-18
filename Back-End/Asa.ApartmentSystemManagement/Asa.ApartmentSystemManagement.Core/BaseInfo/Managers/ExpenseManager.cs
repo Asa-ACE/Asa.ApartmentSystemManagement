@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
 {
-	public class ExpanseManager
+	public class ExpenseManager
 	{
 	}
 }
