@@ -67,6 +67,9 @@
     <Build Include="dbo\StoredProcedures\building_create.sql" />
     <Build Include="dbo\StoredProcedures\building_remove.sql" />
     <Build Include="dbo\StoredProcedures\building_update.sql" />
+    <Build Include="dbo\StoredProcedures\unit_create.sql" />
+    <Build Include="dbo\StoredProcedures\units_get_all.sql" />
+    <Build Include="dbo\StoredProcedures\unit_get.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Asa.ApartmentSystemManagement.DB.refactorlog" />
