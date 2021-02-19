@@ -1,6 +1,20 @@
 ﻿CREATE PROCEDURE [dbo].[unit_create]
-	@param1 int = 0,
-	@param2 int
+	@building_id int,
+	@area decimal,
+	@unit_number smallint,
+	@description nvarchar(250)
 AS
-	SELECT @param1, @param2
-RETURN 0
+BEGIN
+	INSERT INTO [dbo].[Unit]
+				([BuildingID],
+				 [Area],
+				 [Number],
+				 [Description]
+				)
+		VALUES
+				(@building_id,
+				 @area,
+				 @unit_number,
+				 @description)
+SELECT SCOPE_IDENTITY()
+END
