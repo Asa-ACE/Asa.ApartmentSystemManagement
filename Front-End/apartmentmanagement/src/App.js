@@ -4,12 +4,13 @@ import "./index.css";
 import Navbar from './components/Navbar';
 import Login from "./components/Login";
 import Register from "./components/Register";
+import BuildingPage from "./components/buildingPage/BuildingPage";
 
 function App() {
   return (
     <>
       <Navbar/>
-      <Register/>
+      <BuildingPage/>
     </>
   );
 }
