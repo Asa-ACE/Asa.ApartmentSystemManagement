@@ -41,17 +41,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 NumberOfUnits = Convert.ToInt32(reader["NumberOfUnits"])
             };
 
-            //foreach (DataRow item in dataTable.Rows)
-            //{
-            //    var dto = new BuildingDTO
-            //    {
-            //        //Id = Convert.ToInt32(item["BuildingId"]),
-            //        Name = Convert.ToString(item["Name"]),
-            //        NumberOfUnits = Convert.ToInt32(item["NumberOfUnits"]),
-            //        Id = id,
-            //    };
-            //    result.Add(dto);
-            //}
             return result;
         }
 
