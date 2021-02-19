@@ -1,14 +1,14 @@
 ﻿CREATE PROCEDURE [dbo].[building_update]
-	@buildingId int,
+	@building_id int,
 	@name nvarchar(50),
-	@numberOfUnits smallint
+	@number_of_units smallint
 AS
 BEGIN
 	SET NOCOUNT ON;
 
 	UPDATE [dbo].[Building]
-	SET [Name] = @name, NumberOfUnits = @numberOfUnits
+	SET [Name] = @name, NumberOfUnits = @number_of_units
 	WHERE
-	BuildingID = @buildingId
+	BuildingID = @building_id
 END
 
