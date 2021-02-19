@@ -56,7 +56,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[unit_get]";
-                    cmd.Parameters.AddWithValue("@building_id", id);
+                    cmd.Parameters.AddWithValue("@unit_id", id);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     reader = await cmd.ExecuteReaderAsync();

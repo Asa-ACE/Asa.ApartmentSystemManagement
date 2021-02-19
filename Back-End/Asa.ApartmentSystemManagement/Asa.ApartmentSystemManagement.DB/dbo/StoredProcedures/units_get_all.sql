@@ -1,6 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[units_get_all]
-	@param1 int = 0,
-	@param2 int
+	@building_id int
 AS
-	SELECT @param1, @param2
-RETURN 0
+BEGIN
+	SELECT [UnitID], [Area], [Number], [Description]
+	FROM [dbo].[Unit]
+	WHERE [BuildingID] = @building_id
+END
