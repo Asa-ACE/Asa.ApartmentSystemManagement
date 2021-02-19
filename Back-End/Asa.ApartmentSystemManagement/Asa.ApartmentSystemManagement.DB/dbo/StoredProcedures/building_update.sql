@@ -1,6 +1,14 @@
 ﻿CREATE PROCEDURE [dbo].[building_update]
-	@param1 int = 0,
-	@param2 int
+	@buildingId int,
+	@name nvarchar(50),
+	@numberOfUnits smallint
 AS
-	SELECT @param1, @param2
-RETURN 0
+BEGIN
+	SET NOCOUNT ON;
+
+	UPDATE [dbo].[Building]
+	SET [Name] = @name, NumberOfUnits = @numberOfUnits
+	WHERE
+	BuildingID = @buildingId
+END
+
