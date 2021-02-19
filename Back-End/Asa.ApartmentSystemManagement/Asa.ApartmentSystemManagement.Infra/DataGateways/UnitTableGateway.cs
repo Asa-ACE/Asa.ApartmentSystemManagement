@@ -47,14 +47,54 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return result;
         }
 
-        public Task<UnitDTO> GetUnitByIdAsync(int id)
+        public async Task<UnitDTO> GetUnitByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            SqlDataReader reader;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[unit_get]";
+                    cmd.Parameters.AddWithValue("@building_id", id);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    reader = await cmd.ExecuteReaderAsync();
+                }
+            }
+
+            await reader.ReadAsync();
+            var result = new UnitDTO
+            {
+                BuildingId = id,
+                Area = Convert.ToDecimal("area"),
+                UnitNumber = Convert.ToInt32("unit_number"),
+                Description = Convert.ToString("description"),
+            };
+
+            return result;
         }
 
-        public Task<int> InsertUnitAsync(UnitDTO unit)
+        public async Task<int> InsertUnitAsync(UnitDTO unit)
         {
-            throw new NotImplementedException();
+            int id = 0;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[unit_create]";
+                    cmd.Parameters.AddWithValue("building_id", unit.BuildingId);
+                    cmd.Parameters.AddWithValue("@area", unit.Area);
+                    cmd.Parameters.AddWithValue("@unit_number", unit.UnitNumber);
+                    cmd.Parameters.AddWithValue("@description", unit.Description);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    var result = await cmd.ExecuteScalarAsync();
+                    id = Convert.ToInt32(result);
+                }
+            }
+            return id;
         }
     }
 }
