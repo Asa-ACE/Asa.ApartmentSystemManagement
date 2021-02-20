@@ -36,5 +36,17 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
                 throw new ArgumentException("Phone number can only contain numbers.");
             }
         }
+
+        public async Task UpdatePersonById(int id, string firstName, string lastName, string phoneNumber)
+        {
+            var gateway = _tableGatewayFactory.CreatePersonTableGateway();
+            var person = await gateway.GetPersonByIdAsync(id);
+            person.FirstName = firstName;
+            person.LastName = lastName;
+            person.PhoneNumber = phoneNumber;
+            ValidatePerson(person);
+            await gateway.UpdatePersonAsync(person);
+        }
+
     }
 }
