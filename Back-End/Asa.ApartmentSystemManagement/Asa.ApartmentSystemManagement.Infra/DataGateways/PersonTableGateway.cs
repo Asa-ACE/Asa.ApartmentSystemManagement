@@ -39,7 +39,9 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 Id = id,
                 FirstName = Convert.ToString("[first_name]"),
                 LastName = Convert.ToString("[last_name]"),
-                PhoneNumber = Convert.ToString("[phone_number]")
+                PhoneNumber = Convert.ToString("[phone_number]"),
+                UserName = Convert.ToString("[user_name]")
+                //maybe add password?
             };
 
             return result;
@@ -57,6 +59,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     cmd.Parameters.AddWithValue("@fisrt_name", person.FirstName);
                     cmd.Parameters.AddWithValue("@last_name", person.LastName);
                     cmd.Parameters.AddWithValue("@phone_number", person.PhoneNumber);
+                    cmd.Parameters.AddWithValue("@user_name", person.UserName);
+                    cmd.Parameters.AddWithValue("@password", person.Password);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     var result = await cmd.ExecuteScalarAsync();
@@ -77,6 +81,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     cmd.Parameters.AddWithValue("@first_name", person.FirstName).Value = person.FirstName;
                     cmd.Parameters.AddWithValue("@last_name", person.LastName).Value = person.LastName;
                     cmd.Parameters.AddWithValue("@phone_number", person.PhoneNumber).Value = person.PhoneNumber;
+                    cmd.Parameters.AddWithValue("@user_name", person.UserName).Value = person.UserName;
+                    cmd.Parameters.AddWithValue("@password", person.Password).Value = person.Password;
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     await cmd.ExecuteNonQueryAsync();

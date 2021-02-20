@@ -37,13 +37,15 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             }
         }
 
-        public async Task UpdatePersonById(int id, string firstName, string lastName, string phoneNumber)
+        public async Task UpdatePersonById(int id, string firstName, string lastName, string phoneNumber, string userName, string password)
         {
             var gateway = _tableGatewayFactory.CreatePersonTableGateway();
             var person = await gateway.GetPersonByIdAsync(id);
             person.FirstName = firstName;
             person.LastName = lastName;
             person.PhoneNumber = phoneNumber;
+            person.UserName = userName;
+            person.Password = password;
             ValidatePerson(person);
             await gateway.UpdatePersonAsync(person);
         }
