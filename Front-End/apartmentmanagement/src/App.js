@@ -7,11 +7,14 @@ import Register from "./components/Register";
 import BuildingPage from "./components/buildingPage/BuildingPage";
 import UnitTable from "./components/unitsPage/UnitTable";
 import TabsContainer from "./components/TabsContainer"
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
     <>
-      <TabsContainer/>
+      <Dashboard>
+        <UnitTable/>
+      </Dashboard>
     </>
   );
 }

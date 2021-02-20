@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 function TabsContainer(props) {
   const classes = useStyles();
   //const { tabs } = props;
-  const tabs = [{ name: "ali", element: Tab }];
+  const tabs = [{ name: "ali", element: new TabPanel() }];
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -46,7 +46,7 @@ function TabsContainer(props) {
       </Tabs>
       {tabs.map((tab, index) => (
         <TabPanel value={value} index={index}>
-          {tab.element}
+          ali
         </TabPanel>
       ))}
     </div>
