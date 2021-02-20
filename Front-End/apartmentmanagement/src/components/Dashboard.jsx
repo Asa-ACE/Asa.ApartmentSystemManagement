@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import clsx from "clsx";
@@ -15,21 +15,24 @@ const useStyle = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: -drawerWidth,
+    marginLeft: 0,
   },
   contentShift: {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: 0,
+    marginLeft: drawerWidth,
   },
 }));
 
 function Dashboard(props) {
-  const { childeren } = props;
+  const { children } = props;
   const classes = useStyle();
   const [openSidebar, setOpenSidebar] = useState(false);
+  useEffect(() => {
+    console.log(children);
+  });
   return (
     <>
       <SidebarContext.Provider value={{ openSidebar, setOpenSidebar }}>
@@ -41,7 +44,7 @@ function Dashboard(props) {
           [classes.contentShift]: openSidebar,
         })}
       >
-        {childeren}
+        {children}
       </main>
     </>
   );

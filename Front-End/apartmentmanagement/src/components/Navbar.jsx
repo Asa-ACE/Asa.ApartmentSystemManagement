@@ -54,7 +54,7 @@ function Navbar(props) {
   const classes = useStyles();
   const [openMenue, setOpenMenue] = React.useState(false);
   const anchorRef = React.useRef(null);
-  const { openSidebar } = useContext(SidebarContext);
+  const { openSidebar, setOpenSidebar } = useContext(SidebarContext);
 
   const handleToggle = () => {
     console.log(openMenue);
@@ -79,10 +79,14 @@ function Navbar(props) {
     prevOpen.current = openMenue;
   }, [openMenue]);
 
+  const handleDrawerOpen = () => {
+    setOpenSidebar(true);
+  };
+
   return (
     <AppBar
       position="static"
-      classes={clsx(classes.appBar, {
+      className={clsx(classes.appBar, {
         [classes.appBarShift]: openSidebar,
       })}
     >
@@ -92,6 +96,7 @@ function Navbar(props) {
           className={clsx(classes.menuButton, openSidebar && classes.hide)}
           color="inherit"
           aria-label="menu"
+          onClick={handleDrawerOpen}
         >
           <MenuIcon />
         </IconButton>
