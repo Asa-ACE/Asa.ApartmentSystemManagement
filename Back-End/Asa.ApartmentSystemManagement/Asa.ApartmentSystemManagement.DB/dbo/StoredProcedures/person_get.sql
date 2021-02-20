@@ -1,6 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[person_get]
-	@param1 int = 0,
-	@param2 int
+@person_id int
+
 AS
-	SELECT @param1, @param2
-RETURN 0
+BEGIN
+	SELECT [PersonId], [FirstName], [LastName], [PhoneNumber], [UserName]
+	FROM [dbo].[Person]
+	WHERE [PersonID] = @person_id
+END
