@@ -38,13 +38,12 @@ function TabsContainer(props) {
           <Tab
             label={tab.name}
             {...{
-              id: `vertical-tab-`,
-              "aria-controls": `vertical-tabpanel-`,
+              id: `vertical-tab-${index}`,
+              "aria-controls": `vertical-tabpanel-${index}`,
             }}
           />
         ))}
       </Tabs>
-      ;
       {tabs.map((tab, index) => (
         <TabPanel value={value} index={index}>
           {tab.element}
