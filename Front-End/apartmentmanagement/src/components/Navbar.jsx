@@ -12,6 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
+import { Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   profile: {
     color: "white",
   },
+  profileContainer: {},
 }));
 
 function Navbar(props) {
@@ -101,9 +103,16 @@ function Navbar(props) {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow">
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <Box width={300} className={classes.profileContainer}>
+                      <Typography variant="subtitle1">امیرحسین</Typography>
+                    </Box>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleClose}
+                    >
+                      خروج
+                    </Button>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
