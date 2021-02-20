@@ -26,7 +26,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[building_get]";
-                    cmd.Parameters.AddWithValue("@BuildingId", id);
+                    cmd.Parameters.AddWithValue("@building_id", id);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     reader = await cmd.ExecuteReaderAsync();
@@ -37,8 +37,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             var result = new BuildingDTO
             {
                 Id = id,
-                Name = Convert.ToString(reader["Name"]),
-                NumberOfUnits = Convert.ToInt32(reader["NumberOfUnits"])
+                Name = Convert.ToString(reader["name"]),
+                NumberOfUnits = Convert.ToInt32(reader["number_of_units"])
             };
 
             return result;
@@ -53,8 +53,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[building_create]";
-                    cmd.Parameters.AddWithValue("@Name", building.Name);
-                    cmd.Parameters.AddWithValue("@NumberOfUnits", building.NumberOfUnits);
+                    cmd.Parameters.AddWithValue("@name", building.Name);
+                    cmd.Parameters.AddWithValue("@number_of_units", building.NumberOfUnits);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     var result = await cmd.ExecuteScalarAsync();
@@ -89,7 +89,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[building_update]";
-                    cmd.Parameters.AddWithValue("@Name", building.Name).Value = building.Name;
+                    cmd.Parameters.AddWithValue("@name", building.Name).Value = building.Name;
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     await cmd.ExecuteNonQueryAsync();
