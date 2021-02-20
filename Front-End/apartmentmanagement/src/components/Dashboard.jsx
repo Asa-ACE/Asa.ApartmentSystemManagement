@@ -1,10 +1,10 @@
 import { makeStyles } from "@material-ui/core";
-import { createContext, React, useState } from "react";
+import React, { createContext, useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import clsx from "clsx";
 
-export const SidebarContext = createContext();
+export const SidebarContext = createContext([]);
 export const drawerWidth = 240;
 
 const useStyle = makeStyles((theme) => ({
@@ -26,7 +26,8 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function Dashboard() {
+function Dashboard(props) {
+  const { childeren } = props;
   const classes = useStyle();
   const [openSidebar, setOpenSidebar] = useState(false);
   return (
@@ -39,7 +40,11 @@ function Dashboard() {
         className={clsx(classes.content, {
           [classes.contentShift]: openSidebar,
         })}
-      />
+      >
+        {childeren}
+      </main>
     </>
   );
 }
+
+export default Dashboard;
