@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Popper from "@material-ui/core/Popper";
@@ -16,6 +16,13 @@ function AddUnit() {
     setOpenMenue((prevOpen) => !prevOpen);
     console.log(openMenue);
   };
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpenMenue(false);
+  };
   const prevOpen = React.useRef(openMenue);
   React.useEffect(() => {
     if (prevOpen.current === true && openMenue === false) {
@@ -24,6 +31,17 @@ function AddUnit() {
 
     prevOpen.current = openMenue;
   }, [openMenue]);
+
+  const numberInput = useRef(null);
+  const areaInput = useRef(null);
+  const descriptionInput = useRef(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(
+      `${numberInput.current.value} : ${areaInput.current.value}: ${descriptionInput.current.value}`
+    );
+  };
 
   return (
     <Grid>
@@ -53,34 +71,47 @@ function AddUnit() {
             }}
           >
             <Paper>
-              <form noValidate>
+              <form noValidate onSubmit={(e) => handleSubmit(e)}>
                 <TextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="username"
-                  label="نام کاربری"
-                  name="username"
-                  autoComplete="username"
+                  id="UnitNumber"
+                  label="شماره واحد"
+                  name="UnitNumber"
+                  type="number"
                   autoFocus
+                  inputRef={numberInput}
                 />
                 <TextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  name="password"
-                  label="رمز عبور"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
+                  name="Area"
+                  label="مساحت"
+                  type="float"
+                  id="Area"
+                  inputRef={areaInput}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="Description"
+                  label="توضیحات"
+                  type="string"
+                  id="Description"
+                  inputRef={descriptionInput}
                 />
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"
+                  onClick={handleClose}
                 >
                   ورود
                 </Button>
