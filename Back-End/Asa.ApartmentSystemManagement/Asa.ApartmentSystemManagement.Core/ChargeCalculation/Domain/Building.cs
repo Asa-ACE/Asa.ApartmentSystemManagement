@@ -13,7 +13,7 @@ namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain
 
 
         public int UnitsCount => Units.Count;
-        public virtual List<ApartmentUnit> Units { get; set; }
+        public virtual List<Unit> Units { get; set; }
         public IEnumerable<Charge> CalulateCharge(IEnumerable<Expens> expenses)
         {
             List<Charge> charges = new List<Charge>();

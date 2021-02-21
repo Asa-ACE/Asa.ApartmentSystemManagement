@@ -12,4 +12,8 @@
     <ProjectReference Include="..\Asa.ApartmentSystemManagement.Core\Asa.ApartmentSystemManagement.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\EfConfigurations\" />
+  </ItemGroup>
+
 </Project>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain
 {
-   public  class ApartmentUnit
+   public  class Unit
     {
         public int Area { get; }
         public int UnitNumber { get; }
