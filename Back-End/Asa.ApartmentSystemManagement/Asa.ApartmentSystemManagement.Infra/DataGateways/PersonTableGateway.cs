@@ -2,22 +2,22 @@
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Asa.ApartmentSystemManagement.Infra.DataGateways
 {
-    public class BuildingTableGateway : IBuildingTableGateway
+    public class PersonTableGateway : IPersonTableGateway
     {
         string _connectionString;
 
-        public BuildingTableGateway(string connectionString)
+        public PersonTableGateway(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public async Task<BuildingDTO> GetBuildingByIdAsync(int id)
+        public async Task<PersonDTO> GetPersonByIdAsync(int id)
         {
             SqlDataReader reader;
             using (var connection = new SqlConnection(_connectionString))
@@ -25,26 +25,29 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[building_get]";
-                    cmd.Parameters.AddWithValue("@building_id", id);
+                    cmd.CommandText = "[dbo].[person_get]";
+                    cmd.Parameters.AddWithValue("@person_id", id);
                     cmd.Connection = connection;
-                    cmd.Connection.Open();
+                    connection.Open();
                     reader = await cmd.ExecuteReaderAsync();
                 }
             }
 
             await reader.ReadAsync();
-            var result = new BuildingDTO
+            var result = new PersonDTO
             {
                 Id = id,
-                Name = Convert.ToString(reader["name"]),
-                NumberOfUnits = Convert.ToInt32(reader["number_of_units"])
+                FirstName = Convert.ToString("[first_name]"),
+                LastName = Convert.ToString("[last_name]"),
+                PhoneNumber = Convert.ToString("[phone_number]"),
+                UserName = Convert.ToString("[user_name]")
+                //maybe add password?
             };
 
             return result;
         }
 
-        public async Task<int> InsertBuildingAsync(BuildingDTO building)
+        public async Task<int> InsertPersonAsync(PersonDTO person)
         {
             int id = 0;
             using (var connection = new SqlConnection(_connectionString))
@@ -52,9 +55,12 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[building_create]";
-                    cmd.Parameters.AddWithValue("@name", building.Name);
-                    cmd.Parameters.AddWithValue("@number_of_units", building.NumberOfUnits);
+                    cmd.CommandText = "[dbo].[person_create]";
+                    cmd.Parameters.AddWithValue("@fisrt_name", person.FirstName);
+                    cmd.Parameters.AddWithValue("@last_name", person.LastName);
+                    cmd.Parameters.AddWithValue("@phone_number", person.PhoneNumber);
+                    cmd.Parameters.AddWithValue("@user_name", person.UserName);
+                    cmd.Parameters.AddWithValue("@password", person.Password);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     var result = await cmd.ExecuteScalarAsync();
@@ -64,32 +70,19 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
-        public async Task RemoveBuildingAsync(int id)
+        public async Task UpdatePersonAsync(PersonDTO person)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[building_remove]";
-                    cmd.Connection = connection;
-                    cmd.Connection.Open();
-                    //felan gozashtam intor bemune
-                    await cmd.ExecuteNonQueryAsync();
-                }
-            }
-
-        }
-
-        public async Task UpdateBuildingAsync(BuildingDTO building)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                using (var cmd = new SqlCommand())
-                {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[building_update]";
-                    cmd.Parameters.AddWithValue("@name", building.Name).Value = building.Name;
+                    cmd.CommandText = "[dbo].[person_update]";
+                    cmd.Parameters.AddWithValue("@first_name", person.FirstName).Value = person.FirstName;
+                    cmd.Parameters.AddWithValue("@last_name", person.LastName).Value = person.LastName;
+                    cmd.Parameters.AddWithValue("@phone_number", person.PhoneNumber).Value = person.PhoneNumber;
+                    cmd.Parameters.AddWithValue("@user_name", person.UserName).Value = person.UserName;
+                    cmd.Parameters.AddWithValue("@password", person.Password).Value = person.Password;
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     await cmd.ExecuteNonQueryAsync();

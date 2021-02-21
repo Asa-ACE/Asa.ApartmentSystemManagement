@@ -23,5 +23,13 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             await buildingManager.AddBuilding(buildingDto);
             return buildingDto.Id;
         }
+
+        public async Task<int> CreateUnit(int buildingId, decimal area, int number, string description)
+        {
+            BuildingManager buildingManager = new BuildingManager(tableGatewayFactory);
+            var unitDto = new UnitDTO { BuildingId = buildingId, Area = area, UnitNumber = number, Description = description };
+            await buildingManager.AddUnit(unitDto);
+            return unitDto.Id;
+        }
     }
 }
