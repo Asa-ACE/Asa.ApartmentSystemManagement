@@ -8,12 +8,13 @@ import BuildingPage from "./components/buildingPage/BuildingPage";
 import UnitTable from "./components/unitsPage/UnitTable";
 import TabsContainer from "./components/TabsContainer"
 import Dashboard from "./components/Dashboard";
+import UnitsPage from "./components/unitsPage/UnitsPage";
 
 function App() {
   return (
     <>
       <Dashboard>
-        <UnitTable/>
+        <UnitsPage/>
       </Dashboard>
     </>
   );
