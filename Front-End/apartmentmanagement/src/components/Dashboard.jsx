@@ -30,22 +30,20 @@ function Dashboard(props) {
   const { children } = props;
   const classes = useStyle();
   const [openSidebar, setOpenSidebar] = useState(false);
-  useEffect(() => {
-    console.log(children);
-  });
+
   return (
     <>
       <SidebarContext.Provider value={{ openSidebar, setOpenSidebar }}>
         <Navbar />
         <Sidebar />
       </SidebarContext.Provider>
-      <main
+      <div
         className={clsx(classes.content, {
           [classes.contentShift]: openSidebar,
         })}
       >
         {children}
-      </main>
+      </div>
     </>
   );
 }

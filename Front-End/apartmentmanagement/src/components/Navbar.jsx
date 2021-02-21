@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
   hide: {
     display: "none",
   },
+  menuPopper:{
+    zIndex:"1500",
+  },
 }));
 
 function Navbar(props) {
@@ -122,6 +125,7 @@ function Navbar(props) {
           role={undefined}
           transition
           disablePortal
+          className={classes.menuPopper}
         >
           {({ TransitionProps, placement }) => (
             <Grow
