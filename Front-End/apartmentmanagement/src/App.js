@@ -11,12 +11,19 @@ import Dashboard from "./components/Dashboard";
 import UnitsPage from "./components/unitsPage/UnitsPage";
 import Cards from "./components/Cards";
 import BuildingData from "./FakeData/BuildingsData";
+import CustomTab from "./components/CustomTab";
+import CustomTabs from "./components/CustomTabs";
 
 function App() {
   return (
     <>
       <Dashboard>
-        <Cards BuildingData={BuildingData} />
+        <CustomTabs>
+          <CustomTab name="Amirhossein">
+            <Cards BuildingData={BuildingData} />
+          </CustomTab>
+          <CustomTab name="majid" />
+        </CustomTabs>
       </Dashboard>
     </>
   );
