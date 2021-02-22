@@ -21,17 +21,31 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="FirstName" />
   </Operation>
-  <Operation Name="Rename Refactor" Key="f995f671-2eaf-47c9-98f3-7c2f99f4e6c5" ChangeDateTime="02/21/2021 11:47:01">
-    <Property Name="ElementName" Value="[dbo].[ChargeItem].[money]" />
+  <Operation Name="Rename Refactor" Key="ad5c0559-192f-4878-8100-a4d3814358de" ChangeDateTime="02/22/2021 05:01:54">
+    <Property Name="ElementName" Value="[dbo].[Charge].[Id]" />
     <Property Name="ElementType" Value="SqlSimpleColumn" />
-    <Property Name="ParentElementName" Value="[dbo].[ChargeItem]" />
+    <Property Name="ParentElementName" Value="[dbo].[Charge]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ChargeID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="094f0caa-ca4e-4d29-97ac-a08f723c86cf" ChangeDateTime="02/22/2021 05:02:08">
+    <Property Name="ElementName" Value="[dbo].[Charge].[money]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Charge]" />
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Amount" />
   </Operation>
-  <Operation Name="Rename Refactor" Key="fd397cdd-5cb9-4f32-9adb-defdb8d1da45" ChangeDateTime="02/21/2021 12:14:12">
-    <Property Name="ElementName" Value="[dbo].[ChargeItem].[ChargeId]" />
+  <Operation Name="Rename Refactor" Key="35d6ea6d-bc10-45ad-b560-cb46038f4609" ChangeDateTime="02/22/2021 05:08:08">
+    <Property Name="ElementName" Value="[dbo].[ChargeItem].[ChargeID]" />
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[ChargeItem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ChargeItemID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2aed36a0-9df4-47c0-9c8d-4d4d9261f4da" ChangeDateTime="02/22/2021 05:31:12">
+    <Property Name="ElementName" Value="[dbo].[Charge].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Charge]" />
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ChargeID" />
   </Operation>

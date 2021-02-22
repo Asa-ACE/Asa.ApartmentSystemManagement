@@ -63,6 +63,9 @@
   <ItemGroup>
     <Build Include="dbo\Tables\Admin.sql" />
     <Build Include="dbo\Tables\Building.sql" />
+    <Build Include="dbo\StoredProcedures\building_get.sql" />
+    <Build Include="dbo\StoredProcedures\building_create.sql" />
+    <Build Include="dbo\StoredProcedures\building_remove.sql" />
     <Build Include="dbo\StoredProcedures\building_update.sql" />
     <Build Include="dbo\StoredProcedures\unit_create.sql" />
     <Build Include="dbo\StoredProcedures\units_get_all.sql" />
@@ -79,8 +82,8 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\ChargeItem.sql" />
-    <Build Include="dbo\Tables\Expense.sql" />
-    <Build Include="dbo\Tables\ExpenseCategory.sql" />
+    <Build Include="dbo\Tables\Expanse.sql" />
+    <Build Include="dbo\Tables\ExpanseCategory.sql" />
     <Build Include="dbo\Tables\Ownership.sql" />
     <Build Include="dbo\Tables\Person.sql" />
     <Build Include="dbo\Tables\Tenancy.sql" />
