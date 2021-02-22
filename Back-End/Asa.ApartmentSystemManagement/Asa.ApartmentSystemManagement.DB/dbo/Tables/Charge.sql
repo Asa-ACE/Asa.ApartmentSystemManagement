@@ -1,10 +1,11 @@
 ﻿CREATE TABLE [dbo].[Charge]
 (
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [ExpanseID] INT NOT NULL, 
+	[ChargeID] INT NOT NULL PRIMARY KEY, 
+    [From] DATE NOT NULL, 
+    [To] DATE NOT NULL, 
+    [UnitID] INT NOT NULL, 
+    [Amount] INT NOT NULL, 
     [PersonID] INT NOT NULL, 
-    [money] DECIMAL NOT NULL, 
-    [Payment] DECIMAL NOT NULL, 
-    CONSTRAINT [FK_Charge_Person] FOREIGN KEY ([PersonID]) REFERENCES [Person]([PersonID]), 
-    CONSTRAINT [FK_Charge_Expanse] FOREIGN KEY ([ExpanseID]) REFERENCES [Expanse]([ExpanseID])
+    CONSTRAINT [FK_Charge_Unit] FOREIGN KEY ([UnitID]) REFERENCES [Unit]([UnitID]), 
+    CONSTRAINT [FK_Charge_Person] FOREIGN KEY ([PersonID]) REFERENCES [Person]([PersonID])
 )
