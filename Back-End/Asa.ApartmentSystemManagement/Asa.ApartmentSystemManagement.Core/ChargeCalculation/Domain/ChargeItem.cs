@@ -8,7 +8,8 @@ namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain
     {
         public decimal Amount { get; set; }
         public int ExpensId { get; set; }
-        public int PayerId { get; set; }
+        public int PersonID { get; set; }
+        public int ChargeID { get; set; }
 
     }
 }
