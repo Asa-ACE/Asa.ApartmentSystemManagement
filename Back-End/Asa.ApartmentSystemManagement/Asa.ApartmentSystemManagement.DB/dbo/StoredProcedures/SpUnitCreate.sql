@@ -1,7 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[unit_create]
-	@building_id int,
-	@area decimal,
-	@unit_number smallint,
+﻿CREATE PROCEDURE [dbo].[SpUnitCreate]
+	@buildingId int,
+	@area decimal(18,2),
+	@unitNumber smallint,
 	@description nvarchar(250)
 AS
 BEGIN
@@ -12,9 +12,9 @@ BEGIN
 				 [Description]
 				)
 		VALUES
-				(@building_id,
+				(@buildingId,
 				 @area,
-				 @unit_number,
+				 @unitNumber,
 				 @description)
 SELECT SCOPE_IDENTITY()
 END

@@ -1,9 +1,9 @@
-﻿CREATE PROCEDURE [dbo].[building_remove]
-	@building_id int
+﻿CREATE PROCEDURE [dbo].[SpBuildingRemove]
+	@buildingId int
 AS
 BEGIN
 	SET NOCOUNT ON;
 
 	DELETE FROM [dbo].[Building]
-	WHERE BuildingID = @building_id
+	WHERE BuildingID = @buildingId
 END

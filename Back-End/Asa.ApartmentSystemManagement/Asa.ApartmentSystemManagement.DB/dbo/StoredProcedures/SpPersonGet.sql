@@ -1,9 +1,9 @@
-﻿CREATE PROCEDURE [dbo].[person_get]
-@person_id int
+﻿CREATE PROCEDURE [dbo].[SpPersonGet]
+@personId int
 
 AS
 BEGIN
 	SELECT [PersonId], [FirstName], [LastName], [PhoneNumber], [UserName]
 	FROM [dbo].[Person]
-	WHERE [PersonID] = @person_id
+	WHERE [PersonID] = @personId
 END

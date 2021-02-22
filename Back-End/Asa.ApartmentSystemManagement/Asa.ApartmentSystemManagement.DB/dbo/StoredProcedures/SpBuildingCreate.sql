@@ -1,15 +1,18 @@
 ﻿CREATE PROCEDURE [dbo].[SpBuildingCreate]
 @name nvarchar(50),
-@numberOfUnits int
+@numberOfUnits int,
+@address nvarchar(200)
 
 AS
 BEGIN
 
 INSERT INTO [dbo].[Building]
            ([Name]
-           ,[NumberOfUnits])
+           ,[NumberOfUnits]
+           ,[Address])
      VALUES
            (@name
-           ,@numberOfUnits)
+           ,@numberOfUnits
+           ,@address)
 select SCOPE_IDENTITY()
 END

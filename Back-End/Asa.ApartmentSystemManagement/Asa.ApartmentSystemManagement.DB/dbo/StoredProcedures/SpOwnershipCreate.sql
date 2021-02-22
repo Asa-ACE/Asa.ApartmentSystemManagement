@@ -1,6 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[ownership_create]
-    @unit_id int,
-    @person_id int,
+﻿CREATE PROCEDURE [dbo].[SpOwnershipCreate]
+    @unitId int,
+    @personId int,
     @from date,
     @to date
 
@@ -13,9 +13,9 @@ INSERT INTO [dbo].[Ownership]
            ,[From]
            ,[To])
      VALUES
-           (@unit_id
-           ,@person_id
-           ,@from
-           ,@to)
+            (@unitId,
+            @personId,
+            @from,
+            @to)
 select SCOPE_IDENTITY()
 END
