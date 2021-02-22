@@ -13,17 +13,13 @@ import Cards from "./components/Cards";
 import BuildingData from "./FakeData/BuildingsData";
 import CustomTab from "./components/CustomTab";
 import CustomTabs from "./components/CustomTabs";
+import ChargeTable from "./components/chargePage/ChargeTable";
 
 function App() {
   return (
     <>
       <Dashboard>
-        <CustomTabs>
-          <CustomTab name="Amirhossein">
-            <Cards BuildingData={BuildingData} />
-          </CustomTab>
-          <CustomTab name="majid" />
-        </CustomTabs>
+        <ChargeTable />
       </Dashboard>
     </>
   );
