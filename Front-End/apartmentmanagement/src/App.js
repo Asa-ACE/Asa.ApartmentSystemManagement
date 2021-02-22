@@ -1,6 +1,7 @@
 import React from "react";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import "./index.css";
+import { Switch, Router, Redirect, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -17,14 +18,17 @@ import TabPanel from "@material-ui/lab/TabPanel";
 function App() {
   return (
     <>
-      <Dashboard>
-        <TabsContainer>
-          <TabItem label="AmirHossein">
-            <Cards BuildingData={BuildingData} />
-          </TabItem>
-          <TabItem label="ssss">Mohsen</TabItem>
-        </TabsContainer>
-      </Dashboard>
+      <Switch>
+        <Route exact path="/">
+          <Redirect to="/login" />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route paht="/signup">
+          <Register />
+        </Route>
+      </Switch>
     </>
   );
 }
