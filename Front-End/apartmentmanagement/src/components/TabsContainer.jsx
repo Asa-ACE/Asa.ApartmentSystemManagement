@@ -2,7 +2,7 @@ import React, { createContext } from "react";
 import StyledTab from "./StyledTab";
 import StyledTabs from "./StyledTabs";
 import TabPanel from "./TabPanel";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import {Grid} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   container: {
+    backgroundColor: theme.palette.background.paper,
+  },
+  padding: {
     padding: theme.spacing(3),
   },
 }));
@@ -29,17 +32,20 @@ function TabsContainer(props) {
       <TabsContext.Provider value={{value, setValue}}>
         <Grid container>
           <Grid item xs={12}>
-            <StyledTabs>
-              {children.map((tab, index) => (
-                <StyledTab
-                  label={tab.props.label}
-                  {...{
-                    id: `tab-`,
-                    "aria-controls": `tabpanel-`,
-                  }}
-                />
-              ))}
-            </StyledTabs>
+            <div className={classes.container}>
+              <StyledTabs>
+                {children.map((tab, index) => (
+                  <StyledTab
+                    label={tab.props.label}
+                    {...{
+                      id: `tab-`,
+                      "aria-controls": `tabpanel-`,
+                    }}
+                  />
+                ))}
+              </StyledTabs>
+            </div>
+            <Typography className={classes.padding}/>
           </Grid>
           {children.map((tab, index) => (
             <TabPanel value={value} index={index}>

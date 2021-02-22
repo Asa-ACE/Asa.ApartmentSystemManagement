@@ -5,7 +5,7 @@ import { TabsContext } from './TabsContainer';
 
 const StyledTabs = withStyles({
   root: {
-    borderBottom: '1px solid #e8e8e8',
+    borderBottom: '100px solid #e8e8e8',
   },
   indicator: {
     backgroundColor: '#1890ff',
