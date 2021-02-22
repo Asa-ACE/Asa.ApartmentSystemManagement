@@ -63,9 +63,6 @@
   <ItemGroup>
     <Build Include="dbo\Tables\Admin.sql" />
     <Build Include="dbo\Tables\Building.sql" />
-    <Build Include="dbo\StoredProcedures\building_get.sql" />
-    <Build Include="dbo\StoredProcedures\building_create.sql" />
-    <Build Include="dbo\StoredProcedures\building_remove.sql" />
     <Build Include="dbo\StoredProcedures\building_update.sql" />
     <Build Include="dbo\StoredProcedures\unit_create.sql" />
     <Build Include="dbo\StoredProcedures\units_get_all.sql" />
