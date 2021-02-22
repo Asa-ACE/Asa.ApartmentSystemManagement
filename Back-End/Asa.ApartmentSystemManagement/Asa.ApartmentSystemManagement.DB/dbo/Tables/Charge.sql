@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Charge]
+(
+	[Id] INT NOT NULL IDENTITY PRIMARY KEY, 
+    [From] DATE NOT NULL, 
+    [To] DATE NOT NULL, 
+    [Amount] DECIMAL NOT NULL
+)
