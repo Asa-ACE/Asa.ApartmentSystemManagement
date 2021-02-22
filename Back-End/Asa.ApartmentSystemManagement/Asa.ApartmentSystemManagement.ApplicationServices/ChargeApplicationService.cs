@@ -16,7 +16,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
 
         public async Task CalculateCharge(DateTime from, DateTime to)
         {
-
+            throw new NotImplementedException();
         }
     }
 }
