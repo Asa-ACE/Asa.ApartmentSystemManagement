@@ -18,28 +18,22 @@ const useStyle = makeStyles((theme) => ({
     display: "none",
   },
   drawer: {
-    width: drawerWidth,
+    width: drawerWidth ,
     flexShrink: 0,
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: drawerWidth ,
+    backgroundColor:"#E91E63",
+    boxShadow: "0 5px 10px -3px rgba(0,0,0,.23), 0 6px 10px -5px rgba(0,0,0,.25)",
+    borderRadius: "35"
   },
   drawerHeader: {
     display: "flex",
     alignItems: "center",
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
+    backgroundColor:"#3f51b5",
   },
 }));
 
