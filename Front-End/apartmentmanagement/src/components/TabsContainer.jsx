@@ -1,7 +1,9 @@
-import React from "react";
-import { Tab, Tabs } from "@material-ui/core";
+import React, { createContext } from "react";
+import StyledTab from "./StyledTab";
+import StyledTabs from "./StyledTabs";
 import TabPanel from "./TabPanel";
 import { makeStyles } from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -9,46 +11,43 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     display: "flex",
   },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
+  container: {
+    padding: theme.spacing(3),
   },
 }));
 
+export const TabsContext = createContext(null);
+
 function TabsContainer(props) {
   const classes = useStyles();
-  //const { tabs } = props;
-  const tabs = [{ name: "ali", element: new TabPanel() }];
-  const [value, setValue] = React.useState(0);
+  const children = React.Children.toArray(props.children);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const [value, setValue] = React.useState(0);
 
   return (
     <div className={classes.root}>
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={value}
-        onChange={handleChange}
-        aria-label="Vertical tabs example"
-        className={classes.tabs}
-      >
-        {tabs.map((tab, index) => (
-          <Tab
-            label={tab.name}
-            {...{
-              id: `vertical-tab-${index}`,
-              "aria-controls": `vertical-tabpanel-${index}`,
-            }}
-          />
-        ))}
-      </Tabs>
-      {tabs.map((tab, index) => (
-        <TabPanel value={value} index={index}>
-          ali
-        </TabPanel>
-      ))}
+      <TabsContext.Provider value={{value, setValue}}>
+        <Grid container>
+          <Grid item xs={12}>
+            <StyledTabs>
+              {children.map((tab, index) => (
+                <StyledTab
+                  label={tab.props.label}
+                  {...{
+                    id: `tab-`,
+                    "aria-controls": `tabpanel-`,
+                  }}
+                />
+              ))}
+            </StyledTabs>
+          </Grid>
+          {children.map((tab, index) => (
+            <TabPanel value={value} index={index}>
+              {tab.props.children}
+            </TabPanel>
+          ))}
+        </Grid>
+      </TabsContext.Provider>
     </div>
   );
 }
