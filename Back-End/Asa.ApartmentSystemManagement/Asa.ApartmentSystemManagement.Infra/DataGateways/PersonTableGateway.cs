@@ -25,8 +25,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[person_get]";
-                    cmd.Parameters.AddWithValue("@person_id", id);
+                    cmd.CommandText = "[dbo].[SpPersonGet]";
+                    cmd.Parameters.AddWithValue("@personId", id);
                     cmd.Connection = connection;
                     connection.Open();
                     reader = await cmd.ExecuteReaderAsync();
@@ -37,10 +37,10 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             var result = new PersonDTO
             {
                 Id = id,
-                FirstName = Convert.ToString("[first_name]"),
-                LastName = Convert.ToString("[last_name]"),
-                PhoneNumber = Convert.ToString("[phone_number]"),
-                UserName = Convert.ToString("[user_name]")
+                FirstName = Convert.ToString("[firstName]"),
+                LastName = Convert.ToString("[lastName]"),
+                PhoneNumber = Convert.ToString("[phoneNumber]"),
+                UserName = Convert.ToString("[userName]")
                 //maybe add password?
             };
 
@@ -55,11 +55,11 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[person_create]";
-                    cmd.Parameters.AddWithValue("@fisrt_name", person.FirstName);
-                    cmd.Parameters.AddWithValue("@last_name", person.LastName);
-                    cmd.Parameters.AddWithValue("@phone_number", person.PhoneNumber);
-                    cmd.Parameters.AddWithValue("@user_name", person.UserName);
+                    cmd.CommandText = "[dbo].[SpPersonCreate]";
+                    cmd.Parameters.AddWithValue("@fisrtName", person.FirstName);
+                    cmd.Parameters.AddWithValue("@lastName", person.LastName);
+                    cmd.Parameters.AddWithValue("@phoneNumber", person.PhoneNumber);
+                    cmd.Parameters.AddWithValue("@userName", person.UserName);
                     cmd.Parameters.AddWithValue("@password", person.Password);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
@@ -77,11 +77,11 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[person_update]";
-                    cmd.Parameters.AddWithValue("@first_name", person.FirstName).Value = person.FirstName;
-                    cmd.Parameters.AddWithValue("@last_name", person.LastName).Value = person.LastName;
-                    cmd.Parameters.AddWithValue("@phone_number", person.PhoneNumber).Value = person.PhoneNumber;
-                    cmd.Parameters.AddWithValue("@user_name", person.UserName).Value = person.UserName;
+                    cmd.CommandText = "[dbo].[SpPersonUpdate]";
+                    cmd.Parameters.AddWithValue("@firstName", person.FirstName).Value = person.FirstName;
+                    cmd.Parameters.AddWithValue("@lastName", person.LastName).Value = person.LastName;
+                    cmd.Parameters.AddWithValue("@phoneNumber", person.PhoneNumber).Value = person.PhoneNumber;
+                    cmd.Parameters.AddWithValue("@userName", person.UserName).Value = person.UserName;
                     cmd.Parameters.AddWithValue("@password", person.Password).Value = person.Password;
                     cmd.Connection = connection;
                     cmd.Connection.Open();

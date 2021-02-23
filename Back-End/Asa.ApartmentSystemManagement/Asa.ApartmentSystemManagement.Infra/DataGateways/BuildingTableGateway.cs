@@ -25,8 +25,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[building_get]";
-                    cmd.Parameters.AddWithValue("@building_id", id);
+                    cmd.CommandText = "[dbo].[SpBuildingGet]";
+                    cmd.Parameters.AddWithValue("@buildingId", id);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     reader = await cmd.ExecuteReaderAsync();
@@ -38,7 +38,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             {
                 Id = id,
                 Name = Convert.ToString(reader["name"]),
-                NumberOfUnits = Convert.ToInt32(reader["number_of_units"])
+                NumberOfUnits = Convert.ToInt32(reader["numberOfUnits"])
             };
 
             return result;
@@ -52,9 +52,10 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[building_create]";
+                    cmd.CommandText = "[dbo].[SpBuildingCreate]";
                     cmd.Parameters.AddWithValue("@name", building.Name);
-                    cmd.Parameters.AddWithValue("@number_of_units", building.NumberOfUnits);
+                    cmd.Parameters.AddWithValue("@numberOfUnits", building.NumberOfUnits);
+                    cmd.Parameters.AddWithValue("address", building.Address);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     var result = await cmd.ExecuteScalarAsync();
@@ -71,7 +72,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[building_remove]";
+                    cmd.CommandText = "[dbo].[SpBuildingRemove]";
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     //felan gozashtam intor bemune
@@ -88,8 +89,9 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[building_update]";
+                    cmd.CommandText = "[dbo].[SpBuildingUpdate]";
                     cmd.Parameters.AddWithValue("@name", building.Name).Value = building.Name;
+                    cmd.Parameters.AddWithValue("@address", building.Address).Value = building.Address;
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     await cmd.ExecuteNonQueryAsync();

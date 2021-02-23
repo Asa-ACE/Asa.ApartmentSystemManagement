@@ -5,7 +5,7 @@
 
 AS
 BEGIN
-
+SET NOCOUNT ON;
 INSERT INTO [dbo].[Building]
            ([Name]
            ,[NumberOfUnits]
