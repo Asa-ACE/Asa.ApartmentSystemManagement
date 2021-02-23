@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Asa.ApartmentSystemManagement.Infra.DataGateways
 {
-    public class OwnershipTableGateway : IOwnershipTableGateway
+    public class TenancyTableGateway : ITenancyTableGateway
     {
-        string _connectionString;
+        private string _connectionString;
 
-        public OwnershipTableGateway(string connectionString)
+        public TenancyTableGateway(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public async Task<int> InsertOwnershipAsync(OwnershipDTO ownership)
+        public async Task<int> InsertTenancyAsync(TenancyDTO tenancy)
         {
             int id = 0;
             using (var connection = new SqlConnection(_connectionString))
@@ -25,11 +25,12 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpOwnershipCreate]";
-                    cmd.Parameters.AddWithValue("@unitId", ownership.UnitId);
-                    cmd.Parameters.AddWithValue("@personId", ownership.PersonId);
-                    cmd.Parameters.AddWithValue("@from", ownership.From);
-                    cmd.Parameters.AddWithValue("@to", ownership.To);
+                    cmd.CommandText = "[dbo].[SpTenancyCreate]";
+                    cmd.Parameters.AddWithValue("@unitId", tenancy.UnitId);
+                    cmd.Parameters.AddWithValue("@personId", tenancy.PersonId);
+                    cmd.Parameters.AddWithValue("@from", tenancy.From);
+                    cmd.Parameters.AddWithValue("@to", tenancy.To);
+                    cmd.Parameters.AddWithValue("@numberOfPeople", tenancy.NumberOfPeople);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     var result = await cmd.ExecuteScalarAsync();
@@ -39,18 +40,19 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
-        public async Task UpdateOwnershipAsync(OwnershipDTO ownership)
+        public async Task UpdateTenancy(TenancyDTO tenancy)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SPOwnershipUpdate]";
-                    cmd.Parameters.AddWithValue("@unitId", ownership.UnitId).Value = ownership.UnitId;
-                    cmd.Parameters.AddWithValue("@personId", ownership.PersonId).Value = ownership.PersonId;
-                    cmd.Parameters.AddWithValue("@from", ownership.From).Value = ownership.From;
-                    cmd.Parameters.AddWithValue("@to", ownership.To).Value = ownership.To;
+                    cmd.CommandText = "[dbo].[SpTenancyUpdate]";
+                    cmd.Parameters.AddWithValue("unitId", tenancy.UnitId).Value = tenancy.UnitId;
+                    cmd.Parameters.AddWithValue("@personId", tenancy.PersonId).Value = tenancy.PersonId;
+                    cmd.Parameters.AddWithValue("@from", tenancy.From).Value = tenancy.From;
+                    cmd.Parameters.AddWithValue("@to", tenancy.To).Value = tenancy.To;
+                    cmd.Parameters.AddWithValue("@numberOfPeople", tenancy.NumberOfPeople).Value = tenancy.NumberOfPeople;
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     await cmd.ExecuteNonQueryAsync();

@@ -15,19 +15,22 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             _connectionString = connectionString;
         }
 
-        public IBuildingTableGateway CreateBuildingTableGateway()
-        {
-            throw new NotImplementedException();
-        }
+        public IBuildingTableGateway CreateBuildingTableGateway() => new BuildingTableGateway(_connectionString);
 
-        public IOwnershipTableGateway CreateOwnershipTableGateway()
-        {
-            throw new NotImplementedException();
-        }
 
-        public IUnitTableGateway CreateUnitTableGateway()
-        {
-            throw new NotImplementedException();
-        }
+        public IExpenseTableGateway CreateExpenseTableGateway() => new ExpenseTableGateway(_connectionString);
+
+
+        public IOwnershipTableGateway CreateOwnershipTableGateway() => new OwnershipTableGateway(_connectionString);
+
+
+        public IPersonTableGateway CreatePersonTableGateway() => new PersonTableGateway(_connectionString);
+
+
+        public ITenancyTableGateway CreateTenancyTableGateway() => new TenancyTableGateway(_connectionString);
+
+
+        public IUnitTableGateway CreateUnitTableGateway() => new UnitTableGateway(_connectionString);
+
     }
 }
