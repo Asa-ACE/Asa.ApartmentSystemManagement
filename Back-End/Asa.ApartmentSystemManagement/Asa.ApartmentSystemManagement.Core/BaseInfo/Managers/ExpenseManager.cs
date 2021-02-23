@@ -2,6 +2,7 @@
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,7 +39,31 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             foreach (ExpenseDTO expense in expenses)
             {
                 bool isForOwner = await IsForOwner(expense);
+                int formula = await getFormula(expense);
+                if (isForOwner)
+                {
+                    IEnumerable<OwnerPaymentDTO> allOwnerPayments = null;
+                    foreach (UnitDTO unit in units)
+                    {
+                        IEnumerable<OwnerPaymentDTO> ownerPayments = await GetOwnerPayments(unit.Id,expense.From,expense.To);
+                        allOwnerPayments.Union(ownerPayments);
+                    }
+                }
             }
+        }
+
+        private async Task<int> getFormula(ExpenseDTO expense)
+        {
+            var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();
+            ExpenseCategoryDTO category = await gateway.GetExpenseCategoryById(expense.CategoryId);
+            return category.FormulaType;
+        }
+
+        private async Task<IEnumerable<OwnerPaymentDTO>> GetOwnerPayments(int UnitId, DateTime from, DateTime to)
+        {
+            var gateway = _gatewayFactory.CreateOwnershipTableGateway();
+            IEnumerable<OwnerPaymentDTO> ownerPayments = await gateway.GetOwnerPayments(UnitId,from,to);
+            return ownerPayments;
         }
 
         private async Task<bool> IsForOwner(ExpenseDTO expense)
