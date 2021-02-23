@@ -12,5 +12,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
         IPersonTableGateway CreatePersonTableGateway();
         IExpenseTableGateway CreateExpenseTableGateway();
         ITenancyTableGateway CreateTenancyTableGateway();
+        IExpenseCategoryTableGateway CreateExpenseCategoryTableGateway();
     }
 }
