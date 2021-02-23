@@ -11,5 +11,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs
 		public int UnitId { get; set; }
 		public DateTime From { get; set; }
 		public DateTime? To { get; set; }
-	}
+        public int NumberOfPeople { get; set; }
+    }
 }

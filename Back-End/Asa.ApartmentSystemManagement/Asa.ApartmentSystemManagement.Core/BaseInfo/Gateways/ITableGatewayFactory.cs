@@ -11,5 +11,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
         IOwnershipTableGateway CreateOwnershipTableGateway();
         IPersonTableGateway CreatePersonTableGateway();
         IExpenseTableGateway CreateExpenseTableGateway();
-	}
+        ITenancyTableGateway CreateTenancyTableGateway();
+    }
 }

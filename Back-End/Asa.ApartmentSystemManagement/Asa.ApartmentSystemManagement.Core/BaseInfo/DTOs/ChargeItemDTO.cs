@@ -8,7 +8,8 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs
     {
         public int Id { get; set; }
         public int ExpenseId { get; set; }
-        public int ChargeId { get; set; }
+        public int PersonId { get; set; }
+        public int UnitId { get; set; }
         public decimal Amount { get; set; }
     }
 }

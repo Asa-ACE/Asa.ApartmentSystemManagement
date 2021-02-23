@@ -72,5 +72,17 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
 		{
 			throw new NotImplementedException();
 		}
-	}
+        public async Task AddTenancy(TenancyDTO tenancy)
+        {
+            var gateway = _gatewayFactory.CreateTenancyTableGateway();
+            ValidateTenancy(tenancy);
+            var id = await gateway.InsertTenancyAsync(tenancy);
+            tenancy.PersonId = id;
+        }
+
+        private void ValidateTenancy(TenancyDTO tenancy)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
