@@ -17,7 +17,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             _connectionString = connectionString;
         }
 
-        public async Task<IEnumerable<UnitDTO>> GetUnitByBuildingId(int id)
+        public async Task<IEnumerable<UnitDTO>> GetUnitByBuildingIdAsync(int id)
         {
             var result = new List<UnitDTO>();
             using(var connecion = new SqlConnection(_connectionString))

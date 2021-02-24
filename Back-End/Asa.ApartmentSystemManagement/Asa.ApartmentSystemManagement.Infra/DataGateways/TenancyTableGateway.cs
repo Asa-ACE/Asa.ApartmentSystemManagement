@@ -40,7 +40,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
-        public async Task UpdateTenancy(TenancyDTO tenancy)
+        public async Task UpdateTenancyAsync(TenancyDTO tenancy)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
