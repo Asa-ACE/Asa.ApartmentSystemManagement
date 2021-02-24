@@ -36,10 +36,11 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         {
             IEnumerable<UnitDTO> units = await GetUnitsByBuilding(buildingId);
             IEnumerable<ExpenseDTO> expenses = await GetExpenses(from, to, buildingId);
+            IEnumerable<ChargeItemDTO> allChargeItems = null;
             foreach (ExpenseDTO expense in expenses)
             {
                 bool isForOwner = await IsForOwner(expense);
-                int formula = await getFormula(expense);
+                int formula = await GetFormula(expense);
                 if (isForOwner)
                 {
                     IEnumerable<OwnerPaymentDTO> allOwnerPayments = null;
@@ -48,11 +49,43 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
                         IEnumerable<OwnerPaymentDTO> ownerPayments = await GetOwnerPayments(unit.Id,expense.From,expense.To);
                         allOwnerPayments.Union(ownerPayments);
                     }
+                    IEnumerable<ChargeItemDTO> chargeItems = CalculateChargeItems(expense.Amount, allOwnerPayments,formula,units.Count());
+                    allChargeItems.Union(chargeItems);
                 }
             }
         }
 
-        private async Task<int> getFormula(ExpenseDTO expense)
+        public async CalculateCharge(ChargeDTO charge, UnitDTO unit)
+        {
+
+        }
+
+        private IEnumerable<ChargeItemDTO> CalculateChargeItems(decimal amount, IEnumerable<OwnerPaymentDTO> allOwnerPayments,int formula,int numberOfUnits)
+        {
+            switch (formula)
+            {
+                case 1:
+                    CalculateOwnerPaymentByEqual(amount*numberOfUnits,allOwnerPayments);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CalculateOwnerPaymentByEqual(decimal amount, IEnumerable<OwnerPaymentDTO> allOwnerPayments)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task<int> GetFormula(ExpenseDTO expense)
         {
             var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();
             ExpenseCategoryDTO category = await gateway.GetExpenseCategoryById(expense.CategoryId);
