@@ -17,6 +17,10 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
 
         public IBuildingTableGateway CreateBuildingTableGateway() => new BuildingTableGateway(_connectionString);
 
+        public IExpenseCategoryTableGateway CreateExpenseCategoryTableGateway()
+        {
+            throw new NotImplementedException();
+        }
 
         public IExpenseTableGateway CreateExpenseTableGateway() => new ExpenseTableGateway(_connectionString);
 

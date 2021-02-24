@@ -55,13 +55,11 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             }
         }
 
-        public async CalculateCharge(ChargeDTO charge, UnitDTO unit)
-        {
 
-        }
 
         private IEnumerable<ChargeItemDTO> CalculateChargeItems(decimal amount, IEnumerable<OwnerPaymentDTO> allOwnerPayments,int formula,int numberOfUnits)
         {
+            throw new Exception();
             switch (formula)
             {
                 case 1:

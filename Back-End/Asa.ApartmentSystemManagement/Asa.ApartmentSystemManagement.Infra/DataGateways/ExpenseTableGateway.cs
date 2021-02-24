@@ -21,6 +21,11 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<ExpenseDTO>> GetExpensesByBuildingIdAndDate(DateTime from, DateTime to, int buildingId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<int> InsertExpenseAsync(ExpenseDTO expense)
         {
             throw new NotImplementedException();
