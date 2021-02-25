@@ -1,5 +1,7 @@
 ﻿using Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices;
 using Asa.ApartmentSystemManagement.API.Model;
+using Asa.ApartmentSystemManagement.API.Model.Request;
+using Asa.ApartmentSystemManagement.API.Model.Response;
 using Asa.ApartmentSystemManagement.API.Tools;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -40,6 +42,21 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         public void ChangeBuildingName([FromRoute] int id , [FromQuery] string newName)
         {
             _baseInfoApplicationService.ChangeBuildingName(id, newName);
+        }
+
+        [HttpGet]
+        [Route("{buildingId:int}/Units")]
+        public IEnumerable<UnitResponse> GetUnits([FromRoute] int buildingId)
+        {
+            var units = _baseInfoApplicationService.GetUnits(buildingId);
+            return units;
+        }
+
+        [HttpPost]
+        [Route("{buildingId:int}/Units")]
+        public void AddUnit([FromRoute] int buildingId , [FromBody] UnitRequest unitInfo )
+        {
+            _baseInfoApplicationService.CreateUnit(buildingId, unitInfo.Area, unitInfo.UnitNumber, unitInfo.Description);
         }
     }
 }
