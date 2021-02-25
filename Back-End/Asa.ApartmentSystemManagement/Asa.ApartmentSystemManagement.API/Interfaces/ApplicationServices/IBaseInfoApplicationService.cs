@@ -10,5 +10,6 @@ namespace Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices
     {
         IEnumerable<BuildingResponse> GetBuildings(int userId);
         void CreateBuilding(string name, int numberOfUnits);
+        void ChangeBuildingName(int id, string newName);
     }
 }

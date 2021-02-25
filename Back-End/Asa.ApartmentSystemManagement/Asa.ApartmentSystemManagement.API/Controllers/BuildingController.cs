@@ -28,12 +28,18 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             return buildings;
         }
         [HttpPost]
-        public void AddBuilding([FromBody] BuildingRequest BuildingInfo)
+        public void AddBuilding([FromBody] BuildingRequest buildingInfo)
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
-            var name = BuildingInfo.Name;
-            var numberOfUnits = BuildingInfo.NumberOfUnits;
+            var name = buildingInfo.Name;
+            var numberOfUnits = buildingInfo.NumberOfUnits;
             _baseInfoApplicationService.CreateBuilding(name, numberOfUnits);
+        }
+        [HttpPatch]
+        [Route("{id:int}")]
+        public void ChangeBuildingName([FromRoute] int id , [FromQuery] string newName)
+        {
+            _baseInfoApplicationService.ChangeBuildingName(id, newName);
         }
     }
 }
