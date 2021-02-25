@@ -15,5 +15,9 @@ namespace Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices
 
         IEnumerable<UnitResponse> GetUnits(int buildingId);
         void CreateUnit(int buildingId, decimal area, int unitNumber, string description);
+
+        IEnumerable<OwnerResponse> GetOwners(int unitId);
+        void AddOwner(int unitId, int personId, DateTime from, DateTime? to);
+        void ChangeOwnerInfo(int ownerId, int personId, DateTime from, DateTime? to);
     }
 }

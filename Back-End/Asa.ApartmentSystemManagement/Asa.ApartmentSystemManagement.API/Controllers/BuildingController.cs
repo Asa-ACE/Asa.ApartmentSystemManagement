@@ -22,11 +22,13 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         {
             _baseInfoApplicationService = baseInfoApplicationService;
         }
+
+        //building
         [HttpGet]
         public IEnumerable<BuildingResponse> GetBuildings()
         {
-            var userId = Convert.ToInt32(HttpContext.Items["User"]) ;
-            var buildings =  _baseInfoApplicationService.GetBuildings(userId);
+            var userId = Convert.ToInt32(HttpContext.Items["User"]);
+            var buildings = _baseInfoApplicationService.GetBuildings(userId);
             return buildings;
         }
         [HttpPost]
@@ -39,11 +41,12 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
         [HttpPatch]
         [Route("{id:int}")]
-        public void ChangeBuildingName([FromRoute] int id , [FromQuery] string newName)
+        public void ChangeBuildingName([FromRoute] int id, [FromQuery] string newName)
         {
             _baseInfoApplicationService.ChangeBuildingName(id, newName);
         }
 
+        //unit
         [HttpGet]
         [Route("{buildingId:int}/Units")]
         public IEnumerable<UnitResponse> GetUnits([FromRoute] int buildingId)
@@ -51,12 +54,35 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             var units = _baseInfoApplicationService.GetUnits(buildingId);
             return units;
         }
-
         [HttpPost]
         [Route("{buildingId:int}/Units")]
-        public void AddUnit([FromRoute] int buildingId , [FromBody] UnitRequest unitInfo )
+        public void AddUnit([FromRoute] int buildingId, [FromBody] UnitRequest unitInfo)
         {
             _baseInfoApplicationService.CreateUnit(buildingId, unitInfo.Area, unitInfo.UnitNumber, unitInfo.Description);
         }
+
+        //owner
+        [HttpGet]
+        [Route("{buildingId:int}/Units/{unitId:int}/Owner")]
+        public IEnumerable<OwnerResponse> GetOwners([FromRoute] int unitId)
+        {
+            var units = _baseInfoApplicationService.GetOwners(unitId);
+            return units;
+        }
+        [HttpPost]
+        [Route("{buildingId:int}/Units/{unitId:int}/Owner")]
+        public void AddOwner([FromRoute] int unitId, [FromBody] OwnerRequest ownerInfo)
+        {
+            _baseInfoApplicationService.AddOwner(unitId, ownerInfo.PersonId, ownerInfo.From, ownerInfo.To);
+        }
+        [HttpPut]
+        [Route("{buildingId:int}/Units/{unitId:int}/Owner/{ownerId:int}")]
+        public void ChangeOwnerInfo([FromRoute] int ownerId, [FromBody] OwnerRequest ownerInfo)
+        {
+            _baseInfoApplicationService.ChangeOwnerInfo(ownerId , ownerInfo.PersonId, ownerInfo.From, ownerInfo.To)
+        }
+        //tenant
+
+
     }
 }
