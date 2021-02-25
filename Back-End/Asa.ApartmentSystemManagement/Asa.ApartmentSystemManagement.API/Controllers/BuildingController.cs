@@ -79,10 +79,29 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         [Route("{buildingId:int}/Units/{unitId:int}/Owner/{ownerId:int}")]
         public void ChangeOwnerInfo([FromRoute] int ownerId, [FromBody] OwnerRequest ownerInfo)
         {
-            _baseInfoApplicationService.ChangeOwnerInfo(ownerId , ownerInfo.PersonId, ownerInfo.From, ownerInfo.To)
+            _baseInfoApplicationService.ChangeOwnerInfo(ownerId, ownerInfo.PersonId, ownerInfo.From, ownerInfo.To);
         }
-        //tenant
 
+        //tenant
+        [HttpGet]
+        [Route("{buildingId:int}/Units/{unitId:int}/Tenant")]
+        public IEnumerable<TenantResponse> GetTenants([FromRoute] int unitId)
+        {
+            var units = _baseInfoApplicationService.GetTenants(unitId);
+            return units;
+        }
+        [HttpPost]
+        [Route("{buildingId:int}/Units/{unitId:int}/Tenant")]
+        public void AddTenant([FromRoute] int unitId, [FromBody] TenantRequest tenantInfo)
+        {
+            _baseInfoApplicationService.AddTenant(unitId , tenantInfo.PersonId , tenantInfo.From , tenantInfo.To , tenantInfo.NumberOfPeople);
+        }
+        [HttpPut]
+        [Route("{buildingId:int}/Units/{unitId:int}/Tenant/{tenantId:int}")]
+        public void ChangeTenantInfo([FromRoute] int tenantId, [FromBody] TenantRequest tenantInfo)
+        {
+            _baseInfoApplicationService.ChangeTenantInfo(tenantId, tenantInfo.PersonId, tenantInfo.From, tenantInfo.To, tenantInfo.NumberOfPeople);
+        }
 
     }
 }
