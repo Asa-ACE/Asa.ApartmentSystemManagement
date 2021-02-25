@@ -8,6 +8,7 @@ namespace Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices
 {
     public interface IBaseInfoApplicationService
     {
-        IEnumerable<BuildingResponse> GetBuildings(int UserId);
+        IEnumerable<BuildingResponse> GetBuildings(int userId);
+        void CreateBuilding(string name, int numberOfUnits);
     }
 }

@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Asa.ApartmentSystemManagement.API.Model
 {
-    public class BuildingResponse
+    public class BuildingRequest
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public int NumberOfUnits { get; set; }
     }

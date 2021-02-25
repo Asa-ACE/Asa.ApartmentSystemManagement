@@ -21,12 +21,19 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             _baseInfoApplicationService = baseInfoApplicationService;
         }
         [HttpGet]
-        public  IEnumerable<BuildingResponse> GetBuildings()
+        public IEnumerable<BuildingResponse> GetBuildings()
         {
-            var UserId = Convert.ToInt32(HttpContext.Items["User"]) ;
-            var Buildings =  _baseInfoApplicationService.GetBuildings(UserId);
-            return Buildings;
+            var userId = Convert.ToInt32(HttpContext.Items["User"]) ;
+            var buildings =  _baseInfoApplicationService.GetBuildings(userId);
+            return buildings;
         }
-        
+        [HttpPost]
+        public void AddBuilding([FromBody] BuildingRequest BuildingInfo)
+        {
+            var userId = Convert.ToInt32(HttpContext.Items["User"]);
+            var name = BuildingInfo.Name;
+            var numberOfUnits = BuildingInfo.NumberOfUnits;
+            _baseInfoApplicationService.CreateBuilding(name, numberOfUnits);
+        }
     }
 }
