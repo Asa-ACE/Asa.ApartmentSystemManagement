@@ -29,4 +29,5 @@ namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormu
 
             return chargeItems;
         }
+    }
 }
