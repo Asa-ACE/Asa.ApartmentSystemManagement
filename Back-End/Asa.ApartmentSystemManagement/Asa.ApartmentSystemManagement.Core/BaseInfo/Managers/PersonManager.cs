@@ -21,7 +21,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         {
             ValidatePerson(person);
             var gateway = _tableGatewayFactory.CreatePersonTableGateway();
-            var id = await gateway.InsertPersonAsync(person);
+            var id = await gateway.InsertPersonAsync(person).ConfigureAwait(false);
             person.Id = id;
         }
 
@@ -37,18 +37,20 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             }
         }
 
-        public async Task UpdatePersonById(int id, string firstName, string lastName, string phoneNumber, string userName, string password)
+        public async Task UpdatePersonAsync(PersonDTO personDTO)
         {
             var gateway = _tableGatewayFactory.CreatePersonTableGateway();
-            var person = await gateway.GetPersonByIdAsync(id);
-            person.FirstName = firstName;
-            person.LastName = lastName;
-            person.PhoneNumber = phoneNumber;
-            person.UserName = userName;
-            person.Password = password;
-            ValidatePerson(person);
-            await gateway.UpdatePersonAsync(person);
+            var person = await gateway.GetPersonByIdAsync(personDTO.Id);
+            var result = new PersonDTO
+            {
+                Id = person.Id,
+                FirstName = person.FirstName,
+                LastName = person.LastName,
+                PhoneNumber = person.PhoneNumber,
+                UserName = person.UserName,
+                Password = person.Password
+            };
+            await gateway.UpdatePersonAsync(result).ConfigureAwait(false);
         }
-
     }
 }

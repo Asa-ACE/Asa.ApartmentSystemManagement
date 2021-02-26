@@ -75,8 +75,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     cmd.CommandText = "[dbo].[SpBuildingRemove]";
                     cmd.Connection = connection;
                     cmd.Connection.Open();
-                    //felan gozashtam intor bemune
                     await cmd.ExecuteNonQueryAsync();
+                    cmd.Connection.Close();
                 }
             }
 

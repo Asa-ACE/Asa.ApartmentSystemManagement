@@ -32,6 +32,20 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
                 throw new ArgumentOutOfRangeException("Starting date cannot be less than Finish date.");
             }
         }
-        
+
+        public async Task<ExpenseDTO> GetExpenseByIdAsync(int id)
+        {
+            var gateway = _gatewayFactory.CreateExpenseTableGateway();
+            return await gateway.GetExpenseByIdAsync(id).ConfigureAwait(false); 
+
+        }
+
+        public async Task<IEnumerable<ExpenseDTO>> GetExpensesByBuildingIdAndDateAsync(DateTime from, DateTime to, int buildingId)
+        {
+            var gateway = _gatewayFactory.CreateExpenseTableGateway();
+            return await gateway.GetExpensesByBuildingIdAndDateAsync(from, to, buildingId).ConfigureAwait(false);
+        }
+
+
     }
 }

@@ -15,11 +15,11 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             _gatewayFactory = gatewayFactory;
         }
 
-        public async Task AddBuilding(BuildingDTO building)
+        public async Task AddBuildingAsync(BuildingDTO building)
         {
             ValidateBuilding(building);
             var gateway = _gatewayFactory.CreateBuildingTableGateway();
-            var id = await gateway.InsertBuildingAsync(building);
+            var id = await gateway.InsertBuildingAsync(building).ConfigureAwait(false);
             building.Id = id;
         }
 
@@ -35,7 +35,38 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             }
         }
 
-        public async Task AddUnit(UnitDTO unit)
+        public async Task<BuildingDTO> GetBuildingByIdAsync(int id)
+        {
+            var gateway = _gatewayFactory.CreateBuildingTableGateway();
+            var building = await gateway.GetBuildingByIdAsync(id).ConfigureAwait(false);
+            var result = new BuildingDTO
+            {
+                Id = id,
+                Name = building.Name,
+                NumberOfUnits = building.NumberOfUnits,
+                Address = building.Address
+            };
+            return result;
+
+        }
+
+        public async Task UpdateBuildingNameAsync(int id, string name)
+        {
+            var gateway = _gatewayFactory.CreateBuildingTableGateway();
+            var building = await gateway.GetBuildingByIdAsync(id);
+            building.Name = name;
+            ValidateBuilding(building);
+            await gateway.UpdateBuildingAsync(building);
+        }
+
+        public async Task RemoveBuildingAsync(int id)
+        {
+            var gateway = _gatewayFactory.CreateBuildingTableGateway();
+            await gateway.RemoveBuildingAsync(id).ConfigureAwait(false);
+
+        }
+
+        public async Task AddUnitAsync(UnitDTO unit)
         {
             ValidateUnit(unit);
             var gateway = _gatewayFactory.CreateUnitTableGateway();
@@ -51,29 +82,54 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             }
         }
 
-        public async Task UpdateBuildingName(int id, string name, string address)
-		{
-            var gateway = _gatewayFactory.CreateBuildingTableGateway();
-            var building = await gateway.GetBuildingByIdAsync(id);
-            building.Name = name;
-            building.Address = address;
-            ValidateBuilding(building);
-            await gateway.UpdateBuildingAsync(building);
-		}
+        public async Task<UnitDTO> GetUnitByIdAsync(int id)
+        {
+            var gateway = _gatewayFactory.CreateUnitTableGateway();
+            var unit = await gateway.GetUnitByIdAsync(id);
+            var result = new UnitDTO
+            {
+                Id = unit.Id,
+                UnitNumber = unit.UnitNumber,
+                BuildingId = unit.BuildingId,
+                Area = unit.Area,
+                Description = unit.Description
+            };
+            return result;
+        }
 
-        public async Task AddOwnership(OwnershipDTO ownership)
+        //check this?
+        public async Task<IEnumerable<UnitDTO>> GetUnitByBuildingIdAsync(int buildingId)
+        {
+            var gateway = _gatewayFactory.CreateUnitTableGateway();
+            return await gateway.GetUnitByBuildingIdAsync(buildingId).ConfigureAwait(false);
+        }
+
+        public async Task AddOwnershipAsync(OwnershipDTO ownership)
 		{
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
             ValidateOwership(ownership);
-            var id = await gateway.InsertOwnershipAsync(ownership);
+            var id = await gateway.InsertOwnershipAsync(ownership).ConfigureAwait(false);
             ownership.Id = id;
 		}
+
+        public async Task UpdateOwnershipAsync(OwnershipDTO ownershipDTO)
+        {
+            var gateway = _gatewayFactory.CreateOwnershipTableGateway();
+            await gateway.UpdateOwnershipAsync(ownershipDTO);
+        }
+
+        public async Task<IEnumerable<OwnershipDTO>> GetOwnerPaymentsAsync(int unitId, DateTime from, DateTime to)
+        {
+            var gateway = _gatewayFactory.CreateOwnershipTableGateway();
+            return (IEnumerable<OwnershipDTO>)await gateway.GetOwnerPaymentsAsync(unitId, from, to);
+
+        }
 
 		private void ValidateOwership(OwnershipDTO ownership)
 		{
 			throw new NotImplementedException();
 		}
-        public async Task AddTenancy(TenancyDTO tenancy)
+        public async Task AddTenancyAsync(TenancyDTO tenancy)
         {
             var gateway = _gatewayFactory.CreateTenancyTableGateway();
             ValidateTenancy(tenancy);
@@ -84,6 +140,38 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         private void ValidateTenancy(TenancyDTO tenancy)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task UpdateTenancyAsync(TenancyDTO tenancyDTO)
+        {
+            var gateway = _gatewayFactory.CreateTenancyTableGateway();
+            var tenant = await gateway.GetTenancyAsync(tenancyDTO.UnitId);
+            var result = new TenancyDTO
+            {
+                PersonId = tenant.PersonId,
+                TenancyId = tenant.TenancyId,
+                UnitId = tenant.UnitId,
+                From = tenant.From,
+                To = tenant.To,
+                NumberOfPeople = tenant.NumberOfPeople
+            };
+            await gateway.UpdateTenancyAsync(result).ConfigureAwait(false);
+        }
+
+        public async Task<TenancyDTO> GetTenancyAsync(int unitId)
+        {
+            var gateway = _gatewayFactory.CreateTenancyTableGateway();
+            var tenant = await gateway.GetTenancyAsync(unitId).ConfigureAwait(false);
+            var result = new TenancyDTO
+            {
+                PersonId = tenant.PersonId,
+                TenancyId = tenant.TenancyId,
+                UnitId = tenant.UnitId,
+                From = tenant.From,
+                To = tenant.To,
+                NumberOfPeople = tenant.NumberOfPeople
+            };
+            return result;
         }
     }
 }
