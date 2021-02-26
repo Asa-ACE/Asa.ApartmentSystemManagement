@@ -27,5 +27,10 @@ namespace Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices
         IEnumerable<ExpenceCategoryResponse> GetExpenceCategories(int userId);
         void AddExpenceCategory(string name , int formulaType , bool isForOwner);
         void ChangeExpenceCategoryInfo(int CategoryId , string name, int formulaType, bool isForOwner);
+
+        IEnumerable<ExpenceResponse> GetExpences(int buildingId);
+        void AddExpence(int buildingId, int categoryId, DateTime from, DateTime to, decimal amount, string name);
+        void ChangeExpenceInfo(int expenceId, int categoryId, DateTime from, DateTime to, decimal amount, string name);
+        void DeleteExpence(int expenceId);
     }
 }

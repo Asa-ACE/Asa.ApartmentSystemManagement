@@ -128,6 +128,32 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
 
+        [HttpGet]
+        [Route("{buildingId:int}/Expence")]
+        public IEnumerable<ExpenceResponse> GetExpences([FromRoute] int buildingId)
+        {
+            var expences = _baseInfoApplicationService.GetExpences(buildingId);
+            return expences;
+        }
+        [HttpPost]
+        [Route("{buildingId:int}/Expence")]
+        public void AddExpence([FromRoute] int buildingId , ExpenseRequest expenseInfo)
+        {
+            _baseInfoApplicationService.AddExpence(buildingId, expenseInfo.CategoryId, expenseInfo.From, expenseInfo.To, expenseInfo.Amount, expenseInfo.Name);
+        }
+        [HttpPut]
+        [Route("{buildingId:int}/Expence/{expenceId:int}")]
+        public void ChangeExpenceInfo([FromRoute] int buildingId , [FromRoute] int expenceId , ExpenseRequest expenseInfo)
+        {
+            _baseInfoApplicationService.ChangeExpenceInfo(expenceId, expenseInfo.CategoryId, expenseInfo.From, expenseInfo.To, expenseInfo.Amount, expenseInfo.Name);
+        }
+        [HttpDelete]
+        [Route("{buildingId:int}/Expence/{expenceId:int}")]
+        public void DeleteExpence([FromRoute] int expenceId)
+        {
+            _baseInfoApplicationService.DeleteExpence(expenceId);
+        }
+
 
     }
 }
