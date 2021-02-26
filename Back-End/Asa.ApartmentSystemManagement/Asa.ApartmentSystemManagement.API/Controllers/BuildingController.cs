@@ -18,9 +18,11 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
     public class BuildingController : ControllerBase
     {
         private IBaseInfoApplicationService _baseInfoApplicationService;
-        public BuildingController(IBaseInfoApplicationService baseInfoApplicationService)
+        private IChargeApplicationService _chargeApplicationService;
+        public BuildingController(IBaseInfoApplicationService baseInfoApplicationService , IChargeApplicationService chargeApplicationService)
         {
             _baseInfoApplicationService = baseInfoApplicationService;
+            _chargeApplicationService = chargeApplicationService;
         }
 
         //building
@@ -102,6 +104,30 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         {
             _baseInfoApplicationService.ChangeTenantInfo(tenantId, tenantInfo.PersonId, tenantInfo.From, tenantInfo.To, tenantInfo.NumberOfPeople);
         }
+
+        //ExpenceCategory
+        [HttpGet]
+        [Route("ExpenceCategory")]
+        public IEnumerable<ExpenceCategoryResponse> GetExpenceCategories()
+        {
+            var userId = Convert.ToInt32(HttpContext.Items["User"]);
+            var expenseCategories =  _baseInfoApplicationService.GetExpenceCategories(userId);
+            return expenseCategories;
+        }
+        [HttpPost]
+        [Route("ExpenceCategory")]
+        public void AddExpenceCategory([FromBody] ExpenceCategoryRequest expenceCategoryInfo)
+        {
+            _baseInfoApplicationService.AddExpenceCategory(expenceCategoryInfo.Name, expenceCategoryInfo.FormulaType, expenceCategoryInfo.IsForOwner);
+        }
+        [HttpPut]
+        [Route("ExpenceCategory/{categoryId:int}")]
+        public void ChangeExpenceCategoryInfo([FromRoute] int categoryId , [FromBody] ExpenceCategoryRequest expenceCategoryInfo)
+        {
+            _baseInfoApplicationService.ChangeExpenceCategoryInfo(categoryId, expenceCategoryInfo.Name, expenceCategoryInfo.FormulaType, expenceCategoryInfo.IsForOwner);
+        }
+
+
 
     }
 }

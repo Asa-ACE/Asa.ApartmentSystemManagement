@@ -23,5 +23,9 @@ namespace Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices
         IEnumerable<TenantResponse> GetTenants(int unitId);
         void AddTenant(int unitId, int personId, DateTime from, DateTime? to , int numberOfPeople);
         void ChangeTenantInfo(int tenantId, int personId , DateTime from, DateTime? to , int numberOfPeople);
+
+        IEnumerable<ExpenceCategoryResponse> GetExpenceCategories(int userId);
+        void AddExpenceCategory(string name , int formulaType , bool isForOwner);
+        void ChangeExpenceCategoryInfo(int CategoryId , string name, int formulaType, bool isForOwner);
     }
 }
