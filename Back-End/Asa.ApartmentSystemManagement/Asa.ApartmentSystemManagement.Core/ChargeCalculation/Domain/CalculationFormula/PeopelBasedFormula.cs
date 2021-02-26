@@ -8,21 +8,25 @@ namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormu
     [CalculationFormula("بر حسب تعداد نفرات")]
     public class PeopelBasedFormula : IFormula
     {
-        public List<ChargeItemDTO> Calculate(decimal amount, IEnumerable<ShareInfo> payments , int expenseId , bool IsOwner)
+        public List<ChargeItemDTO> Calculate(decimal amount, IEnumerable<ShareInfo> shareInfos, int expenseId, bool isOwner)
         {
             decimal sum = 0;
-            List<ChargeItemDTO> chargeItems=null;
+            List<ChargeItemDTO> chargeItems = null;
 
-            foreach (var payment in payments)
+            foreach (var shareInfo in shareInfos)
             {
-                sum += payment.Area * payment.Days;
+                sum += shareInfo.NumberOfPeopel * shareInfo.Days;
             }
-            foreach (var payment in payments)
+            foreach (var shareInfo in shareInfos)
             {
-
+                var chargeItem = new ChargeItemDTO();
+                chargeItem.Amount = amount * ((shareInfo.NumberOfPeopel * shareInfo.Days) / sum);
+                chargeItem.ExpenseId = expenseId;
+                chargeItem.PersonId = shareInfo.PersonId;
+                chargeItem.UnitId = shareInfo.UnitId;
+                chargeItem.IsOwner = isOwner;
             }
 
             return chargeItems;
         }
-    }
 }
