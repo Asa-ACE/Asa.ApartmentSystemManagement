@@ -30,10 +30,10 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
                 int formula = await GetFormula(expense);
                 if (isForOwner)
                 {
-                    IEnumerable<PaymentDTO> allPayments = null;
+                    IEnumerable<ShareInfo> allPayments = null;
                     foreach (UnitDTO unit in units)
                     {
-                        IEnumerable<PaymentDTO> Payments = await GetOwnerPayments(unit.Id, expense.From, expense.To);
+                        IEnumerable<ShareInfo> Payments = await GetOwnerPayments(unit.Id, expense.From, expense.To);
                         allPayments.Union(Payments);
                     }
                     IEnumerable<ChargeItemDTO> chargeItems = CalculateChargeItems(expense.Amount, allPayments, formula, units.Count());
@@ -44,7 +44,7 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
 
 
 
-        private IEnumerable<ChargeItemDTO> CalculateChargeItems(decimal amount, IEnumerable<PaymentDTO> allOwnerPayments, int formula, int numberOfUnits)
+        private IEnumerable<ChargeItemDTO> CalculateChargeItems(decimal amount, IEnumerable<ShareInfo> allOwnerPayments, int formula, int numberOfUnits)
         {
             throw new Exception();
 
@@ -59,10 +59,10 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
             return category.FormulaType;
         }
 
-        private async Task<IEnumerable<PaymentDTO>> GetOwnerPayments(int UnitId, DateTime from, DateTime to)
+        private async Task<IEnumerable<ShareInfo>> GetOwnerPayments(int UnitId, DateTime from, DateTime to)
         {
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
-            IEnumerable<PaymentDTO> ownerPayments = await gateway.GetOwnerPayments(UnitId, from, to);
+            IEnumerable<ShareInfo> ownerPayments = await gateway.GetOwnerPayments(UnitId, from, to);
             return ownerPayments;
         }
 

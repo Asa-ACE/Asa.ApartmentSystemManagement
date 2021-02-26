@@ -8,18 +8,23 @@ namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormu
     [CalculationFormula("بر حسب مساحت واحد")]
     public class AreaBasedFormula : IFormula
     {
-        public List<ChargeItemDTO> Calculate(decimal amount, IEnumerable<PaymentDTO> payments , int expenseId)
+        public List<ChargeItemDTO> Calculate(decimal amount, IEnumerable<ShareInfo> shareInfos , int expenseId, bool isOwner)
         {
             decimal sum = 0;
             List<ChargeItemDTO> chargeItems=null;
 
-            foreach (var payment in payments)
+            foreach (var shareInfo in shareInfos)
             {
-                sum += payment.Area * payment.Days;
+                sum += shareInfo.Area * shareInfo.Days;
             }
-            foreach (var payment in payments)
+            foreach (var shareInfo in shareInfos)
             {
-
+                var chargeItem = new ChargeItemDTO();
+                chargeItem.Amount = amount * ((shareInfo.Area * shareInfo.Days)/sum);
+                chargeItem.ExpenseId = expenseId;
+                chargeItem.PersonId = shareInfo.PersonId;
+                chargeItem.UnitId = shareInfo.UnitId;
+                chargeItem.IsOwner = isOwner;
             }
 
             return chargeItems;

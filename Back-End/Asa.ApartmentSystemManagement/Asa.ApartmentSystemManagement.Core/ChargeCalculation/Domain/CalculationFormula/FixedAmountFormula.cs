@@ -8,7 +8,7 @@ namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormu
     [CalculationFormula("مقدار ثابت")]
     public class FixedAmountFormula : IFormula
     {
-        public List<ChargeItemDTO> Calculate(decimal amount, IEnumerable<PaymentDTO> payments, int numberOfUnits)
+        public List<ChargeItemDTO> Calculate(decimal amount, IEnumerable<ShareInfo> payments, int numberOfUnits)
         {
             throw new NotImplementedException();
         }
