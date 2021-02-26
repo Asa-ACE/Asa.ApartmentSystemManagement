@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[ExpanseCategory]
+﻿CREATE TABLE [dbo].[ExpenseCategory]
 (
 	[CategoryID] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name] NVARCHAR(50) NOT NULL UNIQUE, 
