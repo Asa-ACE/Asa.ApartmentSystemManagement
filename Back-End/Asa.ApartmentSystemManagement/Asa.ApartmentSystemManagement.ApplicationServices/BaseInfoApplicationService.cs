@@ -16,6 +16,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
     {
         ITableGatewayFactory _tableGatewayFactory;
         BuildingManager _buildingManager;
+        ExpenseManager _expenseManager;
 
         public BaseInfoApplicationService(string connectionString)
         {
@@ -127,6 +128,12 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
         public async Task RemoveBuildingAsync(int id)
         {
             await _buildingManager.RemoveBuildingAsync(id).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<ExpenceCategoryResponse>> GetExpenceCategoryResponse(int userId)
+        {
+            var expense = await _expenseManager.GetExpenseByIdAsync(userId);
+            return expense.ToModel();
         }
     }
 }

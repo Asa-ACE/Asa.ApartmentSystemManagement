@@ -160,20 +160,11 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             throw new NotImplementedException();
         }
 
-        public async Task UpdateTenancyAsync(TenancyDTO tenancyDTO)
+        public async Task UpdateTenancyAsync(TenancyDTO tenancy)
         {
             var gateway = _gatewayFactory.CreateTenancyTableGateway();
-            var tenant = await gateway.GetTenancyAsync(tenancyDTO.UnitId);
-            var result = new TenancyDTO
-            {
-                PersonId = tenant.PersonId,
-                TenancyId = tenant.TenancyId,
-                UnitId = tenant.UnitId,
-                From = tenant.From,
-                To = tenant.To,
-                NumberOfPeople = tenant.NumberOfPeople
-            };
-            await gateway.UpdateTenancyAsync(result).ConfigureAwait(false);
+            await gateway.UpdateTenancyAsync(tenancy);
+
         }
 
         public async Task<TenancyDTO> GetTenancyAsync(int unitId)

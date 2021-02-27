@@ -7,11 +7,11 @@ namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormu
 {
     public static class CalculationFormulaFactory
     {
-        static List<FormulaName> formulaNames;
+        static Dictionary<string, string> formulaNames;
         static Dictionary<string, Type> formulaTypesDictionary;
         static Dictionary<string, IFormula> formulaInstances = new Dictionary<string, IFormula>();
         static readonly object lockToken = new object();
-        public static List<FormulaName> GetAll()
+        public static List<string> GetAll()
         {
             if (formulaNames == null)
             {
@@ -23,12 +23,12 @@ namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormu
                     }
                 }
             }
-            return formulaNames;
+            return formulaNames.Values.ToList();
         }
 
         private static void ExtractFormulaNames()
         {
-            formulaNames = new List<FormulaName>();
+            formulaNames = new Dictionary<string, string>();
             ExtractFormulaTypes();
             foreach (var type in formulaTypesDictionary.Values)
             {
@@ -45,8 +45,7 @@ namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormu
                 {
                     if (attribute is CalculationFormulaAttribute attr)
                     {
-                        FormulaName name = new FormulaName(attr.FormulaTitle, type.FullName);
-                        formulaNames.Add(name);
+                        formulaNames.Add(type.FullName, attr.FormulaTitle);
                         break;
                     }
                 }

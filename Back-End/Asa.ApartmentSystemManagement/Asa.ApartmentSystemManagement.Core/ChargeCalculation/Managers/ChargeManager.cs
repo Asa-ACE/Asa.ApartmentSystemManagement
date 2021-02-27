@@ -55,7 +55,7 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
         private async Task<int> GetFormula(ExpenseDTO expense)
         {
             var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();
-            ExpenseCategoryDTO category = await gateway.GetExpenseCategoryById(expense.CategoryId);
+            ExpenseCategoryResponse category = await gateway.GetExpenseCategoryById(expense.CategoryId);
             return category.FormulaType;
         }
 
@@ -69,7 +69,7 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
         private async Task<bool> IsForOwner(ExpenseDTO expense)
         {
             var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();
-            ExpenseCategoryDTO category = await gateway.GetExpenseCategoryById(expense.CategoryId);
+            ExpenseCategoryResponse category = await gateway.GetExpenseCategoryById(expense.CategoryId);
             return category.IsForOwner;
         }
 
