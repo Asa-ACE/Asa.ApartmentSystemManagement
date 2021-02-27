@@ -4,4 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Asa.ApartmentSystemManagement.Core\Asa.ApartmentSystemManagement.Core.csproj" />
+    <ProjectReference Include="..\Asa.ApartmentSystemManagement.Infra\Asa.ApartmentSystemManagement.Infra.csproj" />
+  </ItemGroup>
+
 </Project>

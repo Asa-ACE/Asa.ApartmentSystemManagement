@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     backgroundImage:
-      "url(https://wallup.net/wp-content/uploads/2016/04/10/168594-fantasy_art-apartments-house-cliff-villages-sky-clouds.jpg)",
+      "url(https://www.teahub.io/photos/full/106-1062458_cyberpunk-2077-night-city-wallpaper-4k.png)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"

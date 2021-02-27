@@ -56,19 +56,43 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\StoredProcedures" />
+    <Folder Include="dbo\Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Building.sql" />
-    <Build Include="Tenancy.sql" />
-    <Build Include="Unit.sql" />
-    <Build Include="Ownership.sql" />
-    <Build Include="Person.sql" />
-    <Build Include="Admin.sql" />
-    <Build Include="Expanse.sql" />
-    <Build Include="ExpanseCategory.sql" />
-    <Build Include="Charge.sql" />
+    <Build Include="dbo\Tables\Admin.sql" />
+    <Build Include="dbo\Tables\Building.sql" />
+    <Build Include="dbo\StoredProcedures\SpBuildingUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\SpUnitCreate.sql" />
+    <Build Include="dbo\StoredProcedures\SpUnitsGetAll.sql" />
+    <Build Include="dbo\StoredProcedures\SpUnitGet.sql" />
+    <Build Include="dbo\StoredProcedures\SpPersonCreate.sql" />
+    <Build Include="dbo\StoredProcedures\SpPersonGet.sql" />
+    <Build Include="dbo\StoredProcedures\SpPersonUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\SpOwnershipCreate.sql" />
+    <Build Include="dbo\StoredProcedures\SpOwnershipUpdate.sql" />
+    <Build Include="dbo\Tables\Charge.sql" />
+    <Build Include="dbo\Tables\Expense.sql" />
+    <Build Include="dbo\Tables\ExpenseCategory.sql" />
+    <Build Include="dbo\StoredProcedures\SpBuildingCreate.sql" />
+    <Build Include="dbo\StoredProcedures\SpBuildingGet.sql" />
+    <Build Include="dbo\StoredProcedures\SpBuildingRemove.sql" />
+    <Build Include="dbo\StoredProcedures\SpTenancyCreate.sql" />
+    <Build Include="dbo\StoredProcedures\SpTenancyUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\SpExpenseGetByDate.sql" />
+    <Build Include="dbo\StoredProcedures\SpBuildingsGetAll.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetAllOwners.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetAllTenants.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Asa.ApartmentSystemManagement.DB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\ChargeItem.sql" />
+    <Build Include="dbo\Tables\Ownership.sql" />
+    <Build Include="dbo\Tables\Person.sql" />
+    <Build Include="dbo\Tables\Tenancy.sql" />
+    <Build Include="dbo\Tables\Unit.sql" />
   </ItemGroup>
 </Project>
