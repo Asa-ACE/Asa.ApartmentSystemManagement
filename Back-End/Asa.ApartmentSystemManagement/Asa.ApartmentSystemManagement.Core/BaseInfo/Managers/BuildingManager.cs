@@ -78,7 +78,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         {
             var gateway = _gatewayFactory.CreateBuildingTableGateway();
             var buildings = await gateway.GetBuildingsAsync(userId);
-            return buldings;
+            return buildings;
         }
 
         private void ValidateUnit(UnitDTO unit)
@@ -114,6 +114,11 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         {
             var gateway = _gatewayFactory.CreateUnitTableGateway();
             return await gateway.GetUnitsByBuildingIdAsync(buildingId).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<PersonDTO>> GetTenantsByUnitIdAsync(int unitId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task AddOwnershipAsync(OwnershipDTO ownership)

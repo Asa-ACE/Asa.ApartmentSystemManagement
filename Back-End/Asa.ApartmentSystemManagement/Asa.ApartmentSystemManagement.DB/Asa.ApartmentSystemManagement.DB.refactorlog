@@ -49,4 +49,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ChargeID" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="9c570c70-66ea-4f60-85ee-5b1721bb02a6" ChangeDateTime="02/27/2021 07:36:34">
+    <Property Name="ElementName" Value="[dbo].[SpGetAllOwner]" />
+    <Property Name="ElementType" Value="SqlProcedure" />
+    <Property Name="ParentElementName" Value="[dbo]" />
+    <Property Name="ParentElementType" Value="SqlSchema" />
+    <Property Name="NewName" Value="[SpGetAllOwners]" />
+  </Operation>
 </Operations>

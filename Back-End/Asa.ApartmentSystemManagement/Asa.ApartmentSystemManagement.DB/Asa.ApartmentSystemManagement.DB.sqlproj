@@ -82,6 +82,8 @@
     <Build Include="dbo\StoredProcedures\SpTenancyUpdate.sql" />
     <Build Include="dbo\StoredProcedures\SpExpenseGetByDate.sql" />
     <Build Include="dbo\StoredProcedures\SpBuildingsGetAll.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetAllOwners.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetAllTenants.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Asa.ApartmentSystemManagement.DB.refactorlog" />

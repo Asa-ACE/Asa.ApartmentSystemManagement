@@ -7,11 +7,10 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Response
 {
     public class TenantResponse
     {
-        public int TenancyId { get; set; }
         public int PersonId { get; set; }
-        public int UnitId { get; set; }
-        public DateTime From { get; set; }
-        public DateTime? To { get; set; }
-        public int NumberOfPeople { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string UserName { get; set; }
     }
 }

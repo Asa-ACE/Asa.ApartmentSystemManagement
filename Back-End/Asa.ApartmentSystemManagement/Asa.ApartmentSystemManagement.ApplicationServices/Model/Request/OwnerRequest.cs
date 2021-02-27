@@ -10,5 +10,6 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Request
         public int PersonId { get; set; }
         public DateTime From { get; set; }
         public DateTime? To { get; set; }
+        public int UnitId { get; set; }
     }
 }

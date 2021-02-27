@@ -1,5 +1,6 @@
 ﻿
 using Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper;
+using Asa.ApartmentSystemManagement.ApplicationServices.Model.Request;
 using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
@@ -80,9 +81,14 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
         public async Task<IEnumerable<OwnerResponse>>GetOwnersByUnitIdAsync(int unitId)
         {
             var owners = await _buildingManager.GetOwnersByUnitIdAsync(unitId);
-            return owners.ToModel();
+            return owners.ToOwnerModel();
         }
          
+        public async Task<IEnumerable<TenantResponse>> GetTenantsByUnitIdAsync(int unitId)
+        {
+            var tenants = await _buildingManager.GetTenantsByUnitIdAsync(unitId);
+            return tenants.ToTenantModel();
+        }
 
         public async Task<TenancyDTO> GetTenancyAsync(int unitId)
         {
@@ -94,17 +100,9 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             await _buildingManager.UpdateBuildingNameAsync(id, name).ConfigureAwait(false);
         }
 
-        public async Task UpdatOwnershipAsync(OwnershipDTO ownershipDTO)
+        public async Task ChangeOwnerAsync(OwnerRequest newOwner)
         {
-            var owner = new OwnershipDTO
-            {
-                Id = ownershipDTO.Id,
-                PersonId = ownershipDTO.PersonId,
-                From = ownershipDTO.From,
-                To = ownershipDTO.To,
-                UnitId = ownershipDTO.UnitId
-            };
-            await _buildingManager.UpdateOwnershipAsync(owner).ConfigureAwait(false);
+            await _buildingManager.UpdateOwnershipAsync(newOwner.ToDTO()).ConfigureAwait(false);
         }
 
         public async Task UpdateTenancyAsync(TenancyDTO tenancyDTO)
