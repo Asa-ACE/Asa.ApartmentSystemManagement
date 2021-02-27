@@ -17,9 +17,37 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             _connectionString = connectionString;
         }
 
-        public Task<IEnumerable<ShareInfo>> GetOwnerShareInfoAsync(int UnitId, DateTime from, DateTime to)
+        public async Task<IEnumerable<ShareInfo>> GetOwnerShareInfoAsync(int buildingId, DateTime from, DateTime to)
         {
-            throw new NotImplementedException();
+            var result = new List<ShareInfo>();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpOwnershipGetShareInfo]";
+                    cmd.Parameters.AddWithValue("@buildingId", buildingId);
+                    cmd.Parameters.AddWithValue("@from", from);
+                    cmd.Parameters.AddWithValue("@to", to);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    using (var dataReader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await dataReader.ReadAsync())
+                        {
+                            var shareInfo = new ShareInfo();
+                            shareInfo.BuildingId = Convert.ToInt32(dataReader["BuildingID"]);
+                            shareInfo.UnitId = Convert.ToInt32(dataReader["UnitID"]);
+                            shareInfo.PersonId = Convert.ToInt32(dataReader["PersonID"]);
+                            shareInfo.Days = Convert.ToInt32(dataReader["Days"]);
+                            shareInfo.Area = Convert.ToDecimal(dataReader["Area"]);
+                            result.Add(shareInfo);
+                        }
+                    }
+                }
+            }
+            return result;
         }
 
         public async Task<int> InsertOwnershipAsync(OwnershipDTO ownership)
