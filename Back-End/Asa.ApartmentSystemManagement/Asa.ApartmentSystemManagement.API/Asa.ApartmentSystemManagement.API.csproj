@@ -8,5 +8,9 @@
     <Folder Include="MiddleWares\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Asa.ApartmentSystemManagement.Core\Asa.ApartmentSystemManagement.Core.csproj" />
+  </ItemGroup>
+
 
 </Project>
