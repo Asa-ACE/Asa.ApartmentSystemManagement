@@ -44,6 +44,35 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return result;
         }
 
+        public async Task<IEnumerable<BuildingDTO>> GetBuildingsAsync(int userId)
+        {
+            var result = new List<BuildingDTO>();
+            using (var connecion = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpBuildingsGetAll]";
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    cmd.Connection = connecion;
+                    cmd.Connection.Open();
+                    using (var dataReader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await dataReader.ReadAsync())
+                        {
+                            var building = new BuildingDTO();
+                            building.Id = Convert.ToInt32(dataReader["BuildingId"]);
+                            building.Name = Convert.ToString(dataReader["Name"]);
+                            building.NumberOfUnits = Convert.ToInt32(dataReader["NumberOfUnits"]);
+                            building.Address = Convert.ToString(dataReader["Address"]);
+                            result.Add(building);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
         public async Task<int> InsertBuildingAsync(BuildingDTO building)
         {
             int id = 0;

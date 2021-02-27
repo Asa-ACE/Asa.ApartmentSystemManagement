@@ -74,6 +74,13 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             unit.Id = id;
         }
 
+        public async Task<IEnumerable<BuildingDTO>> GetBuildingsAsync(int userId)
+        {
+            var gateway = _gatewayFactory.CreateBuildingTableGateway();
+            var buildings = await gateway.GetBuildingsAsync(userId);
+            return buldings;
+        }
+
         private void ValidateUnit(UnitDTO unit)
         {
             if(unit.Area < 20)
@@ -97,11 +104,16 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             return result;
         }
 
+        public async Task<IEnumerable<PersonDTO>> GetOwnersByUnitIdAsync(int unitId)
+        {
+            throw new NotImplementedException();
+        }
+
         //check this?
-        public async Task<IEnumerable<UnitDTO>> GetUnitByBuildingIdAsync(int buildingId)
+        public async Task<IEnumerable<UnitDTO>> GetUnitsByBuildingIdAsync(int buildingId)
         {
             var gateway = _gatewayFactory.CreateUnitTableGateway();
-            return await gateway.GetUnitByBuildingIdAsync(buildingId).ConfigureAwait(false);
+            return await gateway.GetUnitsByBuildingIdAsync(buildingId).ConfigureAwait(false);
         }
 
         public async Task AddOwnershipAsync(OwnershipDTO ownership)

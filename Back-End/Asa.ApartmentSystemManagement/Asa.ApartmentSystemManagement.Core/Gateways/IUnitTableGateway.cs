@@ -10,7 +10,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
     {
         Task<int> InsertUnitAsync(UnitDTO unit);
         Task<UnitDTO> GetUnitByIdAsync(int id);
-        Task<IEnumerable<UnitDTO>> GetUnitByBuildingIdAsync(int id);
-        Task<IEnumerable<UnitDTO>> GetUnitByBuildingId(int buildingId);
+        Task<IEnumerable<UnitDTO>> GetUnitsByBuildingIdAsync(int id);
     }
 }

@@ -17,7 +17,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             _connectionString = connectionString;
         }
 
-        public async Task<IEnumerable<UnitDTO>> GetUnitByBuildingIdAsync(int id)
+        public async Task<IEnumerable<UnitDTO>> GetUnitsByBuildingIdAsync(int id)
         {
             var result = new List<UnitDTO>();
             using(var connecion = new SqlConnection(_connectionString))
@@ -34,11 +34,11 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                         while (await dataReader.ReadAsync())
                         {
                             var unitDTO = new UnitDTO();
-                            unitDTO.BuildingId = Convert.ToInt32(dataReader["buildingId"]);
-                            unitDTO.Id = Convert.ToInt32(dataReader["unitId"]);
-                            unitDTO.Area = Convert.ToDecimal(dataReader["area"]);
-                            unitDTO.UnitNumber = Convert.ToInt32(dataReader["unitNumber"]);
-                            unitDTO.Description = Convert.ToString(dataReader["description"]);
+                            unitDTO.BuildingId = Convert.ToInt32(dataReader["BuildingId"]);
+                            unitDTO.Id = Convert.ToInt32(dataReader["UnitId"]);
+                            unitDTO.Area = Convert.ToDecimal(dataReader["Area"]);
+                            unitDTO.UnitNumber = Convert.ToInt32(dataReader["UnitNumber"]);
+                            unitDTO.Description = Convert.ToString(dataReader["Description"]);
                             result.Add(unitDTO);
                         }
                     }
@@ -56,7 +56,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpUnitGet]";
-                    cmd.Parameters.AddWithValue("@unitId", id);
+                    cmd.Parameters.AddWithValue("@UnitId", id);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     reader = await cmd.ExecuteReaderAsync();
@@ -67,9 +67,9 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             var result = new UnitDTO
             {
                 BuildingId = id,
-                Area = Convert.ToDecimal("area"),
-                UnitNumber = Convert.ToInt32("unitNumber"),
-                Description = Convert.ToString("description"),
+                Area = Convert.ToDecimal("Area"),
+                UnitNumber = Convert.ToInt32("UnitNumber"),
+                Description = Convert.ToString("Description"),
             };
 
             return result;
@@ -84,10 +84,10 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpUniCreate]";
-                    cmd.Parameters.AddWithValue("buildingId", unit.BuildingId);
-                    cmd.Parameters.AddWithValue("@area", unit.Area);
-                    cmd.Parameters.AddWithValue("@unitNumber", unit.UnitNumber);
-                    cmd.Parameters.AddWithValue("@description", unit.Description);
+                    cmd.Parameters.AddWithValue("BuildingId", unit.BuildingId);
+                    cmd.Parameters.AddWithValue("@Area", unit.Area);
+                    cmd.Parameters.AddWithValue("@UnitNumber", unit.UnitNumber);
+                    cmd.Parameters.AddWithValue("@Description", unit.Description);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     var result = await cmd.ExecuteScalarAsync();

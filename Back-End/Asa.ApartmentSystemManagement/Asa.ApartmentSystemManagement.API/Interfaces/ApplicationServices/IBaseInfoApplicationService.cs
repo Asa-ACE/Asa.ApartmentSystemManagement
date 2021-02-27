@@ -10,7 +10,7 @@ namespace Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices
     public interface IBaseInfoApplicationService
     {
         IEnumerable<BuildingResponse> GetBuildings(int userId);
-        void CreateBuilding(string name, int numberOfUnits);
+        int CreateBuilding(string name, int numberOfUnits, string address);
         void ChangeBuildingName(int id, string newName);
 
         IEnumerable<UnitResponse> GetUnits(int buildingId);

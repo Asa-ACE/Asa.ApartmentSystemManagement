@@ -1,20 +1,24 @@
-﻿using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
+﻿
+using Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper;
+using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
+using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Managers;
 using Asa.ApartmentSystemManagement.Infra.DataGateways;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Asa.ApartmentSystemManagement.ApplicationServices
 {
-	public class BaseInfoApplicationService
-	{
-		ITableGatewayFactory _tableGatewayFactory;
+    public class BaseInfoApplicationService
+    {
+        ITableGatewayFactory _tableGatewayFactory;
         BuildingManager _buildingManager;
 
         public BaseInfoApplicationService(string connectionString)
         {
-			_tableGatewayFactory = new SqlTableGatewayFactory(connectionString);
+            _tableGatewayFactory = new SqlTableGatewayFactory(connectionString);
             _buildingManager = new BuildingManager(_tableGatewayFactory);
         }
 
@@ -51,14 +55,21 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return await _buildingManager.GetBuildingByIdAsync(id).ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<BuildingResponse>> GetBuildingsAsync(int userId)
+        {
+            var buildings = await _buildingManager.GetBuildingsAsync(userId);
+            return buildings.ToModel();
+        }
+
         public async Task<UnitDTO> GetUnitByIdAsync(int id)
         {
             return await _buildingManager.GetUnitByIdAsync(id).ConfigureAwait(false);
         }
 
-        public async Task<UnitDTO> GetUnitByBuildingIdAsync(int buildingId)
+        public async Task<IEnumerable<UnitResponse>> GetUnitsByBuildingIdAsync(int buildingId)
         {
-            return (UnitDTO)await _buildingManager.GetUnitByBuildingIdAsync(buildingId).ConfigureAwait(false);
+            var units = await _buildingManager.GetUnitsByBuildingIdAsync(buildingId);
+            return units.ToModel();
         }
 
         public async Task<OwnershipDTO> GetOwnerPaymentAsync(int unitId, DateTime from, DateTime to)
@@ -66,14 +77,21 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return (OwnershipDTO)await _buildingManager.GetOwnerPaymentsAsync(unitId, from, to).ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<OwnerResponse>>GetOwnersByUnitIdAsync(int unitId)
+        {
+            var owners = await _buildingManager.GetOwnersByUnitIdAsync(unitId);
+            return owners.ToModel();
+        }
+         
+
         public async Task<TenancyDTO> GetTenancyAsync(int unitId)
         {
             return await _buildingManager.GetTenancyAsync(unitId).ConfigureAwait(false);
         }
 
-        public async Task UpdateBuildingAsync(BuildingDTO buildingDTO)
+        public async Task UpdateBuildingNameAsync(int id, string name)
         {
-            await _buildingManager.UpdateBuildingNameAsync(buildingDTO.Id, buildingDTO.Name).ConfigureAwait(false);
+            await _buildingManager.UpdateBuildingNameAsync(id, name).ConfigureAwait(false);
         }
 
         public async Task UpdatOwnershipAsync(OwnershipDTO ownershipDTO)
@@ -109,3 +127,4 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
         }
     }
 }
+
