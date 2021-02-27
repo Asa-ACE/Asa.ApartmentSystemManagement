@@ -33,7 +33,14 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             var units = _baseInfoApplicationService.GetUnitsIOwn(userId);
             return units;
         }
-        
+        [HttpGet]
+        [Route("Owner/{unitId:int}/Charges")]
+        public IEnumerable<ChargeAndChargeItemResponse> GetChargesInUnitIOwn([FromRoute] int unitId)
+        {
+            var userId = Convert.ToInt32(HttpContext.Items["User"]);
+            var charges = _chargeApplicationService.GetChargesInUnitIOwn(userId, unitId);
+            return charges;
+        }
 
         //Tenant
         [HttpGet]
@@ -44,7 +51,14 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             var units = _baseInfoApplicationService.GetUnitsIRent(userId);
             return units;
         }
-
+        [HttpGet]
+        [Route("Tenant/{unitId:int}/Charges")]
+        public IEnumerable<ChargeAndChargeItemResponse> GetChargesInUnitIRent([FromRoute] int unitId)
+        {
+            var userId = Convert.ToInt32(HttpContext.Items["User"]);
+            var charges = _chargeApplicationService.GetChargesInUnitIRent(userId, unitId);
+            return charges;
+        }
 
     }
 }
