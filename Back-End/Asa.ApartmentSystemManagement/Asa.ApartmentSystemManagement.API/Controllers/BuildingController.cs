@@ -127,7 +127,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             _baseInfoApplicationService.ChangeExpenceCategoryInfo(categoryId, expenceCategoryInfo.Name, expenceCategoryInfo.FormulaType, expenceCategoryInfo.IsForOwner);
         }
 
-
+        //Expance
         [HttpGet]
         [Route("{buildingId:int}/Expence")]
         public IEnumerable<ExpenceResponse> GetExpences([FromRoute] int buildingId)

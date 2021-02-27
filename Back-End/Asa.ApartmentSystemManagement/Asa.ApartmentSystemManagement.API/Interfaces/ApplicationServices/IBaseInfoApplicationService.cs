@@ -32,5 +32,9 @@ namespace Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices
         void AddExpence(int buildingId, int categoryId, DateTime from, DateTime to, decimal amount, string name);
         void ChangeExpenceInfo(int expenceId, int categoryId, DateTime from, DateTime to, decimal amount, string name);
         void DeleteExpence(int expenceId);
+
+        IEnumerable<UnitResponse> GetUnitsIOwn(int userId);
+
+        IEnumerable<UnitResponse> GetUnitsIRent(int userId);
     }
 }
