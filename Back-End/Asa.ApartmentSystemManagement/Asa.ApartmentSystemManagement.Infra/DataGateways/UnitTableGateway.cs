@@ -96,5 +96,35 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             }
             return id;
         }
+
+        public async Task<IEnumerable<UnitDTO>> GetOwnedUnitsAsync(int personId)
+        {
+            var result = new List<UnitDTO>();
+            using (var connecion = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpGetOwnedUnits]";
+                    cmd.Parameters.AddWithValue("@personId", personId);
+                    cmd.Connection = connecion;
+                    cmd.Connection.Open();
+                    using (var dataReader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await dataReader.ReadAsync())
+                        {
+                            var unitDTO = new UnitDTO();
+                            unitDTO.BuildingId = Convert.ToInt32(dataReader["BuildingId"]);
+                            unitDTO.Id = Convert.ToInt32(dataReader["UnitId"]);
+                            unitDTO.Area = Convert.ToDecimal(dataReader["Area"]);
+                            unitDTO.UnitNumber = Convert.ToInt32(dataReader["UnitNumber"]);
+                            unitDTO.Description = Convert.ToString(dataReader["Description"]);
+                            result.Add(unitDTO);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

@@ -136,10 +136,10 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             await gateway.UpdateOwnershipAsync(ownershipDTO);
         }
 
-        public async Task<IEnumerable<OwnershipDTO>> GetOwnerPaymentsAsync(int unitId, DateTime from, DateTime to)
+        public async Task<IEnumerable<ShareInfo>> GetOwnerPaymentsAsync(int unitId, DateTime from, DateTime to)
         {
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
-            return (IEnumerable<OwnershipDTO>)await gateway.GetOwnerPaymentsAsync(unitId, from, to);
+            return await gateway.GetOwnerPaymentsAsync(unitId, from, to);
 
         }
 
@@ -170,17 +170,13 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         public async Task<TenancyDTO> GetTenancyAsync(int unitId)
         {
             var gateway = _gatewayFactory.CreateTenancyTableGateway();
-            var tenant = await gateway.GetTenancyAsync(unitId).ConfigureAwait(false);
-            var result = new TenancyDTO
-            {
-                PersonId = tenant.PersonId,
-                TenancyId = tenant.TenancyId,
-                UnitId = tenant.UnitId,
-                From = tenant.From,
-                To = tenant.To,
-                NumberOfPeople = tenant.NumberOfPeople
-            };
-            return result;
+            return await gateway.GetTenancyAsync(unitId).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<UnitDTO>> GetOwnedUnitsAsync(int personId)
+        {
+            var gateway = _gatewayFactory.CreateUnitTableGateway();
+            return await gateway.GetOwnedUnitsAsync(personId);
         }
     }
 }

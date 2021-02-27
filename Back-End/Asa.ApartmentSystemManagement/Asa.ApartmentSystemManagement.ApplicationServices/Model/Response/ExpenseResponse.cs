@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Response
 {
-    public class ExpenceResponse
+    public class ExpenseResponse
     {
         public int ExpenseId { get; set; }
         public int BuildingId { get; set; }

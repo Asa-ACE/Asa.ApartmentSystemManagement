@@ -8,9 +8,9 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
 {
     public static class ExpenseMapper
     {
-        public static ExpenceCategoryResponse ToModel(this ExpenseCategoryDTO expense)
+        public static ExpenseCategoryResponse ToModel(this ExpenseCategoryDTO expense)
         {
-            ExpenceCategoryResponse model = new ExpenceCategoryResponse();
+            ExpenseCategoryResponse model = new ExpenseCategoryResponse();
             model.CategoryId = expense.CategoryId;
             model.FormulaType = expense.FormulaType;
             model.IsForOwner = expense.IsForOwner;
@@ -18,12 +18,35 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
             return model;
         }
 
-        public static IEnumerable<ExpenceCategoryResponse> ToModel(this IEnumerable<ExpenseCategoryDTO> expenses)
+        public static IEnumerable<ExpenseCategoryResponse> ToModel(this IEnumerable<ExpenseCategoryDTO> expenses)
         {
-            List<ExpenceCategoryResponse> model = new List<ExpenceCategoryResponse>();
+            List<ExpenseCategoryResponse> model = new List<ExpenseCategoryResponse>();
             foreach (var expense in expenses)
             {
                 model.Add(expense.ToModel());
+            }
+            return model;
+        }
+
+        public static ExpenseResponse ToExpenseModel(this ExpenseDTO expense)
+        {
+            ExpenseResponse model = new ExpenseResponse();
+            model.CategoryId = expense.CategoryId;
+            model.BuildingId = expense.BuildingId;
+            model.Amount = expense.Amount;
+            model.ExpenseId = expense.ExpenseId;
+            model.From = expense.From;
+            model.To = expense.To;
+            model.Name = expense.Name;
+            return model;
+        }
+
+        public static IEnumerable<ExpenseResponse> ToExpenseModel(this IEnumerable<ExpenseDTO> expenses)
+        {
+            List<ExpenseResponse> model = new List<ExpenseResponse>();
+            foreach (var expense in expenses)
+            {
+                model.Add(expense.ToExpenseModel());
             }
             return model;
         }
