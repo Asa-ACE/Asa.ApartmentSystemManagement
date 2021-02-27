@@ -106,10 +106,10 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
 
         public async Task<IEnumerable<PersonDTO>> GetOwnersByUnitIdAsync(int unitId)
         {
-            throw new NotImplementedException();
+            var gateway = _gatewayFactory.CreatePersonTableGateway();
+            return await gateway.GetOwnersByUnitIdAsync(unitId);
         }
 
-        //check this?
         public async Task<IEnumerable<UnitDTO>> GetUnitsByBuildingIdAsync(int buildingId)
         {
             var gateway = _gatewayFactory.CreateUnitTableGateway();
@@ -118,7 +118,8 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
 
         public async Task<IEnumerable<PersonDTO>> GetTenantsByUnitIdAsync(int unitId)
         {
-            throw new NotImplementedException();
+            var gateway = _gatewayFactory.CreatePersonTableGateway();
+            return await gateway.GetTenantsByUnitIdAsync(unitId).ConfigureAwait(false);
         }
 
         public async Task AddOwnershipAsync(OwnershipDTO ownership)

@@ -119,6 +119,11 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             await _buildingManager.UpdateTenancyAsync(tenant).ConfigureAwait(false);
         }
 
+        public async Task ChangeTenantAsync(TenantRequest newTenant)
+        {
+            await _buildingManager.UpdateTenancyAsync(newTenant.ToDTO()).ConfigureAwait(false);
+        }
+
         public async Task RemoveBuildingAsync(int id)
         {
             await _buildingManager.RemoveBuildingAsync(id).ConfigureAwait(false);
