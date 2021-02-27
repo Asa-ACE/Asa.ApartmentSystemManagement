@@ -17,7 +17,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             _connectionString = connectionString;
         }
 
-        public Task<IEnumerable<ShareInfo>> GetOwnerPaymentsAsync(int UnitId, DateTime from, DateTime to)
+        public Task<IEnumerable<ShareInfo>> GetOwnerShareInfoAsync(int UnitId, DateTime from, DateTime to)
         {
             throw new NotImplementedException();
         }
