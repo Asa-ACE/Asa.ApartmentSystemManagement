@@ -11,6 +11,5 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
         Task<int> InsertExpenseAsync(ExpenseDTO expense);
         Task<ExpenseDTO> GetExpenseByIdAsync(int id);
         Task<IEnumerable<ExpenseDTO>> GetExpensesByBuildingIdAndDateAsync(DateTime from, DateTime to, int buildingId);
-        Task<IEnumerable<ExpenseDTO>> GetExpensesByBuildingIdAndDate(DateTime from, DateTime to, int buildingId);
     }
 }
