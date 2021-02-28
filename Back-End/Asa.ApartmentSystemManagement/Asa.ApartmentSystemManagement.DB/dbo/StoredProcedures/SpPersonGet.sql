@@ -5,5 +5,5 @@ AS
 BEGIN
 	SELECT [PersonId], [FirstName], [LastName], [PhoneNumber], [UserName]
 	FROM [dbo].[Person]
-	WHERE [PersonID] = @personId
+	WHERE [PersonId] = @personId
 END
