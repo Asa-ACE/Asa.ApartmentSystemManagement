@@ -1,4 +1,4 @@
-﻿
+﻿using Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper;
 using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
 using Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers;

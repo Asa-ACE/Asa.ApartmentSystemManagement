@@ -156,7 +156,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
         {
             var units = await _buildingManager.GetOwnedUnitsAsync(userId);
             return units.ToModel();
-        }
+        }   
     }
 }
 
