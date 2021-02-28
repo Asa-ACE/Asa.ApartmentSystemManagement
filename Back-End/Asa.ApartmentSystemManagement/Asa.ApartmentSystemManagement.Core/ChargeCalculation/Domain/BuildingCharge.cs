@@ -29,7 +29,7 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain
         public async Task GetExpenses()
         {
             var gateway = _gatewayFactory.CreateExpenseTableGateway();
-            IEnumerable<ExpenseDTO> expensesDTO = await gateway.GetExpensesByBuildingIdAndDate(_from, _to, _buildingId);
+            IEnumerable<ExpenseDTO> expensesDTO = await gateway.GetExpensesByBuildingIdAndDateAsync(_from, _to, _buildingId);
             foreach (var expenseDTO in expensesDTO)
             {
                 _expenses.Add(new Expense(expenseDTO));

@@ -17,6 +17,40 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             _connectionString = connectionString;
         }
 
+        public async Task<IEnumerable<ShareInfo>> GetOwnerShareInfoAsync(int buildingId, DateTime from, DateTime to)
+        {
+            var result = new List<ShareInfo>();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpTenancyGetShareInfo]";
+                    cmd.Parameters.AddWithValue("@buildingId", buildingId);
+                    cmd.Parameters.AddWithValue("@from", from);
+                    cmd.Parameters.AddWithValue("@to", to);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    using (var dataReader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await dataReader.ReadAsync())
+                        {
+                            var shareInfo = new ShareInfo();
+                            shareInfo.BuildingId = Convert.ToInt32(dataReader["BuildingID"]);
+                            shareInfo.UnitId = Convert.ToInt32(dataReader["UnitID"]);
+                            shareInfo.PersonId = Convert.ToInt32(dataReader["PersonID"]);
+                            shareInfo.Days = Convert.ToInt32(dataReader["Days"]);
+                            shareInfo.Area = Convert.ToDecimal(dataReader["Area"]);
+                            shareInfo.NumberOfPeopel = Convert.ToInt32(dataReader["NumberOfPeopel"]);
+                            result.Add(shareInfo);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
         public async Task<TenancyDTO> GetTenancyAsync(int unitId)
         {
             SqlDataReader reader;
