@@ -18,34 +18,34 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             _connectionString = connectionString;
         }
 
-		public IEnumerable<CalculationDTO> GetCalculationInfos(int chargeId)
-		{
-            var result = new List<CalculationDTO>();
-            using (var connecion = new SqlConnection(_connectionString))
-            {
-                using (var cmd = new SqlCommand())
-                {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpGetOwnersCalculationInfo]";
-                    cmd.Parameters.AddWithValue("@chargeId", chargeId);
-                    cmd.Connection = connecion;
-                    cmd.Connection.Open();
-                    using (var dataReader = await cmd.ExecuteReaderAsync())
-                    {
-                        while (await dataReader.ReadAsync())
-                        {
-                            var building = new BuildingDTO();
-                            building.Id = Convert.ToInt32(dataReader["BuildingId"]);
-                            building.Name = Convert.ToString(dataReader["Name"]);
-                            building.NumberOfUnits = Convert.ToInt32(dataReader["NumberOfUnits"]);
-                            building.Address = Convert.ToString(dataReader["Address"]);
-                            result.Add(building);
-                        }
-                    }
-                }
-            }
-            return result;
-        }
+		//public IEnumerable<CalculationDTO> GetCalculationInfos(int chargeId)
+		//{
+  //          var result = new List<CalculationDTO>();
+  //          using (var connecion = new SqlConnection(_connectionString))
+  //          {
+  //              using (var cmd = new SqlCommand())
+  //              {
+  //                  cmd.CommandType = System.Data.CommandType.StoredProcedure;
+  //                  cmd.CommandText = "[dbo].[SpGetOwnersCalculationInfo]";
+  //                  cmd.Parameters.AddWithValue("@chargeId", chargeId);
+  //                  cmd.Connection = connecion;
+  //                  cmd.Connection.Open();
+  //                  using (var dataReader = await cmd.ExecuteReaderAsync())
+  //                  {
+  //                      while (await dataReader.ReadAsync())
+  //                      {
+  //                          var building = new BuildingDTO();
+  //                          building.Id = Convert.ToInt32(dataReader["BuildingId"]);
+  //                          building.Name = Convert.ToString(dataReader["Name"]);
+  //                          building.NumberOfUnits = Convert.ToInt32(dataReader["NumberOfUnits"]);
+  //                          building.Address = Convert.ToString(dataReader["Address"]);
+  //                          result.Add(building);
+  //                      }
+  //                  }
+  //              }
+  //          }
+  //          return result;
+  //      }
 
         public async Task<int> InsertChargeAsync(ChargeDTO charge)
         {

@@ -42,6 +42,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                             shareInfo.PersonId = Convert.ToInt32(dataReader["PersonID"]);
                             shareInfo.Days = Convert.ToInt32(dataReader["Days"]);
                             shareInfo.Area = Convert.ToDecimal(dataReader["Area"]);
+                            shareInfo.NumberOfPeopel = 0;
                             result.Add(shareInfo);
                         }
                     }

@@ -1,6 +1,7 @@
 ﻿
 using Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper;
 using Asa.ApartmentSystemManagement.ApplicationServices.Model.Request;
+using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
 using Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers;
 using Asa.ApartmentSystemManagement.Infra.DataGateways;
@@ -32,6 +33,11 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
         public async Task CalculateChargeAsync(int chargeId)
 		{
             await _chargeManager.CalculateChargeAsync(chargeId);
+		}
+
+        public async Task<IEnumerable<GetUnitChargeResponse>> GetUnitChargesAsync(int unitId, int userId)
+		{
+            var charges = await _chargeManager.GetUnitChargesAsync(unitId, userId);
 		}
     }
 }

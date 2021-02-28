@@ -1,5 +1,6 @@
 ﻿using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
+using Asa.ApartmentSystemManagement.Core.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -27,16 +28,16 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ExpenseDTO>> GetExpensesByChargeIdAsync(int chargeId)
+        public async Task<IEnumerable<CalculationDTO>> GetCalculationInfosByChargeIdAsync(int chargeId)
         {
-            var result = new List<ExpenseDTO>();
+            var result = new List<CalculationDTO>();
 
             using (var connection = new SqlConnection(connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpExpenseGetByDate]";
+                    cmd.CommandText = "[dbo].[SpGetExpensesByChargeId]";
                     cmd.Parameters.AddWithValue("@chargeId", chargeId);
   
                     cmd.Connection = connection;
@@ -45,15 +46,15 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     {
                         while (await dataReader.ReadAsync())
                         {
-                            var expenseDTO = new ExpenseDTO();
-                            expenseDTO.Amount = Convert.ToDecimal(dataReader["Amount"]);
-                            expenseDTO.BuildingId = Convert.ToInt32(dataReader["BuildingID"]);
-                            expenseDTO.CategoryId = Convert.ToInt32(dataReader["CategoryID"]);
-                            expenseDTO.ExpenseId = Convert.ToInt32(dataReader["ExpenseID"]);
-                            expenseDTO.From = Convert.ToDateTime(dataReader["From"]);
-                            expenseDTO.To = Convert.ToDateTime(dataReader["To"]);
-                            expenseDTO.Name = Convert.ToString(dataReader["Name"]);
-                            result.Add(expenseDTO);
+                            var calculationInfo = new CalculationDTO();
+                            calculationInfo.Amount = Convert.ToDecimal(dataReader["Amount"]);
+                            calculationInfo.ExpenseId = Convert.ToInt32(dataReader["ExpenseID"]);
+                            calculationInfo.FormulaName = Convert.ToString(dataReader["FormulaType"]);
+                            calculationInfo.From = Convert.ToDateTime(dataReader["From"]);
+                            calculationInfo.To = Convert.ToDateTime(dataReader["To"]);
+                            calculationInfo.IsForOwner = Convert.ToBoolean(dataReader["IsForOwner"]);
+                            calculationInfo.BuildingId = Convert.ToInt32(dataReader["BuildingId"]);
+                            result.Add(calculationInfo);
                         }
                     }
                 }
