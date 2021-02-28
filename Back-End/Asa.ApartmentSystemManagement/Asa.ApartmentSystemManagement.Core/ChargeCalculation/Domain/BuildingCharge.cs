@@ -16,24 +16,8 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain
         int _buildingId;
         List<Expense> _expenses;
 
-        public BuildingCharge(ITableGatewayFactory gatewayFactory,DateTime from,DateTime to, int buildingId)
-        {
-            _gatewayFactory = gatewayFactory;
-            _from = from;
-            _to = to;
-            _buildingId = buildingId;
-        }
 
 
 
-        public async Task GetExpenses()
-        {
-            var gateway = _gatewayFactory.CreateExpenseTableGateway();
-            IEnumerable<ExpenseDTO> expensesDTO = await gateway.GetExpensesByBuildingIdAndDate(_from, _to, _buildingId);
-            foreach (var expenseDTO in expensesDTO)
-            {
-                _expenses.Add(new Expense(expenseDTO));
-            }
-        }
     }
 }

@@ -22,7 +22,12 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ExpenseDTO>> GetExpensesByBuildingIdAndDate(DateTime from, DateTime to, int buildingId)
+        public Task<ExpenseDTO> GetExpenseByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<ExpenseDTO>> GetExpensesByChargeIdAsync(int chargeId)
         {
             var result = new List<ExpenseDTO>();
 
@@ -32,9 +37,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpExpenseGetByDate]";
-                    cmd.Parameters.AddWithValue("@buildingId", buildingId);
-                    cmd.Parameters.AddWithValue("@from", from);
-                    cmd.Parameters.AddWithValue("@to", to);
+                    cmd.Parameters.AddWithValue("@chargeId", chargeId);
+  
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     using (var dataReader = await cmd.ExecuteReaderAsync())
@@ -42,11 +46,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                         while (await dataReader.ReadAsync())
                         {
                             var expenseDTO = new ExpenseDTO();
-                            //unitDTO.BuidlingId = Convert.ToInt32(dataReader["building_id"]);
-                            //unitDTO.Id= Convert.ToInt32(dataReader["id"]);
-                            //unitDTO.Number= Convert.ToInt32(dataReader["number"]);
-                            //unitDTO.Area= Convert.ToDecimal(dataReader["area"]);
-                            //unitDTO.Description= Convert.ToString(dataReader["description"]);
                             expenseDTO.Amount = Convert.ToDecimal(dataReader["Amount"]);
                             expenseDTO.BuildingId = Convert.ToInt32(dataReader["BuildingID"]);
                             expenseDTO.CategoryId = Convert.ToInt32(dataReader["CategoryID"]);
@@ -61,6 +60,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             }
             return result;
         }
+
+
 
         public Task<int> InsertExpenseAsync(ExpenseDTO expense)
         {

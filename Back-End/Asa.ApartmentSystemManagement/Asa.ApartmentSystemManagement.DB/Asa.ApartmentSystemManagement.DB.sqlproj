@@ -84,7 +84,10 @@
     <Build Include="dbo\StoredProcedures\SpBuildingsGetAll.sql" />
     <Build Include="dbo\StoredProcedures\SpGetAllOwners.sql" />
     <Build Include="dbo\StoredProcedures\SpGetAllTenants.sql" />
-    <Build Include="dbo\StoredProcedures\SpGetCharges.sql" />
+    <Build Include="dbo\StoredProcedures\SpOwnershipGetShareInfo.sql" />
+    <Build Include="dbo\StoredProcedures\SpTenancyGetShareInfo.sql" />
+    <Build Include="dbo\StoredProcedures\SpCreateCharge.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetOwnersCaculationInfo.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Asa.ApartmentSystemManagement.DB.refactorlog" />

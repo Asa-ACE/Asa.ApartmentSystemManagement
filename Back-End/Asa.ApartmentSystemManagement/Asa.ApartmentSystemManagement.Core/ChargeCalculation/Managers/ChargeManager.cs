@@ -19,27 +19,11 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
 
 
 
-        public async Task CreateCharge(DateTime from, DateTime to, int buildingId)
+        public async Task InsertChargeAsync(ChargeDTO charge)
         {
-            IEnumerable<UnitDTO> units = await GetUnitsByBuilding(buildingId);
-            IEnumerable<ExpenseDTO> expenses = await GetExpenses(from, to, buildingId);
-            IEnumerable<ChargeItemDTO> allChargeItems = null;
-            foreach (ExpenseDTO expense in expenses)
-            {
-                bool isForOwner = await IsForOwner(expense);
-                int formula = await GetFormula(expense);
-                if (isForOwner)
-                {
-                    IEnumerable<ShareInfo> allPayments = null;
-                    foreach (UnitDTO unit in units)
-                    {
-                        IEnumerable<ShareInfo> Payments = await GetOwnerPayments(unit.Id, expense.From, expense.To);
-                        allPayments.Union(Payments);
-                    }
-                    IEnumerable<ChargeItemDTO> chargeItems = CalculateChargeItems(expense.Amount, allPayments, formula, units.Count());
-                    allChargeItems.Union(chargeItems);
-                }
-            }
+            var gateway = _gatewayFactory.CreateChargeTableGateway();
+            int id = await gateway.InsertChargeAsync(charge);
+            charge.Id = id;
         }
 
         public async Task<IEnumerable<ChargeDTO>> GetChargesAsync(int builidingId)
@@ -63,7 +47,16 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
             return category.FormulaType;
         }
 
-        private async Task<IEnumerable<ShareInfo>> GetOwnerPayments(int UnitId, DateTime from, DateTime to)
+		public async Task CalculateChargeAsync(int chargeId)
+		{
+            var expenses = await GetExpensesAsync(chargeId);
+			foreach (var expense in expenses)
+			{
+                var shareInfos = Get
+			}
+		}
+
+		private async Task<IEnumerable<ShareInfo>> GetOwnerPayments(int UnitId, DateTime from, DateTime to)
         {
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
             IEnumerable<ShareInfo> ownerPayments = await gateway.GetOwnerPayments(UnitId, from, to);
@@ -77,18 +70,24 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
             return category.IsForOwner;
         }
 
-        private async Task<IEnumerable<ExpenseDTO>> GetExpenses(DateTime from, DateTime to, int buildingId)
+        private async Task<IEnumerable<ExpenseDTO>> GetExpensesAsync(int chargeId)
         {
             var gateway = _gatewayFactory.CreateExpenseTableGateway();
-            IEnumerable<ExpenseDTO> expenses = await gateway.GetExpensesByBuildingIdAndDate(from, to, buildingId);
+            IEnumerable<ExpenseDTO> expenses = await gateway.GetExpensesByChargeIdAsync(chargeId);
             return expenses;
         }
 
-        private async Task<IEnumerable<UnitDTO>> GetUnitsByBuilding(int buildingId)
-        {
-            var gateway = _gatewayFactory.CreateUnitTableGateway();
-            IEnumerable<UnitDTO> units = await gateway.GetUnitByBuildingId(buildingId);
-            return units;
-        }
+        private async Task<IEnumerable<ShareInfo>> GetShareInfosAsync(ExpenseDTO expense)
+		{
+            var gateway = _gatewayFactory.CreateExpenseTableGateway();
+            var shareInfos = gatewa
+		}
+
+        //private async Task<IEnumerable<UnitDTO>> GetUnitsByBuilding(int buildingId)
+        //{
+        //    var gateway = _gatewayFactory.CreateUnitTableGateway();
+        //    IEnumerable<UnitDTO> units = await gateway.GetUnitByBuildingId(buildingId);
+        //    return units;
+        //}
     }
 }

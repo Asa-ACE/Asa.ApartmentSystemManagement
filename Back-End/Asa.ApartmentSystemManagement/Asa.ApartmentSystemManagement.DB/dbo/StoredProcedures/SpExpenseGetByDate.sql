@@ -1,12 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[SpExpenseGetByDate]
-	@buildingId int,
-	@from date,
-	@to date
+	@chargeId int
 
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT [ExpenseID],[BuildingID],[CategoryID],[From],[To],[Amount],[Name]
-	FROM [dbo].[Expense]
-	WHERE [BuildingId] = @buildingId and [To] >= @from and [To]<@to
+	SELECT [ExpenseID], e.[BuildingID], [CategoryID], e.[From], e.[To], [Amount], [Name]
+	FROM [dbo].[Charge] c
+	INNER JOIN [dbo].[Expense] e ON e.BuildingID = c.BuildingID AND e.[To] >= c.[From] and e.[To] < c.[To]
+	WHERE c.ChargeID = @chargeId
 END

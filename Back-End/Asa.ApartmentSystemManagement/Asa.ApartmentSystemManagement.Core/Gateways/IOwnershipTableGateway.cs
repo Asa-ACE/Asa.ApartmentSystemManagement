@@ -9,7 +9,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
 	{
 		Task<int> InsertOwnershipAsync(OwnershipDTO ownership);
 		Task UpdateOwnershipAsync(OwnershipDTO ownership);
-		Task<IEnumerable<ShareInfo>> GetOwnerPaymentsAsync(int UnitId, DateTime from, DateTime to);
+		Task<IEnumerable<ShareInfo>> GetOwnerShareInfoAsync(int buildingId, DateTime from, DateTime to);
 
     }
 }
