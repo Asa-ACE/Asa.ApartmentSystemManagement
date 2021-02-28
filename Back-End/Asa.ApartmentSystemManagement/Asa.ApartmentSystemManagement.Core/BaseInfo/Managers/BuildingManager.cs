@@ -19,7 +19,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         {
             ValidateBuilding(building);
             var gateway = _gatewayFactory.CreateBuildingTableGateway();
-            var id = await gateway.InsertBuildingAsync(building).ConfigureAwait(false);
+            var id = await gateway.InsertBuildingAsync(building);
             building.Id = id;
         }
         public async Task AddExpenseAsync(ExpenseDTO expense)
@@ -44,7 +44,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         public async Task<BuildingDTO> GetBuildingByIdAsync(int id)
         {
             var gateway = _gatewayFactory.CreateBuildingTableGateway();
-            var building = await gateway.GetBuildingByIdAsync(id).ConfigureAwait(false);
+            var building = await gateway.GetBuildingByIdAsync(id);
             var result = new BuildingDTO
             {
                 Id = id,
@@ -119,20 +119,20 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         public async Task<IEnumerable<UnitDTO>> GetUnitsByBuildingIdAsync(int buildingId)
         {
             var gateway = _gatewayFactory.CreateUnitTableGateway();
-            return await gateway.GetUnitsByBuildingIdAsync(buildingId).ConfigureAwait(false);
+            return await gateway.GetUnitsByBuildingIdAsync(buildingId);
         }
 
         public async Task<IEnumerable<PersonDTO>> GetTenantsByUnitIdAsync(int unitId)
         {
             var gateway = _gatewayFactory.CreatePersonTableGateway();
-            return await gateway.GetTenantsByUnitIdAsync(unitId).ConfigureAwait(false);
+            return await gateway.GetTenantsByUnitIdAsync(unitId);
         }
 
         public async Task AddOwnershipAsync(OwnershipDTO ownership)
 		{
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
             ValidateOwership(ownership);
-            var id = await gateway.InsertOwnershipAsync(ownership).ConfigureAwait(false);
+            var id = await gateway.InsertOwnershipAsync(ownership);
             ownership.Id = id;
 		}
 

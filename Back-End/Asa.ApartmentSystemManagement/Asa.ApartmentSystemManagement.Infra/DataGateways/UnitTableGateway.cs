@@ -105,7 +105,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpGetOwnedUnits]";
+                    cmd.CommandText = "[dbo].[SpGetOwnedUnits]"; //??? this sp does not exist
                     cmd.Parameters.AddWithValue("@personId", personId);
                     cmd.Connection = connecion;
                     cmd.Connection.Open();

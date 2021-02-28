@@ -51,13 +51,13 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
         public async Task<int> CreateTenancyAsync(int personId, int unitId, DateTime from, DateTime to, int numberOfPeople)
         {
             var tenantDto = new TenancyDTO { PersonId = personId, UnitId = unitId, From = from, To = to, NumberOfPeople = numberOfPeople };
-            await _buildingManager.AddTenancyAsync(tenantDto).ConfigureAwait(false);
+            await _buildingManager.AddTenancyAsync(tenantDto);
             return tenantDto.TenancyId;
         }
 
         public async Task<BuildingDTO> GetBuildingByIdAsync(int id)
         {
-            return await _buildingManager.GetBuildingByIdAsync(id).ConfigureAwait(false);
+            return await _buildingManager.GetBuildingByIdAsync(id);
         }
 
         public async Task<IEnumerable<BuildingResponse>> GetBuildingsAsync(int userId)
@@ -68,7 +68,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
 
         public async Task<UnitDTO> GetUnitByIdAsync(int id)
         {
-            return await _buildingManager.GetUnitByIdAsync(id).ConfigureAwait(false);
+            return await _buildingManager.GetUnitByIdAsync(id);
         }
 
         public async Task<IEnumerable<UnitResponse>> GetUnitsByBuildingIdAsync(int buildingId)
@@ -77,31 +77,31 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return units.ToModel();
         }
 
-        public async Task<IEnumerable<OwnerResponse>>GetOwnersByUnitIdAsync(int unitId)
+        public async Task<IEnumerable<OwnerResponse>>GetOwnersByUnitIdAsync(int unitId) //???
         {
             var owners = await _buildingManager.GetOwnersByUnitIdAsync(unitId);
             return owners.ToOwnerModel();
         }
          
-        public async Task<IEnumerable<TenantResponse>> GetTenantsByUnitIdAsync(int unitId)
+        public async Task<IEnumerable<TenantResponse>> GetTenantsByUnitIdAsync(int unitId) //???
         {
             var tenants = await _buildingManager.GetTenantsByUnitIdAsync(unitId);
             return tenants.ToTenantModel();
         }
 
-        public async Task<TenancyDTO> GetTenancyAsync(int unitId)
+        public async Task<TenancyDTO> GetTenancyAsync(int unitId) //???
         {
-            return await _buildingManager.GetTenancyAsync(unitId).ConfigureAwait(false);
+            return await _buildingManager.GetTenancyAsync(unitId);
         }
 
         public async Task UpdateBuildingNameAsync(int id, string name)
         {
-            await _buildingManager.UpdateBuildingNameAsync(id, name).ConfigureAwait(false);
+            await _buildingManager.UpdateBuildingNameAsync(id, name);
         }
 
         public async Task ChangeOwnerAsync(OwnerRequest newOwner)
         {
-            await _buildingManager.UpdateOwnershipAsync(newOwner.ToDTO()).ConfigureAwait(false);
+            await _buildingManager.UpdateOwnershipAsync(newOwner.ToDTO());
         }
 
         public async Task UpdateTenancyAsync(TenancyDTO tenancyDTO)
@@ -115,12 +115,12 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
                 To = tenancyDTO.To,
                 NumberOfPeople = tenancyDTO.NumberOfPeople
             };
-            await _buildingManager.UpdateTenancyAsync(tenant).ConfigureAwait(false);
+            await _buildingManager.UpdateTenancyAsync(tenant);
         }
 
         public async Task ChangeTenantAsync(TenantRequest newTenant)
         {
-            await _buildingManager.UpdateTenancyAsync(newTenant.ToDTO()).ConfigureAwait(false);
+            await _buildingManager.UpdateTenancyAsync(newTenant.ToDTO());
         }
 
         public async Task RemoveBuildingAsync(int id)
