@@ -77,11 +77,6 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return units.ToModel();
         }
 
-        public async Task<OwnershipDTO> GetOwnerPaymentAsync(int unitId, DateTime from, DateTime to)
-        {
-            return (OwnershipDTO)await _buildingManager.GetOwnerPaymentsAsync(unitId, from, to).ConfigureAwait(false);
-        }
-
         public async Task<IEnumerable<OwnerResponse>>GetOwnersByUnitIdAsync(int unitId)
         {
             var owners = await _buildingManager.GetOwnersByUnitIdAsync(unitId);
@@ -145,12 +140,12 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return expense.ToExpenseModel();
         }
 
-        //public async Task<int> CreateExpense(int buildingId, int categoryId, DateTime from, DateTime to, decimal amount, string name)
-        //{
-        //    var expense = new ExpenseDTO { BuildingId = buildingId, CategoryId =  };
-        //    await _buildingManager.AddUnitAsync(expense);
-        //    return expense.Id;
-        //}
+        public async Task<int> CreateExpense(int buildingId, int categoryId, DateTime from, DateTime to, decimal amount, string name)
+        {
+            var expense = new ExpenseDTO { BuildingId = buildingId, CategoryId = categoryId , From = from, To = to, Amount=amount, Name=name};
+            await _buildingManager.AddExpenseAsync(expense);
+            return expense.ExpenseId;
+        }
 
         public async Task<IEnumerable<UnitResponse>> GetOwnedUnitsAsync(int userId)
         {

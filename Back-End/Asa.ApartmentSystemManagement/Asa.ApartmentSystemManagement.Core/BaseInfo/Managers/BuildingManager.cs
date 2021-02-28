@@ -22,6 +22,12 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             var id = await gateway.InsertBuildingAsync(building).ConfigureAwait(false);
             building.Id = id;
         }
+        public async Task AddExpenseAsync(ExpenseDTO expense)
+        {
+            var gateway = _gatewayFactory.CreateExpenseTableGateway();
+            var id = await gateway.InsertExpenseAsync(expense);
+            expense.ExpenseId = id;
+        }
 
         private void ValidateBuilding(BuildingDTO building)
         {
@@ -134,13 +140,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         {
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
             await gateway.UpdateOwnershipAsync(ownershipDTO);
-        }
-
-        public async Task<IEnumerable<ShareInfo>> GetOwnerPaymentsAsync(int unitId, DateTime from, DateTime to)
-        {
-            var gateway = _gatewayFactory.CreateOwnershipTableGateway();
-            return await gateway.GetOwnerPaymentsAsync(unitId, from, to);
-
         }
 
 		private void ValidateOwership(OwnershipDTO ownership)
