@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
 {
-    class ChargeManager
+    public class ChargeManager
     {
         ITableGatewayFactory _gatewayFactory;
 
@@ -42,7 +42,11 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
             }
         }
 
-
+        public async Task<IEnumerable<ChargeDTO>> GetChargesAsync(int builidingId)
+        {
+            var gateway = _gatewayFactory.CreateChargeTableGateway();
+            return await gateway.GetChargesAsync(builidingId);
+        }
 
         private IEnumerable<ChargeItemDTO> CalculateChargeItems(decimal amount, IEnumerable<ShareInfo> allOwnerPayments, int formula, int numberOfUnits)
         {
