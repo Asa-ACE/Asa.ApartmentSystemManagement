@@ -16,11 +16,15 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
     {
         ITableGatewayFactory _tableGatewayFactory;
         BuildingManager _buildingManager;
+        ExpenseManager _expenseManager;
+        PersonManager _personManager;
 
         public BaseInfoApplicationService(string connectionString)
         {
             _tableGatewayFactory = new SqlTableGatewayFactory(connectionString);
             _buildingManager = new BuildingManager(_tableGatewayFactory);
+            _expenseManager = new ExpenseManager(_tableGatewayFactory);
+            _personManager = new PersonManager(_tableGatewayFactory);
         }
 
         public async Task<int> CreateBuildingAsync(string name, int numberofUnits, string address)
@@ -127,6 +131,31 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
         public async Task RemoveBuildingAsync(int id)
         {
             await _buildingManager.RemoveBuildingAsync(id).ConfigureAwait(false);
+        }
+
+/*        public async Task<IEnumerable<ExpenseCategoryResponse>> GetExpenseCategoryResponse(int userId)
+        {
+            var expense = await _expenseManager.GetExpenseByIdAsync(userId);
+            return expense.ToModel();
+        }*/
+
+        public async Task<IEnumerable<ExpenseResponse>> GetExpensesAsync(int buildingId)
+        {
+            var expense = await _expenseManager.GetExpensesAsync(buildingId);
+            return expense.ToExpenseModel();
+        }
+
+        //public async Task<int> CreateExpense(int buildingId, int categoryId, DateTime from, DateTime to, decimal amount, string name)
+        //{
+        //    var expense = new ExpenseDTO { BuildingId = buildingId, CategoryId =  };
+        //    await _buildingManager.AddUnitAsync(expense);
+        //    return expense.Id;
+        //}
+
+        public async Task<IEnumerable<UnitResponse>> GetOwnedUnitsAsync(int userId)
+        {
+            var units = await _buildingManager.GetOwnedUnitsAsync(userId);
+            return units.ToModel();
         }
     }
 }

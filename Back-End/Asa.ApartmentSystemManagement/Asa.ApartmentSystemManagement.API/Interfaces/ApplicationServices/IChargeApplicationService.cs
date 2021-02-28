@@ -9,6 +9,7 @@ namespace Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices
 {
     public interface IChargeApplicationService
     {
+
         IEnumerable<ChargeAndChargeItemResponse> GetChargesInUnitIOwn(int userId, int unitId);
         IEnumerable<ChargeAndChargeItemResponse> GetChargesInUnitIRent(int userId, int unitId);
     }

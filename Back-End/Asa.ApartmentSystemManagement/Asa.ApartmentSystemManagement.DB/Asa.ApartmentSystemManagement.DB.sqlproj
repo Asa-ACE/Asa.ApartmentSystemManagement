@@ -80,12 +80,17 @@
     <Build Include="dbo\StoredProcedures\SpBuildingRemove.sql" />
     <Build Include="dbo\StoredProcedures\SpTenancyCreate.sql" />
     <Build Include="dbo\StoredProcedures\SpTenancyUpdate.sql" />
-    <Build Include="dbo\StoredProcedures\SpExpenseGetByDate.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetExpensesByChargeId.sql" />
     <Build Include="dbo\StoredProcedures\SpBuildingsGetAll.sql" />
     <Build Include="dbo\StoredProcedures\SpGetAllOwners.sql" />
     <Build Include="dbo\StoredProcedures\SpGetAllTenants.sql" />
     <Build Include="dbo\StoredProcedures\SpOwnershipGetShareInfo.sql" />
     <Build Include="dbo\StoredProcedures\SpTenancyGetShareInfo.sql" />
+    <Build Include="dbo\StoredProcedures\SpCreateCharge.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetOwnersCaculationInfo.sql" />
+    <Build Include="dbo\StoredProcedures\SpDeleteChargeItems.sql" />
+    <Build Include="dbo\StoredProcedures\SpInsertChargeItem.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetUnitCharges.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Asa.ApartmentSystemManagement.DB.refactorlog" />

@@ -2,7 +2,6 @@
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,12 +39,22 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
 
         }
 
+        public async Task<IEnumerable<ExpenseDTO>> GetExpensesAsync(int buildingId)
+        {
+            var gateway = _gatewayFactory.CreateExpenseTableGateway();
+            return await gateway.GetExpensesAsync(buildingId);
+        }
+
         public async Task<IEnumerable<ExpenseDTO>> GetExpensesByBuildingIdAndDateAsync(DateTime from, DateTime to, int buildingId)
         {
             var gateway = _gatewayFactory.CreateExpenseTableGateway();
             return await gateway.GetExpensesByBuildingIdAndDateAsync(from, to, buildingId).ConfigureAwait(false);
         }
 
-
+        public async Task<IEnumerable<ExpenseCategoryDTO>> GetGetExpenceCategories(int userId)
+        {
+            var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();
+            return await gateway.GetExpenseCategoryById(userId);
+        }
     }
 }

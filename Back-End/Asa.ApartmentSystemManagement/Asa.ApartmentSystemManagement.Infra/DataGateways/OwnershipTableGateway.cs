@@ -42,6 +42,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                             shareInfo.PersonId = Convert.ToInt32(dataReader["PersonID"]);
                             shareInfo.Days = Convert.ToInt32(dataReader["Days"]);
                             shareInfo.Area = Convert.ToDecimal(dataReader["Area"]);
+                            shareInfo.NumberOfPeopel = 0;
                             result.Add(shareInfo);
                         }
                     }
@@ -80,10 +81,10 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SPOwnershipUpdate]";
-                    cmd.Parameters.AddWithValue("@unitId", ownership.UnitId).Value = ownership.UnitId;
-                    cmd.Parameters.AddWithValue("@personId", ownership.PersonId).Value = ownership.PersonId;
-                    cmd.Parameters.AddWithValue("@from", ownership.From).Value = ownership.From;
-                    cmd.Parameters.AddWithValue("@to", ownership.To).Value = ownership.To;
+                    cmd.Parameters.AddWithValue("@UnitId", ownership.UnitId).Value = ownership.UnitId;
+                    cmd.Parameters.AddWithValue("@PersonId", ownership.PersonId).Value = ownership.PersonId;
+                    cmd.Parameters.AddWithValue("@From", ownership.From).Value = ownership.From;
+                    cmd.Parameters.AddWithValue("@To", ownership.To).Value = ownership.To;
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     await cmd.ExecuteNonQueryAsync();

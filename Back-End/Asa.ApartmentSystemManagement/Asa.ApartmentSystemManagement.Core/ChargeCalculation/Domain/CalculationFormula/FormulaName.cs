@@ -13,6 +13,6 @@ namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormu
         }
 
         public string Title { get; }
-        public string TypeName{ get; }
+        public string TypeName { get; }
     }
 }
