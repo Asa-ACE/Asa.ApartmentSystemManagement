@@ -19,13 +19,12 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
 
 
 
-        public async Task<int> InsertChargeAsync(ChargeDTO charge)
+        public async Task InsertChargeAsync(ChargeDTO charge)
         {
-
-            
+            var gateway = _gatewayFactory.CreateChargeTableGateway();
+            int id = await gateway.InsertChargeAsync(charge);
+            charge.Id = id;
         }
-
-
 
         private IEnumerable<ChargeItemDTO> CalculateChargeItems(decimal amount, IEnumerable<ShareInfo> allOwnerPayments, int formula, int numberOfUnits)
         {
@@ -42,7 +41,16 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
             return category.FormulaType;
         }
 
-        private async Task<IEnumerable<ShareInfo>> GetOwnerPayments(int UnitId, DateTime from, DateTime to)
+		public async Task CalculateChargeAsync(int chargeId)
+		{
+            var expenses = await GetExpensesAsync(chargeId);
+			foreach (var expense in expenses)
+			{
+                var shareInfos = Get
+			}
+		}
+
+		private async Task<IEnumerable<ShareInfo>> GetOwnerPayments(int UnitId, DateTime from, DateTime to)
         {
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
             IEnumerable<ShareInfo> ownerPayments = await gateway.GetOwnerPayments(UnitId, from, to);
@@ -56,18 +64,24 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
             return category.IsForOwner;
         }
 
-        private async Task<IEnumerable<ExpenseDTO>> GetExpenses(DateTime from, DateTime to, int buildingId)
+        private async Task<IEnumerable<ExpenseDTO>> GetExpensesAsync(int chargeId)
         {
             var gateway = _gatewayFactory.CreateExpenseTableGateway();
-            IEnumerable<ExpenseDTO> expenses = await gateway.GetExpensesByBuildingIdAndDate(from, to, buildingId);
+            IEnumerable<ExpenseDTO> expenses = await gateway.GetExpensesByChargeIdAsync(chargeId);
             return expenses;
         }
 
-        private async Task<IEnumerable<UnitDTO>> GetUnitsByBuilding(int buildingId)
-        {
-            var gateway = _gatewayFactory.CreateUnitTableGateway();
-            IEnumerable<UnitDTO> units = await gateway.GetUnitByBuildingId(buildingId);
-            return units;
-        }
+        private async Task<IEnumerable<ShareInfo>> GetShareInfosAsync(ExpenseDTO expense)
+		{
+            var gateway = _gatewayFactory.CreateExpenseTableGateway();
+            var shareInfos = gatewa
+		}
+
+        //private async Task<IEnumerable<UnitDTO>> GetUnitsByBuilding(int buildingId)
+        //{
+        //    var gateway = _gatewayFactory.CreateUnitTableGateway();
+        //    IEnumerable<UnitDTO> units = await gateway.GetUnitByBuildingId(buildingId);
+        //    return units;
+        //}
     }
 }

@@ -27,7 +27,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ExpenseDTO>> GetExpensesByBuildingIdAndDateAsync(DateTime from, DateTime to, int buildingId)
+        public async Task<IEnumerable<ExpenseDTO>> GetExpensesByChargeIdAsync(int chargeId)
         {
             var result = new List<ExpenseDTO>();
 
@@ -37,9 +37,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpExpenseGetByDate]";
-                    cmd.Parameters.AddWithValue("@buildingId", buildingId);
-                    cmd.Parameters.AddWithValue("@from", from);
-                    cmd.Parameters.AddWithValue("@to", to);
+                    cmd.Parameters.AddWithValue("@chargeId", chargeId);
+  
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     using (var dataReader = await cmd.ExecuteReaderAsync())

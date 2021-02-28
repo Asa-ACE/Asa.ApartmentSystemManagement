@@ -21,10 +21,17 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             _tableGatewayFactory = new SqlTableGatewayFactory(connectionString);
             _chargeManager = new ChargeManager(_tableGatewayFactory);
 		}
+
         public async Task<int> CreateChargeAsync(CreateChargeRequest chargeRequest)
 		{
             var charge = chargeRequest.ToDTO();
-            return await _chargeManager.InsertChargeAsync(charge);
+            await _chargeManager.InsertChargeAsync(charge).ConfigureAwait(false);
+            return charge.Id;
+		}
+        
+        public async Task CalculateChargeAsync(int chargeId)
+		{
+            await _chargeManager.CalculateChargeAsync(chargeId);
 		}
     }
 }
