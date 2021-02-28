@@ -19,27 +19,10 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
 
 
 
-        public async Task CreateCharge(DateTime from, DateTime to, int buildingId)
+        public async Task<int> InsertChargeAsync(ChargeDTO charge)
         {
-            IEnumerable<UnitDTO> units = await GetUnitsByBuilding(buildingId);
-            IEnumerable<ExpenseDTO> expenses = await GetExpenses(from, to, buildingId);
-            IEnumerable<ChargeItemDTO> allChargeItems = null;
-            foreach (ExpenseDTO expense in expenses)
-            {
-                bool isForOwner = await IsForOwner(expense);
-                int formula = await GetFormula(expense);
-                if (isForOwner)
-                {
-                    IEnumerable<ShareInfo> allPayments = null;
-                    foreach (UnitDTO unit in units)
-                    {
-                        IEnumerable<ShareInfo> Payments = await GetOwnerPayments(unit.Id, expense.From, expense.To);
-                        allPayments.Union(Payments);
-                    }
-                    IEnumerable<ChargeItemDTO> chargeItems = CalculateChargeItems(expense.Amount, allPayments, formula, units.Count());
-                    allChargeItems.Union(chargeItems);
-                }
-            }
+
+            
         }
 
 

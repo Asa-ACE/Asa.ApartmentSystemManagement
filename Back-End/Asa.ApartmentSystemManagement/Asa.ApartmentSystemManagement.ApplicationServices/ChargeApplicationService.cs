@@ -1,7 +1,9 @@
 ﻿
+using Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper;
 using Asa.ApartmentSystemManagement.ApplicationServices.Model.Request;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
 using Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers;
+using Asa.ApartmentSystemManagement.Infra.DataGateways;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,10 +15,16 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
     {
         ITableGatewayFactory _tableGatewayFactory;
         ChargeManager _chargeManager;
-        public async Task<int> CreateChargeAsync(CreateChargeRequest charge)
-		{
-            var gateway = _tableGatewayFactory.CreateChargeTableGateway();
 
+		public ChargeApplicationService(string connectionString)
+		{
+            _tableGatewayFactory = new SqlTableGatewayFactory(connectionString);
+            _chargeManager = new ChargeManager(_tableGatewayFactory);
+		}
+        public async Task<int> CreateChargeAsync(CreateChargeRequest chargeRequest)
+		{
+            var charge = chargeRequest.ToDTO();
+            return await _chargeManager.InsertChargeAsync(charge);
 		}
     }
 }
