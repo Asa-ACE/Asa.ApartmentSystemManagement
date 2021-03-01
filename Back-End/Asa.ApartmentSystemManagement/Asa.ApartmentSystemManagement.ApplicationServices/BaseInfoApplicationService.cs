@@ -41,14 +41,21 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return unitDto.Id;
         }
 
-        public async Task<int> CreateOwnershipAsync(int personId, int unitId, DateTime from, DateTime to)
+        public async Task<int> CreateOwnershipAsync(int personId, int unitId, DateTime from, DateTime? to)
         {
             var ownerDto = new OwnershipDTO { PersonId = personId, UnitId = unitId, From = from, To = to };
             await _buildingManager.AddOwnershipAsync(ownerDto);
             return ownerDto.Id;
         }
 
-        public async Task<int> CreateTenancyAsync(int personId, int unitId, DateTime from, DateTime to, int numberOfPeople)
+        public async Task<int> CreateExpenseCategoryAsync(ExpenseCategoryRequest newExpenseCategory)
+        {
+            var expenseCategory = newExpenseCategory.ToDTO();
+            await _buildingManager.AddExpenseCategoryAsync(expenseCategory);
+            return expenseCategory.CategoryId;
+        }
+
+        public async Task<int> CreateTenancyAsync(int personId, int unitId, DateTime from, DateTime? to, int numberOfPeople)
         {
             var tenantDto = new TenancyDTO { PersonId = personId, UnitId = unitId, From = from, To = to, NumberOfPeople = numberOfPeople };
             await _buildingManager.AddTenancyAsync(tenantDto).ConfigureAwait(false);
@@ -77,26 +84,16 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return units.ToModel();
         }
 
-        public async Task<OwnershipDTO> GetOwnerPaymentAsync(int unitId, DateTime from, DateTime to)
-        {
-            return (OwnershipDTO)await _buildingManager.GetOwnerPaymentsAsync(unitId, from, to).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<OwnerResponse>>GetOwnersByUnitIdAsync(int unitId)
+        public async Task<IEnumerable<OwnerResponse>> GetOwnersByUnitIdAsync(int unitId)
         {
             var owners = await _buildingManager.GetOwnersByUnitIdAsync(unitId);
             return owners.ToOwnerModel();
         }
-         
+
         public async Task<IEnumerable<TenantResponse>> GetTenantsByUnitIdAsync(int unitId)
         {
             var tenants = await _buildingManager.GetTenantsByUnitIdAsync(unitId);
             return tenants.ToTenantModel();
-        }
-
-        public async Task<TenancyDTO> GetTenancyAsync(int unitId)
-        {
-            return await _buildingManager.GetTenancyAsync(unitId).ConfigureAwait(false);
         }
 
         public async Task UpdateBuildingNameAsync(int id, string name)
@@ -104,40 +101,25 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             await _buildingManager.UpdateBuildingNameAsync(id, name).ConfigureAwait(false);
         }
 
-        public async Task ChangeOwnerAsync(OwnerRequest newOwner)
+        public async Task ChangeOwnerAsync(int ownershipId , OwnerRequest newOwner)
         {
-            await _buildingManager.UpdateOwnershipAsync(newOwner.ToDTO()).ConfigureAwait(false);
+            var owner = newOwner.ToDTO();
+            owner.Id = ownershipId;
+            await _buildingManager.UpdateOwnershipAsync(owner).ConfigureAwait(false);
         }
 
-        public async Task UpdateTenancyAsync(TenancyDTO tenancyDTO)
+        public async Task ChangeTenantAsync(int tenantId, TenantRequest newTenant)
         {
-            var tenant = new TenancyDTO
-            {
-                TenancyId = tenancyDTO.TenancyId,
-                PersonId = tenancyDTO.PersonId,
-                UnitId = tenancyDTO.UnitId,
-                From = tenancyDTO.From,
-                To = tenancyDTO.To,
-                NumberOfPeople = tenancyDTO.NumberOfPeople
-            };
+            var tenant = newTenant.ToDTO();
+            tenant.TenancyId = tenantId;
             await _buildingManager.UpdateTenancyAsync(tenant).ConfigureAwait(false);
         }
 
-        public async Task ChangeTenantAsync(TenantRequest newTenant)
+        public async Task<IEnumerable<ExpenseCategoryResponse>> GetExpenseCategoriesAsync()
         {
-            await _buildingManager.UpdateTenancyAsync(newTenant.ToDTO()).ConfigureAwait(false);
+            var expenses = await _expenseManager.GetExpenseCategoriesAsync();
+            return expenses.ToModel();
         }
-
-        public async Task RemoveBuildingAsync(int id)
-        {
-            await _buildingManager.RemoveBuildingAsync(id).ConfigureAwait(false);
-        }
-
-/*        public async Task<IEnumerable<ExpenseCategoryResponse>> GetExpenseCategoryResponse(int userId)
-        {
-            var expense = await _expenseManager.GetExpenseByIdAsync(userId);
-            return expense.ToModel();
-        }*/
 
         public async Task<IEnumerable<ExpenseResponse>> GetExpensesAsync(int buildingId)
         {
@@ -145,17 +127,44 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return expense.ToExpenseModel();
         }
 
-        //public async Task<int> CreateExpense(int buildingId, int categoryId, DateTime from, DateTime to, decimal amount, string name)
-        //{
-        //    var expense = new ExpenseDTO { BuildingId = buildingId, CategoryId =  };
-        //    await _buildingManager.AddUnitAsync(expense);
-        //    return expense.Id;
-        //}
+        public async Task<int> CreateExpenseAsync(int buildingId , ExpenseRequest newExpense)
+        {
+            var expense = newExpense.ToDTO();
+            expense.BuildingId = buildingId;
+            await _expenseManager.AddExpenseAsync(expense);
+            return expense.ExpenseId;
+        }
+
+        public async Task ChangeExpenseCategoryAsync(int categoryId, ExpenseCategoryRequest newExpenseCategory)
+        {
+            var expenseCategory = newExpenseCategory.ToDTO();
+            expenseCategory.CategoryId = categoryId;
+            await _expenseManager.UpdateExpenseCategoryAsync(expenseCategory);
+        }
 
         public async Task<IEnumerable<UnitResponse>> GetOwnedUnitsAsync(int userId)
         {
             var units = await _buildingManager.GetOwnedUnitsAsync(userId);
             return units.ToModel();
+        }
+
+        public async Task<IEnumerable<UnitResponse>> GetRentedUnitsAsync(int userId)
+        {
+            var units = await _buildingManager.GetRentedUnitsAsync(userId);
+            return units.ToModel();
+        }
+
+        public async Task ChangeExpenseAsync(int buildingId, int expenseId, ExpenseRequest newExpense)
+        {
+            var expense = newExpense.ToDTO();
+            expense.ExpenseId = expenseId;
+            expense.BuildingId = buildingId;
+            await _expenseManager.UpdateExpenseAsync(expense);
+        }
+
+        public async Task DeleteExpenseAsync(int expenseId)
+        {
+            await _expenseManager.DeleteExpenseAsync(expenseId);
         }
     }
 }

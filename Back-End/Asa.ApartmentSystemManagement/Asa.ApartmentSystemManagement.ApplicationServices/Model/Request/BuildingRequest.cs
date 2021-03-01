@@ -9,5 +9,6 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Request
     {
         public string Name { get; set; }
         public int NumberOfUnits { get; set; }
+        public string Address { get; set; }
     }
 }

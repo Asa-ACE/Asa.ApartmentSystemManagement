@@ -47,14 +47,14 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
         public async Task<IEnumerable<BuildingDTO>> GetBuildingsAsync(int userId)
         {
             var result = new List<BuildingDTO>();
-            using (var connecion = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpBuildingsGetAll]";
                     cmd.Parameters.AddWithValue("@userId", userId);
-                    cmd.Connection = connecion;
+                    cmd.Connection = connection;
                     cmd.Connection.Open();
                     using (var dataReader = await cmd.ExecuteReaderAsync())
                     {
@@ -92,23 +92,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 }
             }
             return id;
-        }
-
-        public async Task RemoveBuildingAsync(int id)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                using (var cmd = new SqlCommand())
-                {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpBuildingRemove]";
-                    cmd.Connection = connection;
-                    cmd.Connection.Open();
-                    await cmd.ExecuteNonQueryAsync();
-                    cmd.Connection.Close();
-                }
-            }
-
         }
 
         public async Task UpdateBuildingAsync(BuildingDTO building)

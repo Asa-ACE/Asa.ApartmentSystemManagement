@@ -3,7 +3,8 @@
 
 AS
 BEGIN
-	SELECT [PersonId], [FirstName], [LastName], [PhoneNumber], [UserName]
+	SET NOCOUNT ON;
+	SELECT [PersonID], [FirstName], [LastName], [PhoneNumber], [UserName]
 	FROM [dbo].[Person]
 	WHERE [PersonID] = @personId
 END

@@ -16,7 +16,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             _gatewayFactory = gatewayFactory;
         }
 
-        public async Task AddExpense(ExpenseDTO expense)
+        public async Task AddExpenseAsync(ExpenseDTO expense)
         {
             ValidateExpense(expense);
             var gateway = _gatewayFactory.CreateExpenseTableGateway();
@@ -45,16 +45,29 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             return await gateway.GetExpensesAsync(buildingId);
         }
 
-        public async Task<IEnumerable<ExpenseDTO>> GetExpensesByBuildingIdAndDateAsync(DateTime from, DateTime to, int buildingId)
-        {
-            var gateway = _gatewayFactory.CreateExpenseTableGateway();
-            return await gateway.GetExpensesByBuildingIdAndDateAsync(from, to, buildingId).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<ExpenseCategoryDTO>> GetGetExpenceCategories(int userId)
+        public async Task<IEnumerable<ExpenseCategoryDTO>> GetExpenseCategoriesAsync()
         {
             var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();
-            return await gateway.GetExpenseCategoryById(userId);
+            var expenseCategories = await gateway.GetExpenseCategoriesAsync();
+            return expenseCategories;
+        }
+
+        public async Task UpdateExpenseCategoryAsync(ExpenseCategoryDTO expenseCategory)
+        {
+            var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();
+            await gateway.UpdateExpenseCategoryAsync(expenseCategory);
+        }
+
+        public async Task UpdateExpenseAsync(ExpenseDTO expense)
+        {
+            var gateway = _gatewayFactory.CreateExpenseTableGateway();
+            await gateway.UpdateExpenseAsync(expense);
+        }
+
+        public async Task DeleteExpenseAsync(int expenseId)
+        {
+            var gateway = _gatewayFactory.CreateExpenseTableGateway();
+            await gateway.DeleteExpenseAsync(expenseId);
         }
     }
 }

@@ -11,23 +11,21 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
     public class UnitTableGateway : IUnitTableGateway
     {
         string _connectionString;
-
         public UnitTableGateway(string connectionString)
         {
             _connectionString = connectionString;
         }
-
         public async Task<IEnumerable<UnitDTO>> GetUnitsByBuildingIdAsync(int id)
         {
             var result = new List<UnitDTO>();
-            using(var connecion = new SqlConnection(_connectionString))
+            using(var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpUnitsGetAll]";
                     cmd.Parameters.AddWithValue("@buildingId", id);
-                    cmd.Connection = connecion;
+                    cmd.Connection = connection;
                     cmd.Connection.Open();
                     using (var dataReader = await cmd.ExecuteReaderAsync())
                     {
@@ -46,7 +44,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             }
             return result;
         }
-
         public async Task<UnitDTO> GetUnitByIdAsync(int id)
         {
             SqlDataReader reader;
@@ -74,7 +71,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
 
             return result;
         }
-
         public async Task<int> InsertUnitAsync(UnitDTO unit)
         {
             int id = 0;
@@ -83,7 +79,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpUniCreate]";
+                    cmd.CommandText = "[dbo].[SpUnitCreate]";
                     cmd.Parameters.AddWithValue("BuildingId", unit.BuildingId);
                     cmd.Parameters.AddWithValue("@Area", unit.Area);
                     cmd.Parameters.AddWithValue("@UnitNumber", unit.UnitNumber);
@@ -96,28 +92,56 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             }
             return id;
         }
-
         public async Task<IEnumerable<UnitDTO>> GetOwnedUnitsAsync(int personId)
         {
             var result = new List<UnitDTO>();
-            using (var connecion = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpGetOwnedUnits]";
                     cmd.Parameters.AddWithValue("@personId", personId);
-                    cmd.Connection = connecion;
+                    cmd.Connection = connection;
                     cmd.Connection.Open();
                     using (var dataReader = await cmd.ExecuteReaderAsync())
                     {
                         while (await dataReader.ReadAsync())
                         {
                             var unitDTO = new UnitDTO();
-                            unitDTO.BuildingId = Convert.ToInt32(dataReader["BuildingId"]);
-                            unitDTO.Id = Convert.ToInt32(dataReader["UnitId"]);
+                            unitDTO.BuildingId = Convert.ToInt32(dataReader["BuildingID"]);
+                            unitDTO.Id = Convert.ToInt32(dataReader["UnitID"]);
                             unitDTO.Area = Convert.ToDecimal(dataReader["Area"]);
-                            unitDTO.UnitNumber = Convert.ToInt32(dataReader["UnitNumber"]);
+                            unitDTO.UnitNumber = Convert.ToInt32(dataReader["Number"]);
+                            unitDTO.Description = Convert.ToString(dataReader["Description"]);
+                            result.Add(unitDTO);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+        public async Task<IEnumerable<UnitDTO>> GetRentedUnitsAsync(int personId)
+        {
+            var result = new List<UnitDTO>();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpGetRentedUnits]";
+                    cmd.Parameters.AddWithValue("@personId", personId);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    using (var dataReader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await dataReader.ReadAsync())
+                        {
+                            var unitDTO = new UnitDTO();
+                            unitDTO.BuildingId = Convert.ToInt32(dataReader["BuildingID"]);
+                            unitDTO.Id = Convert.ToInt32(dataReader["UnitID"]);
+                            unitDTO.Area = Convert.ToDecimal(dataReader["Area"]);
+                            unitDTO.UnitNumber = Convert.ToInt32(dataReader["Number"]);
                             unitDTO.Description = Convert.ToString(dataReader["Description"]);
                             result.Add(unitDTO);
                         }

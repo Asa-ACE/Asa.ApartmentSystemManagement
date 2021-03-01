@@ -17,35 +17,40 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             _connectionString = connectionString;
         }
 
-        public async Task<TenancyDTO> GetTenancyAsync(int unitId)
+        public async Task<IEnumerable<ShareInfo>> GetTenantShareInfoAsync(int buildingId, DateTime from, DateTime to)
         {
-            SqlDataReader reader;
+            var result = new List<ShareInfo>();
+
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpTenantGet]";
-                    cmd.Parameters.AddWithValue("@unitId", unitId);
+                    cmd.CommandText = "[dbo].[SpTenancyGetShareInfo]";
+                    cmd.Parameters.AddWithValue("@buildingId", buildingId);
+                    cmd.Parameters.AddWithValue("@from", from);
+                    cmd.Parameters.AddWithValue("@to", to);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
-                    reader = await cmd.ExecuteReaderAsync();
+                    using (var dataReader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await dataReader.ReadAsync())
+                        {
+                            var shareInfo = new ShareInfo();
+                            shareInfo.BuildingId = Convert.ToInt32(dataReader["BuildingID"]);
+                            shareInfo.UnitId = Convert.ToInt32(dataReader["UnitID"]);
+                            shareInfo.PersonId = Convert.ToInt32(dataReader["PersonID"]);
+                            shareInfo.Days = Convert.ToInt32(dataReader["Days"]);
+                            shareInfo.Area = Convert.ToDecimal(dataReader["Area"]);
+                            shareInfo.NumberOfPeopel = Convert.ToInt32(dataReader["NumberOfPeopel"]);
+                            result.Add(shareInfo);
+                        }
+                    }
                 }
             }
-
-            await reader.ReadAsync();
-            var result = new TenancyDTO
-            {
-                UnitId = unitId,
-                PersonId = Convert.ToInt32("personId"),
-                TenancyId = Convert.ToInt32("tenancyId"),
-                From = Convert.ToDateTime("from"),
-                To = Convert.ToDateTime("to"),
-                NumberOfPeople = Convert.ToInt32("numberOfPeople"),
-            };
-
             return result;
         }
+
 
         public async Task<int> InsertTenancyAsync(TenancyDTO tenancy)
         {
@@ -77,7 +82,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpTenancyUpdate]";
+                    cmd.CommandText = "[dbo].[SpUpdateTenancy]";
+                    cmd.Parameters.AddWithValue("tenancyId", tenancy.UnitId).Value = tenancy.TenancyId;
                     cmd.Parameters.AddWithValue("unitId", tenancy.UnitId).Value = tenancy.UnitId;
                     cmd.Parameters.AddWithValue("@personId", tenancy.PersonId).Value = tenancy.PersonId;
                     cmd.Parameters.AddWithValue("@from", tenancy.From).Value = tenancy.From;

@@ -7,17 +7,18 @@
 
 AS
 BEGIN
-INSERT INTO [dbo].[Person]
-           ([FirstName]
-           ,[LastName]
-           ,[PhoneNumber]
-           ,[UserName]
-           ,[Password])
-     VALUES
-           (@firstName,
-            @lastName,
-            @phoneNumber,
-            @userName,
-            @password)
-select SCOPE_IDENTITY()
+    SET NOCOUNT ON;
+    INSERT INTO [dbo].[Person]
+               ([FirstName]
+               ,[LastName]
+               ,[PhoneNumber]
+               ,[UserName]
+               ,[Password])
+         VALUES
+               (@firstName,
+                @lastName,
+                @phoneNumber,
+                @userName,
+                @password)
+    select SCOPE_IDENTITY()
 END
