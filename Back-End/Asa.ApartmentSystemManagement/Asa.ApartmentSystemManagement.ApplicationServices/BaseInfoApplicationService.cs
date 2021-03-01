@@ -41,7 +41,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return unitDto.Id;
         }
 
-        public async Task<int> CreateOwnershipAsync(int personId, int unitId, DateTime from, DateTime to)
+        public async Task<int> CreateOwnershipAsync(int personId, int unitId, DateTime from, DateTime? to)
         {
             var ownerDto = new OwnershipDTO { PersonId = personId, UnitId = unitId, From = from, To = to };
             await _buildingManager.AddOwnershipAsync(ownerDto);
@@ -94,9 +94,11 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             await _buildingManager.UpdateBuildingNameAsync(id, name).ConfigureAwait(false);
         }
 
-        public async Task ChangeOwnerAsync(OwnerRequest newOwner)
+        public async Task ChangeOwnerAsync(int ownershipId , OwnerRequest newOwner)
         {
-            await _buildingManager.UpdateOwnershipAsync(newOwner.ToDTO()).ConfigureAwait(false);
+            var owner = newOwner.ToDTO();
+            owner.Id = ownershipId;
+            await _buildingManager.UpdateOwnershipAsync(owner).ConfigureAwait(false);
         }
 
         public async Task ChangeTenantAsync(TenantRequest newTenant)

@@ -3,6 +3,8 @@ using Asa.ApartmentSystemManagement.API.Model;
 using Asa.ApartmentSystemManagement.API.Model.Request;
 using Asa.ApartmentSystemManagement.API.Model.Response;
 using Asa.ApartmentSystemManagement.API.Tools;
+using Asa.ApartmentSystemManagement.ApplicationServices;
+using Asa.ApartmentSystemManagement.ApplicationServices.Model.Request;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,8 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
     {
         private BaseInfoApplicationService _baseInfoApplicationService;
         private ChargeApplicationService _chargeApplicationService;
-        public BuildingController(IBaseInfoApplicationService baseInfoApplicationService , IChargeApplicationService chargeApplicationService)
+
+        public BuildingController(BaseInfoApplicationService baseInfoApplicationService , ChargeApplicationService chargeApplicationService)
         {
             _baseInfoApplicationService = baseInfoApplicationService;
             _chargeApplicationService = chargeApplicationService;
@@ -27,61 +30,69 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         //building
         [HttpGet]
-        public IEnumerable<BuildingResponse> GetBuildings()
+        public async Task<IActionResult> GetBuildings()
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
-            var buildings = _baseInfoApplicationService.GetBuildings(userId);
-            return buildings;
+            var buildings = await _baseInfoApplicationService.GetBuildingsAsync(userId);
+            return Ok(buildings);
         }
+
         [HttpPost]
-        public void AddBuilding([FromBody] BuildingRequest buildingInfo)
+        public async Task<IActionResult> AddBuilding([FromBody] BuildingRequest buildingInfo)
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
             var name = buildingInfo.Name;
             var numberOfUnits = buildingInfo.NumberOfUnits;
-            _baseInfoApplicationService.CreateBuilding(name, numberOfUnits);
+            var address = buildingInfo.Address;
+            var id = await _baseInfoApplicationService.CreateBuildingAsync(name, numberOfUnits, address);
+            return Ok(id);
+        
         }
         [HttpPatch]
         [Route("{id:int}")]
-        public void ChangeBuildingName([FromRoute] int id, [FromQuery] string newName)
+        public async Task<IActionResult> ChangeBuildingName([FromRoute] int id, [FromQuery] string newName)
         {
-            _baseInfoApplicationService.ChangeBuildingName(id, newName);
+            await _baseInfoApplicationService.UpdateBuildingNameAsync(id, newName);
+            return Ok();
         }
 
         //unit
         [HttpGet]
         [Route("{buildingId:int}/Units")]
-        public IEnumerable<UnitResponse> GetUnits([FromRoute] int buildingId)
+        public async Task<IActionResult> GetUnits([FromRoute] int buildingId)
         {
-            var units = _baseInfoApplicationService.GetUnits(buildingId);
-            return units;
+            var units = await _baseInfoApplicationService.GetUnitsByBuildingIdAsync(buildingId);
+            return Ok(units);
         }
         [HttpPost]
         [Route("{buildingId:int}/Units")]
-        public void AddUnit([FromRoute] int buildingId, [FromBody] UnitRequest unitInfo)
+        public async Task<IActionResult> AddUnit([FromRoute] int buildingId, [FromBody] UnitRequest unitInfo)
         {
-            _baseInfoApplicationService.CreateUnit(buildingId, unitInfo.Area, unitInfo.UnitNumber, unitInfo.Description);
+            await _baseInfoApplicationService.CreateUnitAsync(buildingId, unitInfo.Area, unitInfo.UnitNumber, unitInfo.Description);
+            return Ok();
         }
 
         //owner
         [HttpGet]
         [Route("{buildingId:int}/Units/{unitId:int}/Owner")]
-        public IEnumerable<OwnerResponse> GetOwners([FromRoute] int unitId)
+        public async Task<IActionResult> GetOwners([FromRoute] int unitId)
         {
-            var units = _baseInfoApplicationService.GetOwners(unitId);
-            return units;
+            var units = await _baseInfoApplicationService.GetOwnersByUnitIdAsync(unitId);
+            return Ok(units);
         }
         [HttpPost]
         [Route("{buildingId:int}/Units/{unitId:int}/Owner")]
-        public void AddOwner([FromRoute] int unitId, [FromBody] OwnerRequest ownerInfo)
+        public async Task<IActionResult> AddOwner([FromRoute] int unitId, [FromBody] OwnerRequest ownerInfo)
         {
-            _baseInfoApplicationService.AddOwner(unitId, ownerInfo.PersonId, ownerInfo.From, ownerInfo.To);
+            var id = await _baseInfoApplicationService.CreateOwnershipAsync(unitId, ownerInfo.PersonId, ownerInfo.From, ownerInfo.To);
+            return Ok(id);
         }
         [HttpPut]
         [Route("{buildingId:int}/Units/{unitId:int}/Owner/{ownerId:int}")]
-        public void ChangeOwnerInfo([FromRoute] int ownerId, [FromBody] OwnerRequest ownerInfo)
+        public async Task<IActionResult> ChangeOwnerInfo([FromRoute] int ownershipId, [FromBody] OwnerRequest ownerInfo)
         {
-            _baseInfoApplicationService.ChangeOwnerInfo(ownerId, ownerInfo.PersonId, ownerInfo.From, ownerInfo.To);
+            await _baseInfoApplicationService.ChangeOwnerAsync(ownershipId, ownerInfo);
+            return Ok();
         }
 
         //tenant

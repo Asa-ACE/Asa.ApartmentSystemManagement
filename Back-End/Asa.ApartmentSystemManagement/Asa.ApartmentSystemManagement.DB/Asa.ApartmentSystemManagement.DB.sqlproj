@@ -71,7 +71,7 @@
     <Build Include="dbo\StoredProcedures\SpPersonGet.sql" />
     <Build Include="dbo\StoredProcedures\SpPersonUpdate.sql" />
     <Build Include="dbo\StoredProcedures\SpOwnershipCreate.sql" />
-    <Build Include="dbo\StoredProcedures\SpOwnershipUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\SpUpdateOwnership.sql" />
     <Build Include="dbo\Tables\Charge.sql" />
     <Build Include="dbo\Tables\Expense.sql" />
     <Build Include="dbo\Tables\ExpenseCategory.sql" />
