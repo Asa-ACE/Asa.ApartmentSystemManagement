@@ -12,5 +12,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
         Task<UnitDTO> GetUnitByIdAsync(int id);
         Task<IEnumerable<UnitDTO>> GetUnitsByBuildingIdAsync(int id);
         Task<IEnumerable<UnitDTO>> GetOwnedUnitsAsync(int personId);
+        Task<IEnumerable<UnitDTO>> GetRentedUnitsAsync(int personId)
     }
 }
