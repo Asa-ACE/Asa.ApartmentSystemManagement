@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Asa.ApartmentSystemManagement.ApplicationServices\Asa.ApartmentSystemManagement.ApplicationServices.csproj" />
     <ProjectReference Include="..\Asa.ApartmentSystemManagement.Core\Asa.ApartmentSystemManagement.Core.csproj" />
   </ItemGroup>
 

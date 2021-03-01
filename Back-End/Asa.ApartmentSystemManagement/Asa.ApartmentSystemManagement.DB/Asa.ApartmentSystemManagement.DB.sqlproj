@@ -71,7 +71,7 @@
     <Build Include="dbo\StoredProcedures\SpPersonGet.sql" />
     <Build Include="dbo\StoredProcedures\SpPersonUpdate.sql" />
     <Build Include="dbo\StoredProcedures\SpOwnershipCreate.sql" />
-    <Build Include="dbo\StoredProcedures\SpOwnershipUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\SpUpdateOwnership.sql" />
     <Build Include="dbo\Tables\Charge.sql" />
     <Build Include="dbo\Tables\Expense.sql" />
     <Build Include="dbo\Tables\ExpenseCategory.sql" />
@@ -79,7 +79,7 @@
     <Build Include="dbo\StoredProcedures\SpBuildingGet.sql" />
     <Build Include="dbo\StoredProcedures\SpBuildingRemove.sql" />
     <Build Include="dbo\StoredProcedures\SpTenancyCreate.sql" />
-    <Build Include="dbo\StoredProcedures\SpTenancyUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\SpUpdateTenancy.sql" />
     <Build Include="dbo\StoredProcedures\SpGetExpensesByChargeId.sql" />
     <Build Include="dbo\StoredProcedures\SpBuildingsGetAll.sql" />
     <Build Include="dbo\StoredProcedures\SpGetAllOwners.sql" />

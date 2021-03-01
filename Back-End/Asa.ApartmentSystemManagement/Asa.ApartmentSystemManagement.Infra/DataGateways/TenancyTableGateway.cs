@@ -82,7 +82,8 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpTenancyUpdate]";
+                    cmd.CommandText = "[dbo].[SpUpdateTenancy]";
+                    cmd.Parameters.AddWithValue("tenancyId", tenancy.UnitId).Value = tenancy.TenancyId;
                     cmd.Parameters.AddWithValue("unitId", tenancy.UnitId).Value = tenancy.UnitId;
                     cmd.Parameters.AddWithValue("@personId", tenancy.PersonId).Value = tenancy.PersonId;
                     cmd.Parameters.AddWithValue("@from", tenancy.From).Value = tenancy.From;

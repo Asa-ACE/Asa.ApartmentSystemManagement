@@ -1,9 +1,9 @@
-﻿CREATE PROCEDURE [dbo].[SpOwnershipUpdate]
+﻿CREATE PROCEDURE [dbo].[SpUpdateOwnership]
 	@ownershipId int,
     @unitId int,
     @personId int,
     @from date,
-    @to date
+    @to date 
 AS
 BEGIN
 	SET NOCOUNT ON;
