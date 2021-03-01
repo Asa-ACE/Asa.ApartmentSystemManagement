@@ -35,9 +35,16 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             await _chargeManager.CalculateChargeAsync(chargeId);
 		}
 
-        public async Task<IEnumerable<GetUnitChargeResponse>> GetUnitChargesAsync(int unitId, int userId)
+        public async Task<IEnumerable<UnitChargeResponse>> GetOwnedUnitChargesAsync(int unitId, int userId)
 		{
-            var charges = await _chargeManager.GetUnitChargesAsync(unitId, userId);
+            var charges = await _chargeManager.GetOwnedUnitChargesAsync(unitId, userId);
+            return charges.ToModel();
 		}
+
+        public async Task<IEnumerable<UnitChargeResponse>> GetRentedUnitChargesAsync(int userId, int unitId)
+        {
+            var charges = await _chargeManager.GetRentedUnitChargesAsync(unitId, userId);
+            return charges.ToModel();
+        }
     }
 }

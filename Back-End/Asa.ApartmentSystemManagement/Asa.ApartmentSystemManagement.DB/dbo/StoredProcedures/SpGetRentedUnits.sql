@@ -5,6 +5,6 @@ BEGIN
 SET NOCOUNT ON
 	SELECT [buildingID] , [Area] , [Number] , [Description] , U.[UnitID] 
 	FROM [dbo].[Unit] AS U
-	INNER JOIN [dbo].[Tenancy] AS T ON T.UnitID = U.UnitId 
+	INNER JOIN [dbo].[Tenancy] AS T ON T.UnitID = U.UnitID
 	WHERE T.PersonID = @personId 
 END

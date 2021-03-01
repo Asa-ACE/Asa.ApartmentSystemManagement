@@ -43,12 +43,21 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
             var gateway = _gatewayFactory.CreateChargeItemTableGateway();
 		}
 
-		public async Task<IEnumerable<>> GetUnitChargesAsync(int unitId, int userId)
+		public async Task<IEnumerable<UnitChargeDTO>> GetOwnedUnitChargesAsync(int unitId, int userId)
 		{
-			throw new NotImplementedException();
+            var gateway = _gatewayFactory.CreateChargeItemTableGateway();
+            var unitCharges = await gateway.GetOwnedUnitChargesAsync(unitId, userId);
+            return unitCharges;
 		}
 
-		private async Task<IEnumerable<CalculationDTO>> GetExpensesAsync(int chargeId)
+        public async Task<IEnumerable<UnitChargeDTO>> GetRentedUnitChargesAsync(int unitId, int userId)
+        {
+            var gateway = _gatewayFactory.CreateChargeItemTableGateway();
+            var unitCharges = await gateway.GetRentedUnitChargesAsync(unitId, userId);
+            return unitCharges;
+        }
+
+        private async Task<IEnumerable<CalculationDTO>> GetExpensesAsync(int chargeId)
         {
             var gateway = _gatewayFactory.CreateExpenseTableGateway();
             IEnumerable<CalculationDTO> expenses = await gateway.GetCalculationInfosByChargeIdAsync(chargeId);

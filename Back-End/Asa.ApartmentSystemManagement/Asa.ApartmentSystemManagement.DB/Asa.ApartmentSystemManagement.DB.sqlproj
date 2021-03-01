@@ -101,6 +101,8 @@
     <Build Include="dbo\StoredProcedures\SpUpdateExpenseCategory.sql" />
     <Build Include="dbo\StoredProcedures\SpUpdateExpense.sql" />
     <Build Include="dbo\StoredProcedures\SpDeleteExpense.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetOwnedUnitsCharges.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetRentedUnitsCharges.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Asa.ApartmentSystemManagement.DB.refactorlog" />

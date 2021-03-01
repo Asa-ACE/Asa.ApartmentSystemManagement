@@ -1,4 +1,4 @@
-﻿using Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices;
+﻿using Asa.ApartmentSystemManagement.ApplicationServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,8 +11,8 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private IBaseInfoApplicationService _baseInfoApplicationService;
-        public UserController(IBaseInfoApplicationService baseInfoApplicationService)
+        private BaseInfoApplicationService _baseInfoApplicationService;
+        public UserController(BaseInfoApplicationService baseInfoApplicationService)
         {
             _baseInfoApplicationService = baseInfoApplicationService;
         }

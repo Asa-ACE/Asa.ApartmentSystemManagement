@@ -4,7 +4,7 @@
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT [PersonId], [FirstName], [LastName], [PhoneNumber], [UserName]
+	SELECT [PersonID], [FirstName], [LastName], [PhoneNumber], [UserName]
 	FROM [dbo].[Person]
 	WHERE [PersonID] = @personId
 END

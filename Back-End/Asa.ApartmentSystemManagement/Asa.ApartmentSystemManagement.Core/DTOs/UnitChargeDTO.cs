@@ -7,9 +7,9 @@ namespace Asa.ApartmentSystemManagement.Core.DTOs
 {
 	public class UnitChargeDTO
 	{
-		public int ChargeId { get; set; }
-		public DateTime From { get; set; }
+        public int ChargeId { get; set; }
+        public DateTime From { get; set; }
 		public DateTime To { get; set; }
-		public IEnumerable<ChargeItemDTO> ChargeItems { get; set; }
+		public IEnumerable<UnitChargeItemDTO> ChargeItems { get; set; }
 	}
 }
