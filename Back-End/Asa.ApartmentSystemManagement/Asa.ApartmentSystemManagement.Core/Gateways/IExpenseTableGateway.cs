@@ -13,5 +13,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
         Task<ExpenseDTO> GetExpenseByIdAsync(int id);
         Task<IEnumerable<CalculationDTO>> GetCalculationInfosByChargeIdAsync(int chargeId);
         Task<IEnumerable<ExpenseDTO>> GetExpensesAsync(int buildingId);
+        Task UpdateExpenseAsync(ExpenseDTO expense);
+        Task DeleteExpenseAsync(int expenseId);
     }
 }

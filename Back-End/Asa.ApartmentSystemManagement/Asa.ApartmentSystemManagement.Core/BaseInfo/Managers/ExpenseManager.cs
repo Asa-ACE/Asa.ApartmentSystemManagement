@@ -16,7 +16,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             _gatewayFactory = gatewayFactory;
         }
 
-        public async Task AddExpense(ExpenseDTO expense)
+        public async Task AddExpenseAsync(ExpenseDTO expense)
         {
             ValidateExpense(expense);
             var gateway = _gatewayFactory.CreateExpenseTableGateway();
@@ -56,6 +56,18 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         {
             var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();
             await gateway.UpdateExpenseCategoryAsync(expenseCategory);
+        }
+
+        public async Task UpdateExpenseAsync(ExpenseDTO expense)
+        {
+            var gateway = _gatewayFactory.CreateExpenseTableGateway();
+            await gateway.UpdateExpenseAsync(expense);
+        }
+
+        public async Task DeleteExpenseAsync(int expenseId)
+        {
+            var gateway = _gatewayFactory.CreateExpenseTableGateway();
+            await gateway.DeleteExpenseAsync(expenseId);
         }
     }
 }

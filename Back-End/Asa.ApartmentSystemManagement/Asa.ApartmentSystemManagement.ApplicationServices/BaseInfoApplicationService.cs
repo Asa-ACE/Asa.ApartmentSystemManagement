@@ -52,7 +52,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
         {
             var expenseCategory = newExpenseCategory.ToDTO();
             await _buildingManager.AddExpenseCategoryAsync(expenseCategory);
-            return expenseCategory.id;
+            return expenseCategory.CategoryId;
         }
 
         public async Task<int> CreateTenancyAsync(int personId, int unitId, DateTime from, DateTime? to, int numberOfPeople)
@@ -115,11 +115,6 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             await _buildingManager.UpdateTenancyAsync(tenant).ConfigureAwait(false);
         }
 
-        public async Task RemoveBuildingAsync(int buildingId)
-        {
-            await _buildingManager.RemoveBuildingAsync(buildingId).ConfigureAwait(false);
-        }
-
         public async Task<IEnumerable<ExpenseCategoryResponse>> GetExpenseCategoriesAsync()
         {
             var expenses = await _expenseManager.GetExpenseCategoriesAsync();
@@ -132,10 +127,11 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return expense.ToExpenseModel();
         }
 
-        public async Task<int> CreateExpense(ExpenseRequest newExpense)
+        public async Task<int> CreateExpenseAsync(int buildingId , ExpenseRequest newExpense)
         {
             var expense = newExpense.ToDTO();
-            await _expenseManager.AddExpense(expense);
+            expense.BuildingId = buildingId;
+            await _expenseManager.AddExpenseAsync(expense);
             return expense.ExpenseId;
         }
 
@@ -156,6 +152,19 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
         {
             var units = await _buildingManager.GetRentedUnitsAsync(userId);
             return units.ToModel();
+        }
+
+        public async Task ChangeExpenseAsync(int buildingId, int expenseId, ExpenseRequest newExpense)
+        {
+            var expense = newExpense.ToDTO();
+            expense.ExpenseId = expenseId;
+            expense.BuildingId = buildingId;
+            await _expenseManager.UpdateExpenseAsync(expense);
+        }
+
+        public async Task DeleteExpenseAsync(int expenseId)
+        {
+            await _expenseManager.DeleteExpenseAsync(expenseId);
         }
     }
 }

@@ -149,28 +149,34 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         //Expance
         [HttpGet]
         [Route("{buildingId:int}/Expense")]
-        public IEnumerable<ExpenseResponse> GetExpenses([FromRoute] int buildingId)
+        public async Task<IActionResult> GetExpenses([FromRoute] int buildingId)
         {
-            var expenses = _baseInfoApplicationService.GetExpenses(buildingId);
-            return expenses;
+            var expenses = await _baseInfoApplicationService.GetExpensesAsync(buildingId);
+            return Ok(expenses);
         }
+
         [HttpPost]
         [Route("{buildingId:int}/Expense")]
-        public void AddExpense([FromRoute] int buildingId , ExpenseRequest expense)
+        public async Task<IActionResult> AddExpense([FromRoute] int buildingId , ExpenseRequest expense)
         {
-            _baseInfoApplicationService.AddExpense(buildingId, expense.CategoryId, expense.From, expense.To, expense.Amount, expense.Name);
+            var id = await _baseInfoApplicationService.CreateExpenseAsync(buildingId, expense);
+            return Ok(id);
         }
+
         [HttpPut]
         [Route("{buildingId:int}/Expense/{expenseId:int}")]
-        public void ChangeExpense([FromRoute] int buildingId , [FromRoute] int expenseId , ExpenseRequest expense)
+        public async Task<IActionResult> ChangeExpense([FromRoute] int buildingId , [FromRoute] int expenseId , ExpenseRequest expense)
         {
-            _baseInfoApplicationService.ChangeExpense(expenseId, expense.CategoryId, expense.From, expense.To, expense.Amount, expense.Name);
+            await _baseInfoApplicationService.ChangeExpenseAsync(buildingId , expenseId , expense);
+            return Ok();
         }
+
         [HttpDelete]
         [Route("{buildingId:int}/Expense/{expenseId:int}")]
-        public void DeleteExpense([FromRoute] int expenseId)
+        public async Task<IActionResult> DeleteExpense([FromRoute] int expenseId)
         {
-            _baseInfoApplicationService.DeleteExpense(expenseId);
+            await _baseInfoApplicationService.DeleteExpenseAsync(expenseId);
+            return Ok();
         }
 
 

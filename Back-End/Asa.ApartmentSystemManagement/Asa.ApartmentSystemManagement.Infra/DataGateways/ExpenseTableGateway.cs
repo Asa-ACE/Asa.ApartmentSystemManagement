@@ -11,18 +11,18 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
 {
     public class ExpenseTableGateway : IExpenseTableGateway
     {
-        private string connectionString;
+        private string _connectionString;
 
         public ExpenseTableGateway(string connectionString)
         {
-            this.connectionString = connectionString;
+                _connectionString = connectionString;
         }
 
 
         public async Task<ExpenseDTO> GetExpenseByIdAsync(int id)
         {
             SqlDataReader reader;
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
@@ -55,7 +55,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
         {
             var result = new List<CalculationDTO>();
 
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
@@ -88,7 +88,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
         public async Task<int> InsertExpenseAsync(ExpenseDTO expense)
         {
             int id = 0;
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
@@ -109,11 +109,33 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
+        public async Task UpdateExpenseAsync(ExpenseDTO expense)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpUpdateExpense]";
+                    cmd.Parameters.AddWithValue("@expenceId", expense.ExpenseId);
+                    cmd.Parameters.AddWithValue("@buildingId", expense.BuildingId);
+                    cmd.Parameters.AddWithValue("@categoryId", expense.CategoryId);
+                    cmd.Parameters.AddWithValue("@from", expense.From);
+                    cmd.Parameters.AddWithValue("@to", expense.To);
+                    cmd.Parameters.AddWithValue("@amount", expense.Amount);
+                    cmd.Parameters.AddWithValue("@name", expense.Name);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
         public async Task<IEnumerable<ExpenseDTO>> GetExpensesAsync(int buildingId)
         {
             var result = new List<ExpenseDTO>();
 
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
@@ -140,6 +162,22 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 }
             }
             return result;
+        }
+
+        public async Task DeleteExpenseAsync(int expenseId)
+        {
+            using(var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpDeleteExpense]";
+                    cmd.Parameters.AddWithValue("@expenseId", expenseId);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
         }
     }
 }

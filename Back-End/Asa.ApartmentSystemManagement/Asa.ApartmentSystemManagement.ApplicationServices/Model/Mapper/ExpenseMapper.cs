@@ -74,7 +74,6 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
         {
             ExpenseDTO dto = new ExpenseDTO();
             dto.CategoryId = expense.CategoryId;
-            dto.BuildingId = expense.BuildingId;
             dto.Amount = expense.Amount;
             dto.From = expense.From;
             dto.To = expense.To;
