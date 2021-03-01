@@ -1,8 +1,4 @@
-﻿using Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices;
-using Asa.ApartmentSystemManagement.API.Model;
-using Asa.ApartmentSystemManagement.API.Model.Request;
-using Asa.ApartmentSystemManagement.API.Model.Response;
-using Asa.ApartmentSystemManagement.API.Tools;
+﻿using Asa.ApartmentSystemManagement.API.Tools;
 using Asa.ApartmentSystemManagement.ApplicationServices;
 using Asa.ApartmentSystemManagement.ApplicationServices.Model.Request;
 using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
@@ -39,12 +35,12 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBuilding([FromBody] BuildingRequest buildingInfo)
+        public async Task<IActionResult> AddBuilding([FromBody] BuildingRequest building)
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
-            var name = buildingInfo.Name;
-            var numberOfUnits = buildingInfo.NumberOfUnits;
-            var address = buildingInfo.Address;
+            var name = building.Name;
+            var numberOfUnits = building.NumberOfUnits;
+            var address = building.Address;
             var id = await _baseInfoApplicationService.CreateBuildingAsync(name, numberOfUnits, address);
             return Ok(id);
         
@@ -69,9 +65,9 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         [HttpPost]
         [Route("{buildingId:int}/Units")]
-        public async Task<IActionResult> AddUnit([FromRoute] int buildingId, [FromBody] UnitRequest unitInfo)
+        public async Task<IActionResult> AddUnit([FromRoute] int buildingId, [FromBody] UnitRequest unit)
         {
-            await _baseInfoApplicationService.CreateUnitAsync(buildingId, unitInfo.Area, unitInfo.UnitNumber, unitInfo.Description);
+            await _baseInfoApplicationService.CreateUnitAsync(buildingId, unit.Area, unit.UnitNumber, unit.Description);
             return Ok();
         }
 
@@ -86,17 +82,17 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         [HttpPost]
         [Route("{buildingId:int}/Units/{unitId:int}/Owner")]
-        public async Task<IActionResult> AddOwner([FromRoute] int unitId, [FromBody] OwnerRequest ownerInfo)
+        public async Task<IActionResult> AddOwner([FromRoute] int unitId, [FromBody] OwnerRequest owner)
         {
-            var id = await _baseInfoApplicationService.CreateOwnershipAsync(unitId, ownerInfo.PersonId, ownerInfo.From, ownerInfo.To);
+            var id = await _baseInfoApplicationService.CreateOwnershipAsync(unitId, owner.PersonId, owner.From, owner.To);
             return Ok(id);
         }
 
         [HttpPut]
         [Route("{buildingId:int}/Units/{unitId:int}/Owner/{ownerId:int}")]
-        public async Task<IActionResult> ChangeOwnerInfo([FromRoute] int ownershipId, [FromBody] OwnerRequest ownerInfo)
+        public async Task<IActionResult> ChangeOwner([FromRoute] int ownershipId, [FromBody] OwnerRequest owner)
         {
-            await _baseInfoApplicationService.ChangeOwnerAsync(ownershipId, ownerInfo);
+            await _baseInfoApplicationService.ChangeOwnerAsync(ownershipId, owner);
             return Ok();
         }
 
@@ -111,20 +107,20 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         [HttpPost]
         [Route("{buildingId:int}/Units/{unitId:int}/Tenant")]
-        public async Task<IActionResult> AddTenant([FromRoute] int unitId, [FromBody] TenantRequest tenantInfo)
+        public async Task<IActionResult> AddTenant([FromRoute] int unitId, [FromBody] TenantRequest tenant)
         {
-            var id = await _baseInfoApplicationService.CreateTenancyAsync(unitId , tenantInfo.PersonId , tenantInfo.From , tenantInfo.To , tenantInfo.NumberOfPeople);
+            var id = await _baseInfoApplicationService.CreateTenancyAsync(unitId , tenant.PersonId , tenant.From , tenant.To , tenant.NumberOfPeople);
             return Ok(id);
         }
 
         [HttpPut]
         [Route("{buildingId:int}/Units/{unitId:int}/Tenant/{tenantId:int}")]
-        public async Task<IActionResult> ChangeTenantInfo([FromRoute] int tenantId, [FromBody] TenantRequest tenantInfo)
+        public async Task<IActionResult> ChangeTenant([FromRoute] int tenantId, [FromBody] TenantRequest tenant)
         {
-            await _baseInfoApplicationService.ChangeTenantAsync(tenantId, tenantInfo);
+            await _baseInfoApplicationService.ChangeTenantAsync(tenantId, tenant);
             return Ok();
         }
-
+        
         //ExpenseCategory
         [HttpGet]
         [Route("ExpenseCategory")]
@@ -136,16 +132,18 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         [HttpPost]
         [Route("ExpenseCategory")]
-        public async Task<IActionResult> AddExpenseCategory([FromBody] ExpenseCategoryRequest expenseCategoryInfo)
+        public async Task<IActionResult> AddExpenseCategory([FromBody] ExpenseCategoryRequest expenseCategory)
         {
-            var id = await _baseInfoApplicationService.(expenseCategoryInfo.Name, expenseCategoryInfo.FormulaType, expenseCategoryInfo.IsForOwner);
+            var id = await _baseInfoApplicationService.CreateExpenseCategoryAsync(expenseCategory);
+            return Ok(id);
         }
 
         [HttpPut]
         [Route("ExpenseCategory/{categoryId:int}")]
-        public void ChangeExpenseCategoryInfo([FromRoute] int categoryId , [FromBody] ExpenseCategoryRequest expenseCategoryInfo)
+        public async Task<IActionResult> ChangeExpenseCategory([FromRoute] int categoryId , [FromBody] ExpenseCategoryRequest expenseCategory)
         {
-            _baseInfoApplicationService.ChangeExpenseCategoryInfo(categoryId, expenseCategoryInfo.Name, expenseCategoryInfo.FormulaType, expenseCategoryInfo.IsForOwner);
+            await _baseInfoApplicationService.ChangeExpenseCategoryAsync(categoryId, expenseCategory); 
+            return Ok();
         }
 
         //Expance
@@ -158,15 +156,15 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
         [HttpPost]
         [Route("{buildingId:int}/Expense")]
-        public void AddExpense([FromRoute] int buildingId , ExpenseRequest expenseInfo)
+        public void AddExpense([FromRoute] int buildingId , ExpenseRequest expense)
         {
-            _baseInfoApplicationService.AddExpense(buildingId, expenseInfo.CategoryId, expenseInfo.From, expenseInfo.To, expenseInfo.Amount, expenseInfo.Name);
+            _baseInfoApplicationService.AddExpense(buildingId, expense.CategoryId, expense.From, expense.To, expense.Amount, expense.Name);
         }
         [HttpPut]
         [Route("{buildingId:int}/Expense/{expenseId:int}")]
-        public void ChangeExpenseInfo([FromRoute] int buildingId , [FromRoute] int expenseId , ExpenseRequest expenseInfo)
+        public void ChangeExpense([FromRoute] int buildingId , [FromRoute] int expenseId , ExpenseRequest expense)
         {
-            _baseInfoApplicationService.ChangeExpenseInfo(expenseId, expenseInfo.CategoryId, expenseInfo.From, expenseInfo.To, expenseInfo.Amount, expenseInfo.Name);
+            _baseInfoApplicationService.ChangeExpense(expenseId, expense.CategoryId, expense.From, expense.To, expense.Amount, expense.Name);
         }
         [HttpDelete]
         [Route("{buildingId:int}/Expense/{expenseId:int}")]

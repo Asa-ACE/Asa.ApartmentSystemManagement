@@ -57,5 +57,11 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             var expenseCategories = await gateway.GetExpenseCategoriesAsync();
             return expenseCategories;
         }
+
+        public async Task UpdateExpenseCategoryAsync(ExpenseCategoryDTO expenseCategory)
+        {
+            var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();
+            await gateway.UpdateExpenseCategoryAsync(expenseCategory);
+        }
     }
 }

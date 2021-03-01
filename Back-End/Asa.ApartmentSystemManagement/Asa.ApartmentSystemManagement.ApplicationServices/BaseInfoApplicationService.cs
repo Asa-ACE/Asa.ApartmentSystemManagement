@@ -139,6 +139,13 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return expense.ExpenseId;
         }
 
+        public async Task ChangeExpenseCategoryAsync(int categoryId, ExpenseCategoryRequest newExpenseCategory)
+        {
+            var expenseCategory = newExpenseCategory.ToDTO();
+            expenseCategory.CategoryId = categoryId;
+            await _expenseManager.UpdateExpenseCategoryAsync(expenseCategory);
+        }
+
         public async Task<IEnumerable<UnitResponse>> GetOwnedUnitsAsync(int userId)
         {
             var units = await _buildingManager.GetOwnedUnitsAsync(userId);
