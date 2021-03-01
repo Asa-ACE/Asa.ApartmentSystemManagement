@@ -9,7 +9,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Response
     {
         public int CategoryId { get; set; }
         public string Name { get; set; }
-        public int FormulaType { get; set; }
+        public string FormulaType { get; set; }
         public bool IsForOwner { get; set; }
     }
 }

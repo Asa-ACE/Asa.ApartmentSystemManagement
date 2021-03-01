@@ -10,5 +10,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
     {
         Task<int> InsertExpenseCategoryAsync(ExpenseCategoryResponse expenseCategory);
         Task<ExpenseCategoryResponse> GetExpenseCategoryById(int id);
+        Task<IEnumerable<ExpenseCategoryDTO>> GetExpenseCategoriesAsync();
     }
 }

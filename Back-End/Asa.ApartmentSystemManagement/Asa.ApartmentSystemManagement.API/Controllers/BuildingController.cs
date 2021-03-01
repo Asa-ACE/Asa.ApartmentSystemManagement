@@ -17,8 +17,8 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
     [Route("[controller]")]
     public class BuildingController : ControllerBase
     {
-        private IBaseInfoApplicationService _baseInfoApplicationService;
-        private IChargeApplicationService _chargeApplicationService;
+        private BaseInfoApplicationService _baseInfoApplicationService;
+        private ChargeApplicationService _chargeApplicationService;
         public BuildingController(IBaseInfoApplicationService baseInfoApplicationService , IChargeApplicationService chargeApplicationService)
         {
             _baseInfoApplicationService = baseInfoApplicationService;

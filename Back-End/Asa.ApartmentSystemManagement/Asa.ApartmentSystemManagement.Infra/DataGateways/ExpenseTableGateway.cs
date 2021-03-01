@@ -64,7 +64,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
 
 
 
-        public Task<int> InsertExpenseAsync(ExpenseDTO expense)
+        public async Task<int> InsertExpenseAsync(ExpenseDTO expense)
         {
             throw new NotImplementedException();
         }
