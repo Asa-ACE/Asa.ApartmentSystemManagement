@@ -10,6 +10,9 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
 	public interface IChargeTableGateway
 	{
 		Task<int> InsertChargeAsync(ChargeDTO charge);
-		IEnumerable<CalculationDTO> GetCalculationInfos(int chargeId);
+		IEnumerable<CalculationDTO> GetCalculationInfosAsync(int chargeId);
+		Task DeleteChargeAsync(int chargeId);
+		Task UpdateChargeAsync(ChargeDTO charge);
+		Task<ChargeDTO> GetChargeAsync(int chargeId);
 	}
 }

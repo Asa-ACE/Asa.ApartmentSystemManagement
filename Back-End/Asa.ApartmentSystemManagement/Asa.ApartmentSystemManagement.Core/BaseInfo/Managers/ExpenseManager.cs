@@ -45,12 +45,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             return await gateway.GetExpensesAsync(buildingId);
         }
 
-        public async Task<IEnumerable<ExpenseDTO>> GetExpensesByBuildingIdAndDateAsync(DateTime from, DateTime to, int buildingId)
-        {
-            var gateway = _gatewayFactory.CreateExpenseTableGateway();
-            return await gateway.GetExpensesByBuildingIdAndDateAsync(from, to, buildingId).ConfigureAwait(false);
-        }
-
         public async Task<IEnumerable<ExpenseCategoryDTO>> GetExpenseCategoriesAsync()
         {
             var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();

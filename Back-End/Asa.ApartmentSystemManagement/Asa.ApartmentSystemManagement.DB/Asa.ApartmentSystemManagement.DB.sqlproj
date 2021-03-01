@@ -94,6 +94,10 @@
     <Build Include="dbo\StoredProcedures\SpGetAllExpenseCategories.sql" />
     <Build Include="dbo\StoredProcedures\SpGetOwnedUnits.sql" />
     <Build Include="dbo\StoredProcedures\SpGetRentedUnits.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetExpense.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetExpenses.sql" />
+    <Build Include="dbo\StoredProcedures\SpGetExpenseCategory.sql" />
+    <Build Include="dbo\StoredProcedures\SpCreateExpenseCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Asa.ApartmentSystemManagement.DB.refactorlog" />

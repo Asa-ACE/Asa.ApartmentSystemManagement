@@ -46,9 +46,53 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             }
         }
 
-        public Task<int> InsertExpenseCategoryAsync(ExpenseCategoryDTO expenseCategory)
+        public async Task<ExpenseCategoryDTO> GetExpenseCategoryById(int id)
         {
-            throw new NotImplementedException();
+            SqlDataReader reader;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpGetExpenseCategory]";
+                    cmd.Parameters.AddWithValue("@expenseCategoryId", id);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    reader = await cmd.ExecuteReaderAsync();
+                }
+            }
+
+            await reader.ReadAsync();
+            var result = new ExpenseCategoryDTO
+            {
+                CategoryId = Convert.ToInt32(reader["CategoryID"]),
+                Name = Convert.ToString(reader["Name"]),
+                FormulaType = Convert.ToString(reader["FormulaType"]),
+                IsForOwner = Convert.ToBoolean(reader["IsForOwner"]),
+            };
+
+            return result;
+        }
+
+        public async Task<int> InsertExpenseCategoryAsync(ExpenseCategoryDTO expenseCategory)
+        {
+            int id = 0;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpCreateExpenseCategory]";
+                    cmd.Parameters.AddWithValue("@name", expenseCategory.Name);
+                    cmd.Parameters.AddWithValue("@formulaType", expenseCategory.FormulaType);
+                    cmd.Parameters.AddWithValue("@isForOwner", expenseCategory.IsForOwner);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    var result = await cmd.ExecuteScalarAsync();
+                    id = Convert.ToInt32(result);
+                }
+            }
+            return id;
         }
     }
 }

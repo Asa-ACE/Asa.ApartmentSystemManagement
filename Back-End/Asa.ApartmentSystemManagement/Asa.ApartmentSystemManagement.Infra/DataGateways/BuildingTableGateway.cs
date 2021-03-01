@@ -94,23 +94,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
-        public async Task RemoveBuildingAsync(int id)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                using (var cmd = new SqlCommand())
-                {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpBuildingRemove]";
-                    cmd.Connection = connection;
-                    cmd.Connection.Open();
-                    await cmd.ExecuteNonQueryAsync();
-                    cmd.Connection.Close();
-                }
-            }
-
-        }
-
         public async Task UpdateBuildingAsync(BuildingDTO building)
         {
             using (var connection = new SqlConnection(_connectionString))
