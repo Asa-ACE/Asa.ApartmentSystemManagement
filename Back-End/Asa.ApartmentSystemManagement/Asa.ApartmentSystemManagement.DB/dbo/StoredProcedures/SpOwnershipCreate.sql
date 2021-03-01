@@ -6,16 +6,17 @@
 
 AS
 BEGIN
+    SET NOCOUNT ON;
 
-INSERT INTO [dbo].[Ownership]
-           ([UnitID]
-           ,[PersonID]
-           ,[From]
-           ,[To])
-     VALUES
-            (@unitId,
-            @personId,
-            @from,
-            @to)
-select SCOPE_IDENTITY()
+    INSERT INTO [dbo].[Ownership]
+               ([UnitID]
+               ,[PersonID]
+               ,[From]
+               ,[To])
+         VALUES
+                (@unitId,
+                @personId,
+                @from,
+                @to)
+    select SCOPE_IDENTITY()
 END

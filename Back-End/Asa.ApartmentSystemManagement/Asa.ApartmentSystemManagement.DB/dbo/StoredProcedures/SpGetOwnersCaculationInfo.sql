@@ -2,6 +2,7 @@
 	@chargeId INT
 AS
 BEGIN
+	SET NOCOUNT ON;
 	SELECT	e.ExpenseID,
 			e.Amount,
 			ec.FormulaType [FormulaType],

@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Response
 {
-    public class ChargeItemResponse
+    public class GetUnitChargeResponse
     {
-        public int Id { get; set; }
-		public string ExpenseName { get; set; }
-		public decimal Amount { get; set; }
+		public string Name { get; set; }
+		public IEnumerable<ChargeItemResponse> ChargeItems { get; set; }
 	}
 }

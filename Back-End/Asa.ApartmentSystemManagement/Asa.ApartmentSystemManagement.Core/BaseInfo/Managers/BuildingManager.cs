@@ -136,13 +136,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             await gateway.UpdateOwnershipAsync(ownershipDTO);
         }
 
-        public async Task<IEnumerable<ShareInfo>> GetOwnerPaymentsAsync(int unitId, DateTime from, DateTime to)
-        {
-            var gateway = _gatewayFactory.CreateOwnershipTableGateway();
-            return await gateway.GetOwnerPaymentsAsync(unitId, from, to);
-
-        }
-
 		private void ValidateOwership(OwnershipDTO ownership)
 		{
 			throw new NotImplementedException();
@@ -165,12 +158,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             var gateway = _gatewayFactory.CreateTenancyTableGateway();
             await gateway.UpdateTenancyAsync(tenancy);
 
-        }
-
-        public async Task<TenancyDTO> GetTenancyAsync(int unitId)
-        {
-            var gateway = _gatewayFactory.CreateTenancyTableGateway();
-            return await gateway.GetTenancyAsync(unitId).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<UnitDTO>> GetOwnedUnitsAsync(int personId)

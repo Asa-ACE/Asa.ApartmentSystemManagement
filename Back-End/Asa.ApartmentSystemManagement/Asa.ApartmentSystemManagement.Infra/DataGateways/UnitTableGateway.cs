@@ -20,14 +20,14 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
         public async Task<IEnumerable<UnitDTO>> GetUnitsByBuildingIdAsync(int id)
         {
             var result = new List<UnitDTO>();
-            using(var connecion = new SqlConnection(_connectionString))
+            using(var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpUnitsGetAll]";
                     cmd.Parameters.AddWithValue("@buildingId", id);
-                    cmd.Connection = connecion;
+                    cmd.Connection = connection;
                     cmd.Connection.Open();
                     using (var dataReader = await cmd.ExecuteReaderAsync())
                     {
@@ -100,14 +100,14 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
         public async Task<IEnumerable<UnitDTO>> GetOwnedUnitsAsync(int personId)
         {
             var result = new List<UnitDTO>();
-            using (var connecion = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpGetOwnedUnits]";
                     cmd.Parameters.AddWithValue("@personId", personId);
-                    cmd.Connection = connecion;
+                    cmd.Connection = connection;
                     cmd.Connection.Open();
                     using (var dataReader = await cmd.ExecuteReaderAsync())
                     {

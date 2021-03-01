@@ -1,4 +1,5 @@
-﻿using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
+﻿using Asa.ApartmentSystemManagement.ApplicationServices.Model.Request;
+using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,6 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
         {
             ExpenseResponse model = new ExpenseResponse();
             model.CategoryId = expense.CategoryId;
-            model.BuildingId = expense.BuildingId;
             model.Amount = expense.Amount;
             model.ExpenseId = expense.ExpenseId;
             model.From = expense.From;
@@ -50,5 +50,47 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
             }
             return model;
         }
+
+        public static ExpenseCategoryDTO ToDTO(this ExpenseCategoryRequest expense)
+        {
+            ExpenseCategoryDTO DTO = new ExpenseCategoryDTO();
+            DTO.FormulaType = expense.FormulaType;
+            DTO.IsForOwner = expense.IsForOwner;
+            DTO.Name = expense.Name;
+            return DTO;
+        }
+
+        public static IEnumerable<ExpenseCategoryDTO> ToDTO(this IEnumerable<ExpenseCategoryRequest> expenses)
+        {
+            List<ExpenseCategoryDTO> DTOs = new List<ExpenseCategoryDTO>();
+            foreach (var expense in expenses)
+            {
+                DTOs.Add(expense.ToDTO());
+            }
+            return DTOs;
+        }
+
+        public static ExpenseDTO ToDTO(this ExpenseRequest expense)
+        {
+            ExpenseDTO dto = new ExpenseDTO();
+            dto.CategoryId = expense.CategoryId;
+            dto.BuildingId = expense.BuildingId;
+            dto.Amount = expense.Amount;
+            dto.From = expense.From;
+            dto.To = expense.To;
+            dto.Name = expense.Name;
+            return dto;
+        }
+
+        public static IEnumerable<ExpenseDTO> ToDTO(this IEnumerable<ExpenseRequest> expenses)
+        {
+            List<ExpenseDTO> DTOs = new List<ExpenseDTO>();
+            foreach (var expense in expenses)
+            {
+                DTOs.Add(expense.ToDTO());
+            }
+            return DTOs;
+        }
+
     }
 }

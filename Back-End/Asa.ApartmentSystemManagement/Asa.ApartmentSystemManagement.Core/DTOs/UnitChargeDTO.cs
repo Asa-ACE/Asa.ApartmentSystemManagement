@@ -5,14 +5,11 @@ using System.Text;
 
 namespace Asa.ApartmentSystemManagement.Core.DTOs
 {
-	public class CalculationDTO
+	public class UnitChargeDTO
 	{
-		public int ExpenseId { get; set; }
-		public string FormulaName { get; set; }
-		public decimal Amount { get; set; }
-		public bool IsForOwner { get; set; }
+		public int ChargeId { get; set; }
 		public DateTime From { get; set; }
 		public DateTime To { get; set; }
-		public int BuildingId { get; set; }
+		public IEnumerable<ChargeItemDTO> ChargeItems { get; set; }
 	}
 }
