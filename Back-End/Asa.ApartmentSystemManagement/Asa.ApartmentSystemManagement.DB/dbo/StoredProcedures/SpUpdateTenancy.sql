@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[SpTenancyUpdate]
+﻿CREATE PROCEDURE [dbo].[SpUpdateTenancy]
 	@tenancyId int,
 	@unitId int,
 	@personId int,
@@ -11,5 +11,4 @@ AS
 	Update [dbo].[Tenancy]
 	SET UnitID = @unitId, PersonID = @personId, [From] = @from, [To] = @to, NumberOfPeopel = @numberOfPeople
 	WHERE TenancyID = @tenancyId
-select SCOPE_IDENTITY()
 END

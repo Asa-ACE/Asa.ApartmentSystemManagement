@@ -46,5 +46,9 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             }
         }
 
+        public Task<int> InsertExpenseCategoryAsync(ExpenseCategoryDTO expenseCategory)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

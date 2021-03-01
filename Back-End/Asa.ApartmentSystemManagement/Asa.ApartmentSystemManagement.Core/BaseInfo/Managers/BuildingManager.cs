@@ -165,10 +165,18 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             var gateway = _gatewayFactory.CreateUnitTableGateway();
             return await gateway.GetOwnedUnitsAsync(personId);
         }
+
         public async Task<IEnumerable<UnitDTO>> GetRentedUnitsAsync(int personId)
         {
             var gateway = _gatewayFactory.CreateUnitTableGateway();
             return await gateway.GetRentedUnitsAsync(personId);
+        }
+
+        public async Task AddExpenseCategoryAsync(ExpenseCategoryDTO expenseCategory)
+        {
+            var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();
+            var id = await gateway.InsertExpenseCategoryAsync(expenseCategory);
+            expenseCategory.CategoryId = id;
         }
 
     }
