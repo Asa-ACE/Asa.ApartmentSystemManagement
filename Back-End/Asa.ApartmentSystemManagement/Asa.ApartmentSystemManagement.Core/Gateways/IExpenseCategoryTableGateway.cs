@@ -8,8 +8,8 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
 {
     public interface IExpenseCategoryTableGateway
     {
-        Task<int> InsertExpenseCategoryAsync(ExpenseCategoryResponse expenseCategory);
-        Task<ExpenseCategoryResponse> GetExpenseCategoryById(int id);
+        Task<int> InsertExpenseCategoryAsync(ExpenseCategoryDTO expenseCategory);
+        Task<ExpenseCategoryDTO> GetExpenseCategoryById(int id);
         Task<IEnumerable<ExpenseCategoryDTO>> GetExpenseCategoriesAsync();
     }
 }

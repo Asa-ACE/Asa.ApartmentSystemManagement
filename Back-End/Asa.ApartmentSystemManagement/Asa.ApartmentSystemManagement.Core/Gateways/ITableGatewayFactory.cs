@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Asa.ApartmentSystemManagement.Core.Gateways;
+using System;
 using System.Collections.Generic;
 using System.Text;
 

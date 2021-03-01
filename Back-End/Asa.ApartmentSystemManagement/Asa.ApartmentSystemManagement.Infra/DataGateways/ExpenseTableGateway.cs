@@ -18,14 +18,37 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             this.connectionString = connectionString;
         }
 
-        public Task<ExpenseDTO> GetExpenseById(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<ExpenseDTO> GetExpenseByIdAsync(int id)
+        public async Task<ExpenseDTO> GetExpenseByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            SqlDataReader reader;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpGetExpense]";
+                    cmd.Parameters.AddWithValue("@expenseId", id);
+                    cmd.Connection = connection;
+                    connection.Open();
+                    reader = await cmd.ExecuteReaderAsync();
+                }
+            }
+
+            await reader.ReadAsync();
+            var result = new ExpenseDTO
+            {
+                ExpenseId = id,
+                BuildingId = Convert.ToInt32(reader["BuildingId"]),
+                CategoryId = Convert.ToInt32(reader["CategoryId"]),
+                From = Convert.ToDateTime(reader["From"]),
+                To = Convert.ToDateTime(reader["To"]),
+                Amount = Convert.ToDecimal(reader["Amount"]),
+                Name = Convert.ToString(reader["Name"])
+
+            };
+
+            return result;
         }
 
         public async Task<IEnumerable<CalculationDTO>> GetCalculationInfosByChargeIdAsync(int chargeId)
@@ -62,8 +85,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return result;
         }
 
-
-
         public async Task<int> InsertExpenseAsync(ExpenseDTO expense)
         {
             int id = 0;
@@ -86,6 +107,39 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 }
             }
             return id;
+        }
+
+        public async Task<IEnumerable<ExpenseDTO>> GetExpensesAsync(int buildingId)
+        {
+            var result = new List<ExpenseDTO>();
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpGetExpenses]";
+                    cmd.Parameters.AddWithValue("@buildingId", buildingId);
+
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    using (var dataReader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await dataReader.ReadAsync())
+                        {
+                            var expenseDTO = new ExpenseDTO();
+                            expenseDTO.Amount = Convert.ToDecimal(dataReader["Amount"]);
+                            expenseDTO.ExpenseId = Convert.ToInt32(dataReader["ExpenseID"]);
+                            expenseDTO.From = Convert.ToDateTime(dataReader["From"]);
+                            expenseDTO.To = Convert.ToDateTime(dataReader["To"]);
+                            expenseDTO.Name = Convert.ToString(dataReader["Name"]);
+                            expenseDTO.BuildingId = Convert.ToInt32(dataReader["BuildingId"]);
+                            result.Add(expenseDTO);
+                        }
+                    }
+                }
+            }
+            return result;
         }
     }
 }

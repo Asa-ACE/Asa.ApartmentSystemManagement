@@ -79,7 +79,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpUniCreate]";
+                    cmd.CommandText = "[dbo].[SpUnitCreate]";
                     cmd.Parameters.AddWithValue("BuildingId", unit.BuildingId);
                     cmd.Parameters.AddWithValue("@Area", unit.Area);
                     cmd.Parameters.AddWithValue("@UnitNumber", unit.UnitNumber);

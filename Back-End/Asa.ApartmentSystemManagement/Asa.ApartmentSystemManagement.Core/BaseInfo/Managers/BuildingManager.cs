@@ -59,12 +59,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             await gateway.UpdateBuildingAsync(building);
         }
 
-        public async Task RemoveBuildingAsync(int id)
-        {
-            var gateway = _gatewayFactory.CreateBuildingTableGateway();
-            await gateway.RemoveBuildingAsync(id).ConfigureAwait(false);
 
-        }
 
         public async Task AddUnitAsync(UnitDTO unit)
         {
@@ -125,7 +120,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         public async Task AddOwnershipAsync(OwnershipDTO ownership)
 		{
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
-            ValidateOwership(ownership);
+            /*ValidateOwership(ownership);*/
             var id = await gateway.InsertOwnershipAsync(ownership).ConfigureAwait(false);
             ownership.Id = id;
 		}
@@ -136,22 +131,22 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             await gateway.UpdateOwnershipAsync(ownershipDTO);
         }
 
-		private void ValidateOwership(OwnershipDTO ownership)
+/*		private void ValidateOwership(OwnershipDTO ownership)
 		{
 			throw new NotImplementedException();
-		}
+		}*/
         public async Task AddTenancyAsync(TenancyDTO tenancy)
         {
             var gateway = _gatewayFactory.CreateTenancyTableGateway();
-            ValidateTenancy(tenancy);
+            /*ValidateTenancy(tenancy);*/
             var id = await gateway.InsertTenancyAsync(tenancy);
             tenancy.PersonId = id;
         }
 
-        private void ValidateTenancy(TenancyDTO tenancy)
+/*        private void ValidateTenancy(TenancyDTO tenancy)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
         public async Task UpdateTenancyAsync(TenancyDTO tenancy)
         {

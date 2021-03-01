@@ -11,7 +11,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
         Task<int> InsertBuildingAsync(BuildingDTO building);
         Task<BuildingDTO> GetBuildingByIdAsync(int id);
         Task UpdateBuildingAsync(BuildingDTO building);
-        Task RemoveBuildingAsync(int id);
         Task<IEnumerable<BuildingDTO>> GetBuildingsAsync(int userId);
     }
 }

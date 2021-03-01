@@ -1,5 +1,6 @@
 ﻿
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
+using Asa.ApartmentSystemManagement.Core.Gateways;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,10 +18,14 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
 
         public IBuildingTableGateway CreateBuildingTableGateway() => new BuildingTableGateway(_connectionString);
 
-        public IExpenseCategoryTableGateway CreateExpenseCategoryTableGateway()
-        {
-            throw new NotImplementedException();
-        }
+        public IChargeItemTableGateway CreateChargeItemTableGateway() => new ChargeItemTableGateway(_connectionString);
+
+
+        public IChargeTableGateway CreateChargeTableGateway() => new ChargeTableGateway(_connectionString);
+
+
+        public IExpenseCategoryTableGateway CreateExpenseCategoryTableGateway() => new ExpenseCategoryTableGateway(_connectionString);
+
 
         public IExpenseTableGateway CreateExpenseTableGateway() => new ExpenseTableGateway(_connectionString);
 
@@ -35,6 +40,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
 
 
         public IUnitTableGateway CreateUnitTableGateway() => new UnitTableGateway(_connectionString);
+
 
     }
 }

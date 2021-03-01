@@ -51,35 +51,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return result;
         }
 
-        public async Task<TenancyDTO> GetTenancyAsync(int unitId)
-        {
-            SqlDataReader reader;
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                using (var cmd = new SqlCommand())
-                {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpTenantGet]";
-                    cmd.Parameters.AddWithValue("@unitId", unitId);
-                    cmd.Connection = connection;
-                    cmd.Connection.Open();
-                    reader = await cmd.ExecuteReaderAsync();
-                }
-            }
-
-            await reader.ReadAsync();
-            var result = new TenancyDTO
-            {
-                UnitId = unitId,
-                PersonId = Convert.ToInt32("personId"),
-                TenancyId = Convert.ToInt32("tenancyId"),
-                From = Convert.ToDateTime("from"),
-                To = Convert.ToDateTime("to"),
-                NumberOfPeople = Convert.ToInt32("numberOfPeople"),
-            };
-
-            return result;
-        }
 
         public async Task<int> InsertTenancyAsync(TenancyDTO tenancy)
         {

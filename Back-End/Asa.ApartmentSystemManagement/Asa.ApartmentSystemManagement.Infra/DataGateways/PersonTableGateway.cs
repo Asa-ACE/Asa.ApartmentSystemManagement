@@ -90,37 +90,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             }
         }
 
-        public async Task<IEnumerable<PersonDTO>> GetOwnersByPersonIdAsync(int pId)
-        {
-            var result = new List<PersonDTO>();
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                using (var cmd = new SqlCommand())
-                {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpGetAllOwners]";
-                    cmd.Parameters.AddWithValue("@UnitId", pId);
-                    cmd.Connection = connection;
-                    cmd.Connection.Open();
-                    using (var dataReader = await cmd.ExecuteReaderAsync())
-                    {
-                        while (await dataReader.ReadAsync())
-                        {
-                            var person = new PersonDTO();
-                            person.Id = Convert.ToInt32(dataReader["PersonId"]);
-                            person.FirstName = Convert.ToString(dataReader["FirstName"]);
-                            person.LastName = Convert.ToString(dataReader["LastName"]);
-                            person.PhoneNumber = Convert.ToString(dataReader["PhoneNumber"]);
-                            person.UserName = Convert.ToString(dataReader["UserName"]);
-                            result.Add(person);
-                        }
-                    }
-                }
-            }
-            return result;
-        }
-
-        public async Task<IEnumerable<PersonDTO>> GetTenantsByUnitId(int unitId)
+        public async Task<IEnumerable<PersonDTO>> GetTenantsByUnitIdAsync(int unitId)
         {
             var result = new List<PersonDTO>();
             using (var connection = new SqlConnection(_connectionString))
@@ -149,5 +119,36 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             }
             return result;
         }
+
+        public async Task<IEnumerable<PersonDTO>> GetOwnersByUnitIdAsync(int unitId)
+        {
+            var result = new List<PersonDTO>();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpGetAllOwners]";
+                    cmd.Parameters.AddWithValue("@UnitId", unitId);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    using (var dataReader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await dataReader.ReadAsync())
+                        {
+                            var person = new PersonDTO();
+                            person.Id = Convert.ToInt32(dataReader["PersonId"]);
+                            person.FirstName = Convert.ToString(dataReader["FirstName"]);
+                            person.LastName = Convert.ToString(dataReader["LastName"]);
+                            person.PhoneNumber = Convert.ToString(dataReader["PhoneNumber"]);
+                            person.UserName = Convert.ToString(dataReader["UserName"]);
+                            result.Add(person);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
     }
 }

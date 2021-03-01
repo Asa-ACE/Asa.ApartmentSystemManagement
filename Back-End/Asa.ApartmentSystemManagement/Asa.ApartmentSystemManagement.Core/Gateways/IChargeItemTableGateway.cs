@@ -9,5 +9,6 @@ namespace Asa.ApartmentSystemManagement.Core.Gateways
 	public interface IChargeItemTableGateway
 	{
 		Task InsertChargeItemsAsync(IEnumerable<ChargeItemDTO> chargeItems, int chargeId);
+
 	}
 }
