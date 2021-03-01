@@ -63,9 +63,28 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
 
 
 
-        public Task<int> InsertExpenseAsync(ExpenseDTO expense)
+        public async Task<int> InsertExpenseAsync(ExpenseDTO expense)
         {
-            throw new NotImplementedException();
+            int id = 0;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpExpenseInsert]";
+                    cmd.Parameters.AddWithValue("@buildingId", expense.BuildingId);
+                    cmd.Parameters.AddWithValue("@categoryId", expense.CategoryId);
+                    cmd.Parameters.AddWithValue("@from", expense.From);
+                    cmd.Parameters.AddWithValue("@to", expense.To);
+                    cmd.Parameters.AddWithValue("@amount", expense.Amount);
+                    cmd.Parameters.AddWithValue("@name", expense.Name);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    var result = await cmd.ExecuteScalarAsync();
+                    id = Convert.ToInt32(result);
+                }
+            }
+            return id;
         }
     }
 }
