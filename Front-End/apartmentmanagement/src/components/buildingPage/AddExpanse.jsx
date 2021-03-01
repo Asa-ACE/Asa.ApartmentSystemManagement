@@ -8,27 +8,23 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 
-
-
 const categories = [
-    {
-      value: '12',
-      label: 'قبوض',
-    },
-    {
-      value: '13',
-      label: 'تعمیرات',
-    },
-    {
-      value: '14',
-      label: 'نظافت',
-    },
-  ];
-
-
+  {
+    value: "12",
+    label: "قبوض",
+  },
+  {
+    value: "13",
+    label: "تعمیرات",
+  },
+  {
+    value: "14",
+    label: "نظافت",
+  },
+];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,25 +51,21 @@ function AddExpanse() {
   const fromInput = useRef(null);
   const toInput = useRef(null);
 
-
   const classes = useStyles();
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`salam`);
   };
 
-
-
-
-  const [catgory, setCategory] = React.useState('12');
+  const [catgory, setCategory] = React.useState("12");
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
-  
+
   return (
     <Paper className={classes.paper}>
-      <Typography component="h1" variant="h5" >
-        ثبت هزینه
+      <Typography component="h1" variant="h5">
+        Add Expense
       </Typography>
       <form onSubmit={(e) => handleSubmit(e)}>
         <TextField
@@ -82,22 +74,22 @@ function AddExpanse() {
           required
           fullWidth
           id="title"
-          label="عنوان"
+          label="Title"
           name="title"
           inputRef={titleInput}
         />
-        
+
         <TextField
           variant="outlined"
           margin="normal"
           required
           fullWidth
           name="amount"
-          label="مبلغ"
+          label="Amount"
           type="number"
           id="amount"
           innerRef={amountInput}
-        />  
+        />
 
         <TextField
           variant="outlined"
@@ -105,11 +97,11 @@ function AddExpanse() {
           required
           fullWidth
           name="from"
-          label="از"
+          label="From"
           type="date"
           id="from"
           innerRef={fromInput}
-        />        
+        />
 
         <TextField
           variant="outlined"
@@ -117,7 +109,7 @@ function AddExpanse() {
           required
           fullWidth
           name="to"
-          label="تا"
+          label="To"
           type="date"
           id="to"
           innerRef={toInput}
@@ -127,7 +119,7 @@ function AddExpanse() {
           id="ExpanseCategory"
           select
           fullWidth
-          label="نوع هزینه"
+          label="Expense Category"
           value={catgory}
           onChange={handleChange}
           variant="filled"
@@ -146,11 +138,10 @@ function AddExpanse() {
           type="submit"
           className={classes.submit}
         >
-          ثبت هزینه
+          Add Expense
         </Button>
       </form>
     </Paper>
-    
   );
 }
 

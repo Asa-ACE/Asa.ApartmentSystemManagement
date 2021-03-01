@@ -8,7 +8,8 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { axios } from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,13 +50,18 @@ function Login() {
   const passwordInput = useRef(null);
 
   const classes = useStyles();
+
+  const login = async (username, password) => {
+    let res = await axios.post("");
+    if (!res.ok) {
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      `${usernameInput.current.value} : ${passwordInput.current.value}`
-    );
-    console.log(usernameInput);
+    login(usernameInput.current.value, passwordInput.current.value);
   };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />

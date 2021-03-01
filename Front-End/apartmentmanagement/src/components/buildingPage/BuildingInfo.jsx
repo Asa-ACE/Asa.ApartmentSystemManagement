@@ -32,19 +32,16 @@ const useStyles = makeStyles((theme) => ({
 function BuildingInfo() {
   const nameInput = useRef(null);
 
-
   const classes = useStyles();
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      `${nameInput.current.value}`
-    );
+    console.log(`${nameInput.current.value}`);
   };
-  
+
   return (
     <Paper className={classes.paper}>
-      <Typography component="h1" variant="h5" >
-        اطلاعات ساختمان
+      <Typography component="h1" variant="h5">
+        Building Information
       </Typography>
       <form onSubmit={(e) => handleSubmit(e)}>
         <TextField
@@ -53,7 +50,7 @@ function BuildingInfo() {
           required
           fullWidth
           id="username"
-          label="نام ساختمان"
+          label="Building Name"
           name="username"
           defaultValue="apartment"
           inputRef={nameInput}
@@ -64,7 +61,7 @@ function BuildingInfo() {
           type="submit"
           className={classes.submit}
         >
-          تغییر نام ساختمان
+          Change Building Name
         </Button>
         <TextField
           variant="outlined"
@@ -72,14 +69,13 @@ function BuildingInfo() {
           disabled
           fullWidth
           name="numberOfUnit"
-          label="تعداد واحدها"
+          label="Number Of Units"
           type="number"
           id="numberOfUnit"
           value="20"
         />
       </form>
     </Paper>
-    
   );
 }
 

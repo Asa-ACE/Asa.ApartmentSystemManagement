@@ -9,13 +9,13 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuItem from "@material-ui/core/MenuItem";
+import Popover from "@material-ui/core/Popover";
 import MenuList from "@material-ui/core/MenuList";
 import { Box } from "@material-ui/core";
-import { SidebarContext } from "./Dashboard";
+import { SidebarContext } from "./Template";
 import clsx from "clsx";
-import { drawerWidth } from "./Dashboard";
+import { drawerWidth } from "./Template";
+import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,39 +48,16 @@ const useStyles = makeStyles((theme) => ({
   hide: {
     display: "none",
   },
-  menuPopper:{
-    zIndex:"1500",
+  menuPopper: {
+    zIndex: "1500",
   },
 }));
 
-function Navbar(props) {
+function Navbar() {
   const classes = useStyles();
   const [openMenue, setOpenMenue] = React.useState(false);
   const anchorRef = React.useRef(null);
   const { openSidebar, setOpenSidebar } = useContext(SidebarContext);
-
-  const handleToggle = () => {
-    console.log(openMenue);
-    setOpenMenue((prevOpen) => !prevOpen);
-    console.log(openMenue);
-  };
-
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
-    setOpenMenue(false);
-  };
-
-  const prevOpen = React.useRef(openMenue);
-  React.useEffect(() => {
-    if (prevOpen.current === true && openMenue === false) {
-      anchorRef.current.focus();
-    }
-
-    prevOpen.current = openMenue;
-  }, [openMenue]);
 
   const handleDrawerOpen = () => {
     setOpenSidebar(true);
@@ -88,7 +65,7 @@ function Navbar(props) {
 
   return (
     <AppBar
-      position="static"
+      position="fixed"
       className={clsx(classes.appBar, {
         [classes.appBarShift]: openSidebar,
       })}
@@ -104,56 +81,40 @@ function Navbar(props) {
           <MenuIcon />
         </IconButton>
         <Typography variant="h4" className={classes.title}>
-          شارژآسا
+          ChargeAsa
         </Typography>
-        <Button
-          aria-controls={openMenue ? "menu-list-grow" : undefined}
-          aria-haspopup="true"
-          onClick={() => {
-            console.log("Didid");
-            handleToggle();
-          }}
-          ref={anchorRef}
-        >
-          <Typography variant="h6" className={classes.profile}>
-            امیرحسین
-          </Typography>
-        </Button>
-        <Popper
-          open={openMenue}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          transition
-          disablePortal
-          className={classes.menuPopper}
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom",
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList autoFocusItem={openMenue} id="menu-list-grow">
-                    <Box width={300} className={classes.profileContainer}>
-                      <Typography variant="subtitle1">امیرحسین</Typography>
-                    </Box>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={handleClose}
-                    >
-                      خروج
-                    </Button>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
+        <PopupState variant="popover" popupId="popup">
+          {(popupState) => (
+            <>
+              <Button
+                aria-controls={openMenue ? "menu-list-grow" : undefined}
+                aria-haspopup="true"
+                {...bindTrigger(popupState)}
+              >
+                <Typography variant="h6" className={classes.profile}>
+                  AmirHossein
+                </Typography>
+              </Button>
+              <Popover
+                {...bindPopover(popupState)}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+              >
+                <Box p={2}>
+                  <Button variant="contained" color="primary">
+                    <Typography>Logout</Typography>
+                  </Button>
+                </Box>
+              </Popover>
+            </>
           )}
-        </Popper>
+        </PopupState>
       </Toolbar>
     </AppBar>
   );

@@ -1,31 +1,32 @@
 import { makeStyles, useTheme } from "@material-ui/core";
 import { useContext } from "react";
-import { SidebarContext } from "./Dashboard";
+import { SidebarContext } from "./Template";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Drawer from "@material-ui/core/Drawer";
-import { drawerWidth } from "./Dashboard";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { drawerWidth } from "./Template";
+import MeetingRoomRoundedIcon from "@material-ui/icons/MeetingRoomRounded";
+import ApartmentRoundedIcon from "@material-ui/icons/ApartmentRounded";
 
 const useStyle = makeStyles((theme) => ({
   hide: {
     display: "none",
   },
   drawer: {
-    width: drawerWidth ,
+    width: drawerWidth,
     flexShrink: 0,
   },
   drawerPaper: {
-    width: drawerWidth ,
-    backgroundColor:"#E91E63",
-    boxShadow: "0 5px 10px -3px rgba(0,0,0,.23), 0 6px 10px -5px rgba(0,0,0,.25)",
-    borderRadius: "35"
+    width: drawerWidth,
+    boxShadow:
+      "0 5px 10px -3px rgba(0,0,0,.23), 0 6px 10px -5px rgba(0,0,0,.25)",
+    borderRadius: "35",
   },
   drawerHeader: {
     display: "flex",
@@ -33,11 +34,10 @@ const useStyle = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
-    backgroundColor:"#3f51b5",
   },
 }));
 
-function Sidebar(props) {
+function Sidebar() {
   const classes = useStyle(drawerWidth);
   const { openSidebar, setOpenSidebar } = useContext(SidebarContext);
   const theme = useTheme();
@@ -67,11 +67,17 @@ function Sidebar(props) {
       </div>
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemText primary="ساختمان ها" />
+        <ListItem button key="Buildings">
+          <ListItemIcon>
+            <ApartmentRoundedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Buildings" />
         </ListItem>
-        <ListItem button>
-          <ListItemText primary="واحد ها" />
+        <ListItem button key="Units">
+          <ListItemIcon>
+            <MeetingRoomRoundedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Units" />
         </ListItem>
       </List>
     </Drawer>

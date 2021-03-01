@@ -16,7 +16,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Button from "@material-ui/core/Button";
-import {CardActionArea} from "@material-ui/core";
+import { CardActionArea } from "@material-ui/core";
 import { BorderAllRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,18 +27,14 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 200,
     marginLeft: 10,
-    marginRight: 10
-    
-    //paddingTop: "56.25%", // 16:9
+    marginRight: 10,
   },
-
 }));
 
-
-function BuildingCard({BuildingData}) {
+function BuildingCard({ BuildingData, bg }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const {Name , Id , NumberOfUnits} = BuildingData ;
+  const { Name, Id, NumberOfUnits } = BuildingData;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -46,23 +42,21 @@ function BuildingCard({BuildingData}) {
 
   return (
     <CardActionArea>
-    <Card className={classes.root}>
-      
-          <CardHeader title={Name} subheader={Id} />
-          <CardMedia
-            className={classes.media}
-            image="https://specials-images.forbesimg.com/dam/imageserve/947014356/960x0.jpg"
-            title="apartment image"
-          />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              <b>Number of Units : {NumberOfUnits}</b>
-            </Typography>
-          </CardContent>
-      
-    </Card>
+      <Card className={classes.root} style={{ backgroundColor: bg }}>
+        <CardHeader title={Name} subheader={Id} />
+        <CardMedia
+          className={classes.media}
+          image="https://specials-images.forbesimg.com/dam/imageserve/947014356/960x0.jpg"
+          title="apartment image"
+        />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            <b>Number of Units : {NumberOfUnits}</b>
+          </Typography>
+        </CardContent>
+      </Card>
     </CardActionArea>
   );
 }
 
-export default BuildingCard ;
+export default BuildingCard;

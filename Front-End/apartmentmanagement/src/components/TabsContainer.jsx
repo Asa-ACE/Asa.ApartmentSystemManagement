@@ -3,7 +3,7 @@ import StyledTab from "./StyledTab";
 import StyledTabs from "./StyledTabs";
 import TabPanel from "./TabPanel";
 import { makeStyles, Typography } from "@material-ui/core";
-import {Grid} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +29,7 @@ function TabsContainer(props) {
 
   return (
     <div className={classes.root}>
-      <TabsContext.Provider value={{value, setValue}}>
+      <TabsContext.Provider value={{ value, setValue }}>
         <Grid container>
           <Grid item xs={12}>
             <div className={classes.container}>
@@ -45,13 +45,15 @@ function TabsContainer(props) {
                 ))}
               </StyledTabs>
             </div>
-            <Typography className={classes.padding}/>
+            <Typography className={classes.padding} />
           </Grid>
-          {children.map((tab, index) => (
-            <TabPanel value={value} index={index}>
-              {tab.props.children}
-            </TabPanel>
-          ))}
+          <Grid Item xs={12}>
+            {children.map((tab, index) => (
+              <TabPanel value={value} index={index}>
+                {tab.props.children}
+              </TabPanel>
+            ))}
+          </Grid>
         </Grid>
       </TabsContext.Provider>
     </div>
