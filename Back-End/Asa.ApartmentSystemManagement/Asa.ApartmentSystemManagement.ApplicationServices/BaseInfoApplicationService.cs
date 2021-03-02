@@ -166,6 +166,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
         {
             await _expenseManager.DeleteExpenseAsync(expenseId);
         }
+
     }
 }
 

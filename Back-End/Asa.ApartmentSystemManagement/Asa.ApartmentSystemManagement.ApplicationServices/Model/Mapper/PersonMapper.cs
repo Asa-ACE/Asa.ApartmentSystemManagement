@@ -50,5 +50,21 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
             return model;
         }
 
+        public static UserResponse ToUserModel(this PersonDTO person)
+        {
+            if(person == null)
+            {
+                return null;
+            }
+            var model = new UserResponse
+            {
+                UserId = person.Id,
+                UserName = person.UserName,
+                FirstName = person.FirstName,
+                LastName = person.LastName
+            };
+            return model;
+        }
+
     }
 }

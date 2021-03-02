@@ -60,11 +60,13 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     {
                         while (await dataReader.ReadAsync())
                         {
-                            var building = new BuildingDTO();
-                            building.Id = Convert.ToInt32(dataReader["BuildingId"]);
-                            building.Name = Convert.ToString(dataReader["Name"]);
-                            building.NumberOfUnits = Convert.ToInt32(dataReader["NumberOfUnits"]);
-                            building.Address = Convert.ToString(dataReader["Address"]);
+                            var building = new BuildingDTO {
+                                Id = Convert.ToInt32(dataReader["BuildingId"]),
+                                Name = Convert.ToString(dataReader["Name"]),
+                                NumberOfUnits = Convert.ToInt32(dataReader["NumberOfUnits"]),
+                                Address = Convert.ToString(dataReader["Address"]),
+                            };
+
                             result.Add(building);
                         }
                     }

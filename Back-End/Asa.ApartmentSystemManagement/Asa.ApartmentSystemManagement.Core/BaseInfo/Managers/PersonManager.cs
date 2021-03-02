@@ -17,6 +17,13 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             _tableGatewayFactory = tableGatewayFactory;
         }
 
+        public async Task<PersonDTO> AuthenticatePerson(string username, string password)
+        {
+            var gateway = _tableGatewayFactory.CreatePersonTableGateway();
+            var person = await gateway.AuthenticatePerson(username, password);
+            return person;
+        }
+
         public async Task AddPerson(PersonDTO person)
         {
             ValidatePerson(person);

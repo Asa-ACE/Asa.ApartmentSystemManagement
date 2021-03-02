@@ -150,5 +150,36 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return result;
         }
 
+        public async Task<PersonDTO> AuthenticatePerson(string username, string password)
+        {
+            SqlDataReader reader;
+            using(var connection = new SqlConnection(_connectionString))
+            {
+                using(var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpAuthenticate]";
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@password", password);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    reader = await cmd.ExecuteReaderAsync();
+                }
+            }
+            if(await reader.ReadAsync())
+            {
+                var person = new PersonDTO
+                {
+                    Id = Convert.ToInt32(reader["PersonID"]),
+                    FirstName = Convert.ToString(reader["FirstName"]),
+                    LastName = Convert.ToString(reader["LastName"]),
+                    UserName = Convert.ToString(reader["UserName"]),
+                    Password = Convert.ToString(reader["Password"]),
+                    PhoneNumber = Convert.ToString(reader["PhoneNumber"])
+                };
+                return person;
+            }
+            return null;
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
-using Asa.ApartmentSystemManagement.Core.DTOs;
 using ASa.ApartmentManagement.Core.ChargeCalculation.Domain;
 using ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormula;
 using System;

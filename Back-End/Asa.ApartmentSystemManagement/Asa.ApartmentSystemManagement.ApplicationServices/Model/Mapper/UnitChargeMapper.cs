@@ -1,5 +1,5 @@
 ﻿using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
-using Asa.ApartmentSystemManagement.Core.DTOs;
+using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

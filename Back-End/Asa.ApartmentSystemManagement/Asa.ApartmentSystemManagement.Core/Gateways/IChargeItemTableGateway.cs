@@ -1,5 +1,4 @@
 ﻿using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
-using Asa.ApartmentSystemManagement.Core.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -103,6 +103,7 @@
     <Build Include="dbo\StoredProcedures\SpDeleteExpense.sql" />
     <Build Include="dbo\StoredProcedures\SpGetOwnedUnitsCharges.sql" />
     <Build Include="dbo\StoredProcedures\SpGetRentedUnitsCharges.sql" />
+    <Build Include="dbo\StoredProcedures\SpAuthenticate.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Asa.ApartmentSystemManagement.DB.refactorlog" />

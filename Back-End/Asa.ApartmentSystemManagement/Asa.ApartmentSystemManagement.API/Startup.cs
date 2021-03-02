@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Asa.ApartmentSystemManagement.API.MiddleWares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,8 @@ namespace Asa.ApartmentSystemManagement.API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
+
+			services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,11 +36,17 @@ namespace Asa.ApartmentSystemManagement.API
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+
 			}
 
 			app.UseRouting();
 
+			app.UseCors("React");
+
 			app.UseAuthorization();
+
+			app.UseMiddleware<AuthenticationMiddleware>();
+			
 
 			app.UseEndpoints(endpoints =>
 			{

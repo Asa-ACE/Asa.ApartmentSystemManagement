@@ -13,5 +13,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
         Task UpdatePersonAsync(PersonDTO person);
         Task<IEnumerable<PersonDTO>> GetOwnersByUnitIdAsync(int unitId);
         Task<IEnumerable<PersonDTO>> GetTenantsByUnitIdAsync(int unitId);
+        Task<PersonDTO> AuthenticatePerson(string username, string password);
     }
 }
