@@ -10,6 +10,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
     {
         Task<int> InsertTenancyAsync(TenancyDTO tenancy);
         Task UpdateTenancyAsync(TenancyDTO tenancy);
+
         Task<IEnumerable<ShareInfo>> GetTenantShareInfoAsync(int buildingId, DateTime from, DateTime to);
-    }
+	}
 }

@@ -94,5 +94,10 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             }
             return id;
         }
-    }
+
+		public Task UpdateExpenseCategoryAsync(ExpenseCategoryDTO expenseCategory)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

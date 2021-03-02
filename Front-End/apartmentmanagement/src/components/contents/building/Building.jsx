@@ -16,9 +16,14 @@ function Building() {
           <TabItem label="Units">
             <BuildingUnits />
           </TabItem>
+          <TabItem label="Charges">
+            <BuildingCharges />
+          </TabItem>
         </TabsContainer>
       </Route>
-      <Route path={`${path}/:unitId`}></Route>
+      <Route path={`${path}/:unitId`}>
+        <Unit />
+      </Route>
     </Switch>
   );
 }

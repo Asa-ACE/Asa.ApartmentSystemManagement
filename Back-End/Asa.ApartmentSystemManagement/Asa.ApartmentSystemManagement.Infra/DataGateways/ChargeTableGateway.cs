@@ -42,36 +42,43 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<CalculationDTO>> GetCalculationInfosAsync(int chargeId)
+        public async Task<IEnumerable<CalculationDTO>> GetOwnersCalculationInfosAsync(int chargeId)
         {
-                  var result = new List<CalculationDTO>();
-                  using (var connecion = new SqlConnection(_connectionString))
-                  {
-                      using (var cmd = new SqlCommand())
-                      {
-                          cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                          cmd.CommandText = "[dbo].[SpGetOwnersCalculationInfo]";
-                          cmd.Parameters.AddWithValue("@chargeId", chargeId);
-                          cmd.Connection = connecion;
-                          cmd.Connection.Open();
-                          using (var dataReader = await cmd.ExecuteReaderAsync())
-                          {
-                              while (await dataReader.ReadAsync())
-                              {
-                                  var charges = new CalculationDTO();
-                                  charges.
-                                  charges.Name = Convert.ToString(dataReader["Name"]);
-                                  charges.NumberOfUnits = Convert.ToInt32(dataReader["NumberOfUnits"]);
-                                  charges.Address = Convert.ToString(dataReader["Address"]);
-                                  result.Add(charges);
-                              }
-                          }
-                      }
-                  }
-                  return result;
-              }
+            var result = new List<CalculationDTO>();
+            using (var connecion = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpGetOwnersCalculationInfo]";
+                    cmd.Parameters.AddWithValue("@chargeId", chargeId);
+                    cmd.Connection = connecion;
+                    cmd.Connection.Open();
+                    using (var dataReader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await dataReader.ReadAsync())
+                        {
+                            var calculation = new CalculationDTO();
+                            calculation.ExpenseId = Convert.ToInt32(dataReader["ExpenseID"]);
+                            calculation.BuildingId = Convert.ToInt32(dataReader["BuildingID"]);
+                            calculation.FormulaName = Convert.ToString(dataReader["FormulaType"]);
+                            calculation.Amount = Convert.ToDecimal(dataReader["Amount"]);
+                            calculation.From = Convert.ToDateTime(dataReader["From"]);
+                            calculation.To = Convert.ToDateTime(dataReader["To"]);
+                            result.Add(calculation);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
 
-        public async Task<int> InsertChargeAsync(ChargeDTO charge)
+		public Task<IEnumerable<CalculationDTO>> GetTenantsCalculationInfosAsync(int chargeId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public async Task<int> InsertChargeAsync(ChargeDTO charge)
         {
             int id = 0;
             using (var connection = new SqlConnection(_connectionString))

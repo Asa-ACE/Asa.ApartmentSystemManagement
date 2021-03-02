@@ -34,7 +34,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpGet]
-        [Route("Owner/{unitId:int}/Charges")]
+        [Route("Owner/{unitId:int}/Charge")]
         public async Task<IActionResult> GetOwnedUnitCharges([FromRoute] int unitId)
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
@@ -53,7 +53,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpGet]
-        [Route("Tenant/{unitId:int}/Charges")]
+        [Route("Tenant/{unitId:int}/Charge")]
         public async Task<IActionResult> GetRentedUnitCharges([FromRoute] int unitId)
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
