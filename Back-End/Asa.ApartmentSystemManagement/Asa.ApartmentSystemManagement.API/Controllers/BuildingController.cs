@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Asa.ApartmentSystemManagement.API.Controllers
 {
     [ApiController]
-    //[Authorize]
+    [Authorize]
     [Route("[controller]")]
     public class BuildingController : ControllerBase
     {
@@ -146,7 +146,6 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             return Ok();
         }
 
-        //Expance
         [HttpGet]
         [Route("{buildingId:int}/Expense")]
         public async Task<IActionResult> GetExpenses([FromRoute] int buildingId)

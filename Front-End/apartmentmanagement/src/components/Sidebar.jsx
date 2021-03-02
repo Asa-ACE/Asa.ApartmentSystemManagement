@@ -1,5 +1,6 @@
 import { makeStyles, useTheme } from "@material-ui/core";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { SidebarContext } from "./Template";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -67,13 +68,13 @@ function Sidebar() {
       </div>
       <Divider />
       <List>
-        <ListItem button key="Buildings">
+        <ListItem button key="Buildings" component={Link} to="/buildings">
           <ListItemIcon>
             <ApartmentRoundedIcon />
           </ListItemIcon>
           <ListItemText primary="Buildings" />
         </ListItem>
-        <ListItem button key="Units">
+        <ListItem button key="Units" component={Link} to="/units~">
           <ListItemIcon>
             <MeetingRoomRoundedIcon />
           </ListItemIcon>

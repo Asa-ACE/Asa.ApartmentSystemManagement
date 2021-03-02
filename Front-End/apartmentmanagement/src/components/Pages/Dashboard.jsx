@@ -7,6 +7,7 @@ import TabItem from "../TabItem";
 import UnitChargeTable from "../UnitChargeTable";
 import AddBuildingForm from "../Forms/AddBuildingForm";
 import { Redirect, Switch, useRouteMatch, Route } from "react-router-dom";
+import BuildingInfo from "../contents/building/BuildingInfo";
 
 function Dashboard() {
   const { path, url } = useRouteMatch();
@@ -22,13 +23,7 @@ function Dashboard() {
         </Route>
         <Route path={`${path}/units`}></Route>
       </Switch>
-      <AddBuildingForm />
-      {/* <UnitChargeTable
-        rows={[
-          { from: "1/1/99", to: "2/3/34", chargeItems: [] },
-          { from: "1/1/99", to: "2/3/34", chargeItems: [] },
-        ]}
-      /> */}
+      <BuildingInfo />
     </Template>
   );
 }
