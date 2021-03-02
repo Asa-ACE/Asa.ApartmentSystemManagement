@@ -8,13 +8,14 @@ import UnitChargeTable from "../UnitChargeTable";
 import AddBuildingForm from "../Forms/AddBuildingForm";
 import { Redirect, Switch, useRouteMatch, Route } from "react-router-dom";
 import BuildingInfo from "../contents/building/BuildingInfo";
+import ModalForm from "../ModalForm";
 
 function Dashboard() {
   const { path, url } = useRouteMatch();
   console.log(url);
   return (
     <Template>
-      <Switch>
+      {/* <Switch>
         <Route exact path={path}>
           <Redirect to={`/buildings`} />
         </Route>
@@ -22,8 +23,10 @@ function Dashboard() {
           <Buildings />
         </Route>
         <Route path={`${path}/units`}></Route>
-      </Switch>
-      <BuildingInfo />
+      </Switch> */}
+      <ModalForm open={true} title="Add Building">
+        <AddBuildingForm />
+      </ModalForm>
     </Template>
   );
 }
