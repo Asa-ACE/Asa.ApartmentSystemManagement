@@ -59,7 +59,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         //unit
         [HttpGet]
-        [Route("{buildingId:int}/Units")]
+        [Route("{buildingId:int}/Unit")]
         public async Task<IActionResult> GetUnits([FromRoute] int buildingId)
         {
             var units = await _baseInfoApplicationService.GetUnitsByBuildingIdAsync(buildingId);
@@ -67,7 +67,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpPost]
-        [Route("{buildingId:int}/Units")]
+        [Route("{buildingId:int}/Unit")]
         public async Task<IActionResult> AddUnit([FromRoute] int buildingId, [FromBody] UnitRequest unit)
         {
             await _baseInfoApplicationService.CreateUnitAsync(buildingId, unit.Area, unit.UnitNumber, unit.Description);
@@ -76,7 +76,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         //owner
         [HttpGet]
-        [Route("{buildingId:int}/Units/{unitId:int}/Owner")]
+        [Route("{buildingId:int}/Unit/{unitId:int}/Owner")]
         public async Task<IActionResult> GetOwners([FromRoute] int unitId)
         {
             var units = await _baseInfoApplicationService.GetOwnersByUnitIdAsync(unitId);
@@ -84,7 +84,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpPost]
-        [Route("{buildingId:int}/Units/{unitId:int}/Owner")]
+        [Route("{buildingId:int}/Unit/{unitId:int}/Owner")]
         public async Task<IActionResult> AddOwner([FromRoute] int unitId, [FromBody] OwnerRequest owner)
         {
             var id = await _baseInfoApplicationService.CreateOwnershipAsync(unitId, owner.PersonId, owner.From, owner.To);
@@ -92,7 +92,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpPut]
-        [Route("{buildingId:int}/Units/{unitId:int}/Owner/{ownerId:int}")]
+        [Route("{buildingId:int}/Unit/{unitId:int}/Owner/{ownerId:int}")]
         public async Task<IActionResult> ChangeOwner([FromRoute] int ownershipId, [FromBody] OwnerRequest owner)
         {
             await _baseInfoApplicationService.ChangeOwnerAsync(ownershipId, owner);
@@ -101,7 +101,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         //tenant
         [HttpGet]
-        [Route("{buildingId:int}/Units/{unitId:int}/Tenant")]
+        [Route("{buildingId:int}/Unit/{unitId:int}/Tenant")]
         public async Task<IActionResult> GetTenants([FromRoute] int unitId)
         {
             var units = await _baseInfoApplicationService.GetTenantsByUnitIdAsync(unitId);
@@ -109,7 +109,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpPost]
-        [Route("{buildingId:int}/Units/{unitId:int}/Tenant")]
+        [Route("{buildingId:int}/Unit/{unitId:int}/Tenant")]
         public async Task<IActionResult> AddTenant([FromRoute] int unitId, [FromBody] TenantRequest tenant)
         {
             var id = await _baseInfoApplicationService.CreateTenancyAsync(unitId , tenant.PersonId , tenant.From , tenant.To , tenant.NumberOfPeople);
@@ -117,7 +117,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpPut]
-        [Route("{buildingId:int}/Units/{unitId:int}/Tenant/{tenantId:int}")]
+        [Route("{buildingId:int}/Unit/{unitId:int}/Tenant/{tenantId:int}")]
         public async Task<IActionResult> ChangeTenant([FromRoute] int tenantId, [FromBody] TenantRequest tenant)
         {
             await _baseInfoApplicationService.ChangeTenantAsync(tenantId, tenant);
