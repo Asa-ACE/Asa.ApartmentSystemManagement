@@ -121,7 +121,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         [Route("{buildingId:int}/Unit/{unitId:int}/Tenant")]
         public async Task<IActionResult> AddTenant([FromRoute] int unitId, [FromBody] TenantRequest tenant)
         {
-            var id = await _baseInfoApplicationService.CreateTenancyAsync(unitId , tenant.PersonName , tenant.From , tenant.To , tenant.NumberOfPeople);
+            var id = await _baseInfoApplicationService.CreateTenancyAsync(unitId , tenant.UserName , tenant.From , tenant.To , tenant.NumberOfPeople);
             return Ok(id);
         }
 

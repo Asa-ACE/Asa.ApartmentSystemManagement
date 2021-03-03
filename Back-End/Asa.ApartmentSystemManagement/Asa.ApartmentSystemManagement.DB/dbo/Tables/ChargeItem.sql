@@ -4,7 +4,7 @@
     [ExpanseID] INT NOT NULL, 
     [PersonID] INT NOT NULL, 
     [ChargeID] INT NOT NULL,
-    [Amount] DECIMAL(5, 2) NOT NULL, 
+    [Amount] DECIMAL(10, 2) NOT NULL, 
     [UnitID] INT NOT NULL, 
     CONSTRAINT [FK_ChargeItem_Person] FOREIGN KEY ([PersonID]) REFERENCES [Person]([PersonID]), 
     CONSTRAINT [FK_ChargeItem_Expanse] FOREIGN KEY ([ExpanseID]) REFERENCES [Expense]([ExpenseID]), 

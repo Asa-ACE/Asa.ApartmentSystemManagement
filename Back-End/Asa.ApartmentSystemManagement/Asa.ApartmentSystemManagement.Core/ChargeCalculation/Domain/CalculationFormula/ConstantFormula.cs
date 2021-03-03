@@ -1,5 +1,4 @@
 ﻿using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
-using ASa.ApartmentManagement.Core.ChargeCalculation.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +10,7 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain.Calculatio
         public List<ChargeItemDTO> Calculate(decimal amount, IEnumerable<ShareInfo> shareInfos, int expenseId, bool isOwner)
         {
             Dictionary<int, decimal> daysSum = new Dictionary<int, decimal>();
-            List<ChargeItemDTO> chargeItems = null;
+            List<ChargeItemDTO> chargeItems = new List<ChargeItemDTO>();
             foreach (var shareInfo in shareInfos)
             {
                 if (!daysSum.ContainsKey(shareInfo.UnitId))
@@ -26,6 +25,7 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain.Calculatio
                 chargeItem.PersonId = shareInfo.PersonId;
                 chargeItem.UnitId = shareInfo.UnitId;
                 chargeItem.IsOwner = isOwner;
+                chargeItems.Add(chargeItem);
             }
 
             return chargeItems;

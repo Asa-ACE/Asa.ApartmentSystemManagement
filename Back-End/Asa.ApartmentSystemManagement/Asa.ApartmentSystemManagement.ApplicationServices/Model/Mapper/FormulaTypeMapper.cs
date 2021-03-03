@@ -1,7 +1,7 @@
 ﻿using Asa.ApartmentSystemManagement.ApplicationServices.Model.Request;
 using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
-using ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormula;
+using Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain.CalculationFormula;
 using System;
 using System.Collections.Generic;
 using System.Text;

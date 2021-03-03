@@ -115,7 +115,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpCreateCharge]";
-                    cmd.Parameters.AddWithValue("@chargesId", charge.BuildingId);
+                    cmd.Parameters.AddWithValue("@buildingId", charge.BuildingId);
                     cmd.Parameters.AddWithValue("@from", charge.From);
                     cmd.Parameters.AddWithValue("@to", charge.To);
                     cmd.Connection = connection;

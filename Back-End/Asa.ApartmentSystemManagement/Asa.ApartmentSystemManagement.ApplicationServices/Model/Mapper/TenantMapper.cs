@@ -13,7 +13,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
             TenancyDTO dto = new TenancyDTO
             {
                 PersonId = tenant.PersonId,
-                UserName = tenant.PersonName,
+                UserName = tenant.UserName,
                 From = tenant.From,
                 To = tenant.To,
                 UnitId = tenant.UnitId,

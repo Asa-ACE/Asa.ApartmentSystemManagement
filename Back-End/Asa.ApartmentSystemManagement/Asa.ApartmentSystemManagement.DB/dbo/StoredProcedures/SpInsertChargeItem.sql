@@ -3,7 +3,7 @@
 	@expenseId INT,
 	@personId INT,
 	@unitId INT,
-	@amount DECIMAL(5,2)
+	@amount DECIMAL(10,2)
 AS
 BEGIN
 	INSERT INTO [dbo].[ChargeItem](

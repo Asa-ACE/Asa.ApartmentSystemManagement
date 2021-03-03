@@ -151,6 +151,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                             var expenseDTO = new ExpenseDTO();
                             expenseDTO.Amount = Convert.ToDecimal(dataReader["Amount"]);
                             expenseDTO.ExpenseId = Convert.ToInt32(dataReader["ExpenseID"]);
+                            expenseDTO.CategoryId = Convert.ToInt32(dataReader["CategoryID"]);
                             expenseDTO.From = Convert.ToDateTime(dataReader["From"]);
                             expenseDTO.To = Convert.ToDateTime(dataReader["To"]);
                             expenseDTO.Name = Convert.ToString(dataReader["Name"]);

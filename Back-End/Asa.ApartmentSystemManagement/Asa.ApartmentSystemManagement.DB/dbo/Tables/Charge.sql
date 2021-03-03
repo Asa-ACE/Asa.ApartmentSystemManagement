@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Charge]
 (
-	[ChargeID] INT NOT NULL PRIMARY KEY, 
+	[ChargeID] INT IDENTITY NOT NULL PRIMARY KEY, 
     [From] DATE NOT NULL, 
     [To] DATE NOT NULL, 
     [BuildingID] INT NOT NULL,  

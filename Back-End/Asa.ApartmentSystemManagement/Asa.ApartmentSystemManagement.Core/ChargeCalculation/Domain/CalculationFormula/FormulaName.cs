@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormula
+namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain.CalculationFormula
 {
     public class FormulaName
     {

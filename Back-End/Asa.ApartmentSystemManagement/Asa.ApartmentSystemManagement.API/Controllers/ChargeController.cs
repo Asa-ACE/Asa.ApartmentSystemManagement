@@ -28,7 +28,6 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         //charge
         [HttpPost]
-        [Route("Charge")]
         public async Task<IActionResult> AddCharge([FromRoute] int buildingId,[FromBody] CreateChargeRequest charge)
         {
             charge.BuildingId = buildingId;
@@ -37,14 +36,13 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpPost]
-        [Route("charge/{chargeId:int}/calculate")]
+        [Route("{chargeId:int}/calculate")]
         public async Task<IActionResult> CalculateCharge([FromRoute] int chargeId)
         {
             await _chargeApplicationService.CalculateChargeAsync(chargeId);
-            return Ok(chargeId);
+            return Ok();
         }
         [HttpGet]
-        [Route("Charge")]
         public async Task<IActionResult> GetCharges([FromRoute] int buildingId)
         {
             var charges = await _chargeApplicationService.GetChargesAsync(buildingId);
@@ -52,7 +50,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpPut]
-        [Route("charge/{chargeId:int}/update")]
+        [Route("{chargeId:int}/update")]
         public async Task<IActionResult> UpdateCharge([FromRoute] int chargeId, [FromBody] CreateChargeRequest charge)
         {
             await _chargeApplicationService.UpdateChargeAsync(chargeId, charge);

@@ -1,7 +1,7 @@
 ﻿using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways;
-using ASa.ApartmentManagement.Core.ChargeCalculation.Domain;
-using ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormula;
+using Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain;
+using Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain.CalculationFormula;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +16,9 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
 
         public ChargeManager(ITableGatewayFactory gatewayFactory)
         {
+            CalculationFormulaFactory.Initiate();
             _gatewayFactory = gatewayFactory;
         }
-
-
 
         public async Task InsertChargeAsync(ChargeDTO charge)
         {
@@ -37,7 +36,7 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
 
                 var shareInfos = await GetShareInfosAsync(calculationInfo);
                 IFormula formula = CalculationFormulaFactory.Create(calculationInfo.FormulaName);
-                chargeItems.Concat(formula.Calculate(calculationInfo.Amount, shareInfos, calculationInfo.ExpenseId, calculationInfo.IsForOwner));
+                chargeItems.AddRange(formula.Calculate(calculationInfo.Amount, shareInfos, calculationInfo.ExpenseId, calculationInfo.IsForOwner));
 			}
             var gateway = _gatewayFactory.CreateChargeItemTableGateway();
             await gateway.InsertChargeItemsAsync(chargeItems, chargeId);

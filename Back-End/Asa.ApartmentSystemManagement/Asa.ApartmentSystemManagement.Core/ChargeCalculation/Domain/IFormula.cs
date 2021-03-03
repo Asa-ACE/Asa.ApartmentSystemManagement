@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain
+namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain
 {
     public interface IFormula
     {
