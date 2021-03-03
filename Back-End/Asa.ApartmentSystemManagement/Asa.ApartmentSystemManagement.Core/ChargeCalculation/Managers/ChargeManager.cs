@@ -79,6 +79,10 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
             }
         }
 
+        public async Task<IEnumerable<FormulaName>> GetFormulas()
+        {
+            return await Task.Run(()=>CalculationFormulaFactory.GetAll());
+        }
 
     }
 }
