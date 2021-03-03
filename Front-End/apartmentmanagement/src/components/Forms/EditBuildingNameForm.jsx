@@ -41,12 +41,6 @@ function EditBuildingNameForm(props) {
     e.preventDefault();
   };
 
-  //const categories = apiService.getRequest("/formulatype");
-  const categories = [
-    { CategoryId: 1, Name: "yyyy" },
-    { CategoryId: 2, Name: "yyyyss" },
-  ];
-
   const classes = useStyles();
 
   return (

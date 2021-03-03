@@ -1,8 +1,12 @@
 import axios from "axios";
 import { authenticationService } from "./authenticationService";
-
+axios.interceptors.a.use(
+  (r) => r,
+  (err) => console.log(err.response)
+);
 const apiURL = "http://localhost:12560/";
 const handleError = (err) => {
+  console.log(err.response);
   if ([401, 403].indexOf(err.response.status) !== -1) {
     alert("You're not logged in :)");
     authenticationService.logout();
@@ -26,8 +30,8 @@ async function getRequest(route) {
     let res = await axios.get(`${apiURL}${route}`, {
       headers: authHeader(),
     });
-  } catch (err) {
-    handleError(err);
+  } catch ({ response }) {
+    handleError(response);
   }
 }
 

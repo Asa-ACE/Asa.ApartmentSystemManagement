@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,6 +10,9 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { axios } from "axios";
+import useForm from "../Forms/useForm";
+import { apiService } from "../../services/apiService";
+import { authenticationService } from "../../services/authenticationService";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,9 +48,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialValues = {
+  username: null,
+  password: null,
+};
+
 function Login() {
-  const usernameInput = useRef(null);
-  const passwordInput = useRef(null);
+  const { values, setValues, handleInputChange } = useForm(initialValues);
 
   const classes = useStyles();
 
@@ -57,9 +64,9 @@ function Login() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login(usernameInput.current.value, passwordInput.current.value);
+    authenticationService.login(values.username, values.password);
   };
 
   return (
@@ -72,24 +79,21 @@ function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            ورود
+            Login
           </Typography>
-          <form
-            className={classes.form}
-            noValidate
-            onSubmit={(e) => handleSubmit(e)}
-          >
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
               id="username"
-              label="نام کاربری"
+              value={values.username}
+              label="Username"
               name="username"
               autoComplete="username"
               autoFocus
-              inputRef={usernameInput}
+              onChange={handleInputChange}
             />
             <TextField
               variant="outlined"
@@ -97,11 +101,12 @@ function Login() {
               required
               fullWidth
               name="password"
-              label="رمز عبور"
+              label="Password"
               type="password"
               id="password"
+              value={values.password}
               autoComplete="current-password"
-              inputRef={passwordInput}
+              onChange={handleInputChange}
             />
             <Button
               type="submit"
@@ -110,12 +115,12 @@ function Login() {
               color="primary"
               className={classes.submit}
             >
-              ورود
+              Enter
             </Button>
             <Grid container>
               <Grid item>
                 <Link to="/signup" variant="body2">
-                  {"حساب کاربری نداری ؟  ثبت نام کنید"}
+                  {"Don't you have an account? make one :)"}
                 </Link>
               </Grid>
             </Grid>

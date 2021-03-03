@@ -9,6 +9,8 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import useForm from "../Forms/useForm";
+import { apiService } from "../../services/apiService";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,22 +46,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialValues = {
+  username: null,
+  password: null,
+  passwordRepeat: null,
+  firstName: null,
+  lastName: null,
+  phoneNumber: null,
+};
+
 function Register() {
-  const usernameInput = useRef(null);
-  const passwordInput = useRef(null);
-  const passwordRepeatInput = useRef(null);
-  const firstNameInput = useRef(null);
-  const lastNameInput = useRef(null);
-  const phoneNumberInput = useRef(null);
+  const { values, setValues, handleInputChange } = useForm(initialValues);
 
   const classes = useStyles();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      `${usernameInput.current.value} : ${passwordInput.current.value}`
-    );
-    console.log(usernameInput);
+    const data = {
+      Username: values.username,
+      Password: values.password,
+      FirstName: values.firsName,
+      LastName: values.lastName,
+      PhoneNumber: values.phoneNumber,
+    };
+    apiService.postRequest("user", data);
   };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -70,24 +82,21 @@ function Register() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            ثبت نام
+            Sign Up
           </Typography>
-          <form
-            className={classes.form}
-            noValidate
-            onSubmit={(e) => handleSubmit(e)}
-          >
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
               id="username"
-              label="نام کاربری"
+              label="Username"
               name="username"
               autoComplete="username"
+              type="text"
               autoFocus
-              inputRef={usernameInput}
+              value={values.username}
             />
             <TextField
               variant="outlined"
@@ -95,10 +104,10 @@ function Register() {
               required
               fullWidth
               name="password"
-              label="رمز عبور"
+              label="Password"
               type="password"
               id="password"
-              inputRef={passwordInput}
+              value={values.password}
             />
             <TextField
               variant="outlined"
@@ -106,10 +115,10 @@ function Register() {
               required
               fullWidth
               name="passwordRepeat"
-              label="تکرار رمز عبور"
+              label="Repeat Password"
               type="password"
               id="passwordRepeat"
-              inputRef={passwordRepeatInput}
+              value={values.passwordRepeat}
             />
 
             <TextField
@@ -118,10 +127,10 @@ function Register() {
               required
               fullWidth
               name="firstName"
-              label="نام"
+              label="First Name"
               type="name"
               id="firstName"
-              inputRef={firstNameInput}
+              value={values.firstName}
             />
             <TextField
               variant="outlined"
@@ -129,10 +138,10 @@ function Register() {
               required
               fullWidth
               name="lastName"
-              label="نام خانوادگی"
+              label="Last Name"
               type="name"
               id="lastName"
-              inputRef={lastNameInput}
+              value={values.lastName}
             />
             <TextField
               variant="outlined"
@@ -140,11 +149,10 @@ function Register() {
               required
               fullWidth
               name="phoneNumber"
-              label="شماره تلفن"
+              label="Phone Number"
               type="phonenumber"
               id="phoneNumber"
-              autoComplete="current-password"
-              inputRef={phoneNumberInput}
+              value={values.phoneNumber}
             />
             <Button
               type="submit"
@@ -153,12 +161,12 @@ function Register() {
               color="primary"
               className={classes.submit}
             >
-              ثبت نام
+              Sign up
             </Button>
             <Grid container>
               <Grid item>
                 <Link to="/login" variant="body2">
-                  {"حساب کاربری دارید؟ وارد شوید"}
+                  {"Do you have an account? Login :)"}
                 </Link>
               </Grid>
             </Grid>
