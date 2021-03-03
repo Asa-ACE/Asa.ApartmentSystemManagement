@@ -87,7 +87,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         [Route("{buildingId:int}/Unit/{unitId:int}/Owner")]
         public async Task<IActionResult> AddOwner([FromRoute] int unitId, [FromBody] OwnerRequest owner)
         {
-            var id = await _baseInfoApplicationService.CreateOwnershipAsync(unitId, owner.PersonId, owner.From, owner.To);
+            var id = await _baseInfoApplicationService.CreateOwnershipAsync(unitId, owner.PersonName, owner.From, owner.To);
             return Ok(id);
         }
 
@@ -112,7 +112,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         [Route("{buildingId:int}/Unit/{unitId:int}/Tenant")]
         public async Task<IActionResult> AddTenant([FromRoute] int unitId, [FromBody] TenantRequest tenant)
         {
-            var id = await _baseInfoApplicationService.CreateTenancyAsync(unitId , tenant.PersonId , tenant.From , tenant.To , tenant.NumberOfPeople);
+            var id = await _baseInfoApplicationService.CreateTenancyAsync(unitId , tenant.PersonName , tenant.From , tenant.To , tenant.NumberOfPeople);
             return Ok(id);
         }
 

@@ -41,9 +41,9 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return unitDto.Id;
         }
 
-        public async Task<int> CreateOwnershipAsync(int personId, int unitId, DateTime from, DateTime? to)
+        public async Task<int> CreateOwnershipAsync( int unitId, string personName, DateTime from, DateTime? to)
         {
-            var ownerDto = new OwnershipDTO { PersonId = personId, UnitId = unitId, From = from, To = to };
+            var ownerDto = new OwnershipDTO { PersonName = personName, UnitId = unitId, From = from, To = to };
             await _buildingManager.AddOwnershipAsync(ownerDto);
             return ownerDto.Id;
         }
@@ -55,9 +55,9 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return expenseCategory.CategoryId;
         }
 
-        public async Task<int> CreateTenancyAsync(int personId, int unitId, DateTime from, DateTime? to, int numberOfPeople)
+        public async Task<int> CreateTenancyAsync(int unitId , string personName , DateTime from, DateTime? to, int numberOfPeople)
         {
-            var tenantDto = new TenancyDTO { PersonId = personId, UnitId = unitId, From = from, To = to, NumberOfPeople = numberOfPeople };
+            var tenantDto = new TenancyDTO { PersonName = personName, UnitId = unitId, From = from, To = to, NumberOfPeople = numberOfPeople };
             await _buildingManager.AddTenancyAsync(tenantDto).ConfigureAwait(false);
             return tenantDto.TenancyId;
         }
