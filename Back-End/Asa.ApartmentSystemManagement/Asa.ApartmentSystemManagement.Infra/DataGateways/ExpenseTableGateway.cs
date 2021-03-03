@@ -92,7 +92,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpExpenseInsert]";
+                    cmd.CommandText = "[dbo].[SpExpenseCreate]";
                     cmd.Parameters.AddWithValue("@buildingId", expense.BuildingId);
                     cmd.Parameters.AddWithValue("@categoryId", expense.CategoryId);
                     cmd.Parameters.AddWithValue("@from", expense.From);

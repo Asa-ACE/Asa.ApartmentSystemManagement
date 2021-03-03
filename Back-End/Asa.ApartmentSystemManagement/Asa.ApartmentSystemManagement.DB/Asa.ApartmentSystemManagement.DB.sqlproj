@@ -92,8 +92,8 @@
     <Build Include="dbo\StoredProcedures\Unit\SpGetOwnedUnits.sql" />
     <Build Include="dbo\StoredProcedures\Unit\SpGetRentedUnits.sql" />
     <Build Include="dbo\StoredProcedures\Charge\SpCreateCharge.sql" />
-    <Build Include="dbo\StoredProcedures\Charge\SpGetOwnedUnitsCharges.sql" />
-    <Build Include="dbo\StoredProcedures\Charge\SpGetRentedUnitsCharges.sql" />
+    <Build Include="dbo\StoredProcedures\Charge\SpGetOwnedUnitsChargeItems.sql" />
+    <Build Include="dbo\StoredProcedures\Charge\SpGetRentedUnitsChargeItems.sql" />
     <Build Include="dbo\StoredProcedures\Charge\SpGetUnitCharges.sql" />
     <Build Include="dbo\StoredProcedures\Expense\SpDeleteExpense.sql" />
     <Build Include="dbo\StoredProcedures\Expense\SpUpdateExpense.sql" />
@@ -110,6 +110,8 @@
     <Build Include="dbo\StoredProcedures\Person\SpUpdateTenancy.sql" />
     <Build Include="dbo\StoredProcedures\Person\SpUpdateOwnership.sql" />
     <Build Include="dbo\StoredProcedures\Charge\SpGetCharges.sql" />
+    <Build Include="dbo\StoredProcedures\SpAdminCreate.sql" />
+    <Build Include="dbo\StoredProcedures\Expense\SpExpenseCreate.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Asa.ApartmentSystemManagement.DB.refactorlog" />

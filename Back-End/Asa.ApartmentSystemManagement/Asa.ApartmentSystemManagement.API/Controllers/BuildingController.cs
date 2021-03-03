@@ -44,8 +44,9 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             var name = building.Name;
             var numberOfUnits = building.NumberOfUnits;
             var address = building.Address;
-            var id = await _baseInfoApplicationService.CreateBuildingAsync(name, numberOfUnits, address);
-            return Ok(id);
+            var buildingId = await _baseInfoApplicationService.CreateBuildingAsync(name, numberOfUnits, address);
+            await _baseInfoApplicationService.CreateAdminAsync(userId, buildingId);
+            return Ok(buildingId);
         
         }
 

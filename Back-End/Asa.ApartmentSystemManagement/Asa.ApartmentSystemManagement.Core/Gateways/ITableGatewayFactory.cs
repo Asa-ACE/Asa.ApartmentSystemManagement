@@ -16,5 +16,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
         IExpenseCategoryTableGateway CreateExpenseCategoryTableGateway();
         IChargeTableGateway CreateChargeTableGateway();
         IChargeItemTableGateway CreateChargeItemTableGateway();
+        IAdminTableGateway CreateAdminTableGateway();
     }
 }

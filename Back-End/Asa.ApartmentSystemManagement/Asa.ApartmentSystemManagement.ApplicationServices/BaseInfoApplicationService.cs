@@ -48,6 +48,11 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return ownerDto.Id;
         }
 
+        public async Task CreateAdminAsync(int userId, int buildingId)
+        {
+            await _buildingManager.AddAdminAsync(userId, buildingId);
+        }
+
         public async Task<int> CreateExpenseCategoryAsync(ExpenseCategoryRequest newExpenseCategory)
         {
             var expenseCategory = newExpenseCategory.ToDTO();

@@ -69,6 +69,13 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             unit.Id = id;
         }
 
+        public async Task AddAdminAsync(int userId, int buildingId)
+        {
+            var gateway = _gatewayFactory.CreateAdminTableGateway();
+            await gateway.InsertAdminAsync(userId, buildingId);
+
+        }
+
         public async Task<IEnumerable<BuildingDTO>> GetBuildingsAsync(int userId)
         {
             var gateway = _gatewayFactory.CreateBuildingTableGateway();
