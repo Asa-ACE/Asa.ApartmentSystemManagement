@@ -21,10 +21,10 @@ function Units() {
           </TabItem>
         </TabsContainer>
       </Route>
-      <Route path={`${path}/owned/:unitId/charges`}>
+      <Route path={`${path}/owned/:unitId/charge`}>
         <OwnedUnitCharges />
       </Route>
-      <Route path={`${path}/rented/:unitId/charges`}>
+      <Route path={`${path}/rented/:unitId/charge`}>
         <RentedUnitCharges />
       </Route>
     </Switch>

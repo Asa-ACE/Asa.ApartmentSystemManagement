@@ -2,6 +2,7 @@ import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   Button,
+  Divider,
   FormControl,
   Grid,
   InputLabel,
@@ -20,9 +21,9 @@ import useForm from "./useForm";
 import { apiService } from "../../services/apiService";
 
 const initialValues = {
-  name: "",
-  formulaType: "",
-  isForOwner: false,
+  username: null,
+  from: null,
+  to: null,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -34,21 +35,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AddExpenseCategory(props) {
+function EditOwnerForm(props) {
   const { handleClose } = props;
   const { values, setValues, handleInputChange } = useForm(initialValues);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {
-      Name: values.name,
-      FormulaType: values.formulaType,
-      IsForOwner: values.isForOwner,
-    };
-    apiService.postRequest(`expensecategory`, data);
   };
 
-  const formulas = apiService.getRequest("/formulatype");
+  //const categories = apiService.getRequest("/formulatype");
+  const categories = [
+    { CategoryId: 1, Name: "yyyy" },
+    { CategoryId: 2, Name: "yyyyss" },
+  ];
 
   const classes = useStyles();
 
@@ -56,51 +55,56 @@ function AddExpenseCategory(props) {
     <form onSubmit={handleSubmit}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Grid container spacing={1}>
-          <Grid item xs={12} sm={9}>
+          <Grid item xs={12}>
             <TextField
               variant="outlined"
               margin="normal"
               required
-              label="Expense Category Name"
-              name="name"
-              value={values.name}
-              type="text"
+              label="Username"
+              name="username"
+              value={values.username}
+              on
               onChange={handleInputChange}
+              autoFocus
               fullWidth
+              type="text"
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <FormControl required fullWidth className={classes.payer}>
-              <InputLabel id="select-payer">Payer</InputLabel>
-              <Select
-                labelId="select-payer"
-                value={values.isForOwner}
-                onChange={handleInputChange}
-                name="isForOwner"
-              >
-                <MenuItem value={true}>Owner</MenuItem>
-                <MenuItem value={false}>Tenant</MenuItem>
-              </Select>
-            </FormControl>
+          <Grid item xs={12} sm={6}>
+            <KeyboardDatePicker
+              margin="normal"
+              label="From"
+              format="MM/dd/yyyy"
+              value={values.from}
+              fullWidth
+              required
+              onChange={(val) =>
+                handleInputChange({ target: { name: "from", value: val } })
+              }
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            />
           </Grid>
-          <Grid item xs={12}>
-            <FormControl required fullWidth className={classes.formula}>
-              <InputLabel id="select-formula">Expense Category</InputLabel>
-              <Select
-                labelId="select-formula"
-                value={values.formulaType}
-                onChange={handleInputChange}
-                name="formulaType"
-              >
-                {formulas.map((formula) => (
-                  <MenuItem value={formula.TypeName}>{formula.Title}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+          <Grid item xs={12} sm={6}>
+            <KeyboardDatePicker
+              margin="normal"
+              label="To"
+              format="MM/dd/yyyy"
+              value={values.to}
+              fullWidth
+              required
+              onChange={(val) =>
+                handleInputChange({ target: { name: "to", value: val } })
+              }
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            />
           </Grid>
           <Grid item xs={2}>
             <Button variant="contained" color="primary" fullWidth type="submit">
-              Add
+              Edit
             </Button>
           </Grid>
           <Grid item xs={2}>
@@ -119,4 +123,4 @@ function AddExpenseCategory(props) {
   );
 }
 
-export default AddExpenseCategory;
+export default EditOwnerForm;

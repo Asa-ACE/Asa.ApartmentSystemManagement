@@ -8,6 +8,8 @@ import {
 import { AirlineSeatIndividualSuiteSharp } from "@material-ui/icons";
 import { useState } from "react";
 import useForm from "./useForm";
+import { useParams } from "react-router-dom";
+import { apiService } from "../../services/apiService";
 
 const initialValues = {
   from: new Date(),
@@ -17,9 +19,15 @@ const initialValues = {
 function AddChargeForm(props) {
   const { handleClose } = props;
   const { values, setValues, handleInputChange } = useForm(initialValues);
+  const { buildingId } = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const data = {
+      From: values.from,
+      To: values.to,
+    };
+    apiService.postRequest(`building/${buildingId}/charge`, data);
   };
 
   return (

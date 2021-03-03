@@ -11,12 +11,13 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiService } from "../../../services/apiService";
 import AddOwnerForm from "../../Forms/AddOwnerForm";
+import EditOwnerForm from "../../Forms/EditOwnerForm";
 import ModalForm from "../../ModalForm";
 
 function Owners() {
   const { buildingId, unitId } = useParams();
   const owners = apiService.getRequest(
-    `building/${buildingId}/units/${unitId}/owners`
+    `building/${buildingId}/unit/${unitId}/owner`
   );
   const [rows, setRows] = useState(owners);
   const [openEditForm, setOpenEditForm] = useState(false);
@@ -67,7 +68,9 @@ function Owners() {
         open={openEditForm}
         title="Change Owner"
         onClose={() => setOpenEditForm(false)}
-      ></ModalForm>
+      >
+        <EditOwnerForm />
+      </ModalForm>
       <ModalForm
         open={openAddForm}
         title="New Owner"

@@ -12,7 +12,7 @@ import { apiService } from "../../../services/apiService";
 
 function BuildingUnits() {
   const { buildingId } = useParams();
-  const units = apiService.getRequest(`/building/${buildingId}/units`);
+  const units = apiService.getRequest(`/building/${buildingId}/unit`);
   const { path, url } = useRouteMatch();
   return (
     <TableContainer component={Paper}>

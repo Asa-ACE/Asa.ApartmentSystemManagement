@@ -12,11 +12,12 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import ModalForm from "../../ModalForm";
 import AddTenantForm from "../../Forms/AddTenantForm";
+import EditTenantForm from "../../Forms/EditTenantForm";
 
 function Tenants() {
   const { buildingId, unitId } = useParams();
   const tenants = apiService.getRequest(
-    `building/${buildingId}/units/${unitId}/tenants`
+    `building/${buildingId}/unit/${unitId}/tenant`
   );
   const [rows, setRows] = useState(tenants);
   const [openEditForm, setOpenEditForm] = useState(false);
@@ -67,9 +68,11 @@ function Tenants() {
       </Button>
       <ModalForm
         open={openEditForm}
-        title="Change Tenant"
+        title="Edit Tenant"
         onClose={() => setOpenEditForm(false)}
-      ></ModalForm>
+      >
+        <EditTenantForm />
+      </ModalForm>
       <ModalForm
         open={openAddForm}
         title="New Tenant"

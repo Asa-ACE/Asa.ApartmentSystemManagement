@@ -19,6 +19,7 @@ import { AirlineSeatIndividualSuiteSharp } from "@material-ui/icons";
 import { useState } from "react";
 import useForm from "./useForm";
 import { apiService } from "../../services/apiService";
+import { useParams } from "react-router-dom";
 
 const initialValues = {
   area: 0,
@@ -34,18 +35,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AddUnitForm(props) {
-  const { handleClose } = props;
+  const { unitNumber, handleClose } = props;
   const { values, setValues, handleInputChange } = useForm(initialValues);
+  const { buildingId } = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const data = { Area: values.area, UnitNumber: unitNumber };
+    apiService.postRequest(`building/${buildingId}/unit`, data);
   };
-
-  //const categories = apiService.getRequest("/formulatype");
-  const categories = [
-    { CategoryId: 1, Name: "yyyy" },
-    { CategoryId: 2, Name: "yyyyss" },
-  ];
 
   const classes = useStyles();
 

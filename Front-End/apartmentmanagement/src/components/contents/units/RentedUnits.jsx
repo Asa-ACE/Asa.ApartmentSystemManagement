@@ -37,7 +37,7 @@ function RentedUnits() {
                   variant="contained"
                   color="primary"
                   component={Link}
-                  to={`${url}/rented/${unit.Id}/charges`}
+                  to={`${url}/rented/${unit.Id}/charge`}
                 >
                   Check Charges
                 </Button>

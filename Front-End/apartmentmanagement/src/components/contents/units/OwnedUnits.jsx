@@ -37,7 +37,7 @@ function OwnedUnits() {
                   variant="contained"
                   color="primary"
                   component={Link}
-                  to={`${url}/owned/${unit.Id}/charges`}
+                  to={`${url}/owned/${unit.Id}/charge`}
                 >
                   Check Charges
                 </Button>

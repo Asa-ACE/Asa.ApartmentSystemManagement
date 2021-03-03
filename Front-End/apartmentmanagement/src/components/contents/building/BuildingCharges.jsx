@@ -15,6 +15,7 @@ import {
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddChargeForm from "../../Forms/AddChargeForm";
 import { apiService } from "../../../services/apiService";
+import EditChargeForm from "../../Forms/EditChargeForm";
 
 function BuildingCharges() {
   const { buildingId, unitId } = useParams();
@@ -23,8 +24,10 @@ function BuildingCharges() {
   const [openEditForm, setOpenEditForm] = useState(false);
   const [openAddForm, setOpenAddForm] = useState(false);
 
-  const handleCalculate = () => {
-    apiService.postRequest(`/building/${buildingId}/charge/calculate`);
+  const handleCalculate = (chargeId) => {
+    apiService.postRequest(
+      `/building/${buildingId}/charge/${chargeId}/calculate`
+    );
   };
   return (
     <>
@@ -43,7 +46,7 @@ function BuildingCharges() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => handleCalculate}
+                  onClick={() => handleCalculate(charge.ChargeId)}
                 >
                   Calculate
                 </Button>
@@ -69,7 +72,9 @@ function BuildingCharges() {
         open={openEditForm}
         title="Edit Charge"
         onClose={() => setOpenEditForm(false)}
-      ></ModalForm>
+      >
+        <EditChargeForm />
+      </ModalForm>
       <ModalForm
         open={openAddForm}
         title="New Charge"

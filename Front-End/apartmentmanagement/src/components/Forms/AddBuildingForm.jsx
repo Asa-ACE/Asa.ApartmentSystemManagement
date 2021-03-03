@@ -1,6 +1,7 @@
 import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
 import { AirlineSeatIndividualSuiteSharp } from "@material-ui/icons";
 import { useState } from "react";
+import { apiService } from "../../services/apiService";
 import useForm from "./useForm";
 
 const initialValues = {
@@ -15,6 +16,12 @@ function AddBuildingForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const data = {
+      Name: values.buildingName,
+      NumberOfUnits: values.numberOfUnits,
+      Address: values.address,
+    };
+    apiService.postRequest(`building`, data);
   };
 
   return (

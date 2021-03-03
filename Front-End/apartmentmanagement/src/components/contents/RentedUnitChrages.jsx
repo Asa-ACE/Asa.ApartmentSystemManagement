@@ -5,7 +5,7 @@ import UnitChargeTable from "../UnitChargeTable";
 
 function RentedUnitCharges() {
   const { buildingId, unitId } = useParams();
-  const charges = apiService.getRequest(`unit/tenant/${unitId}/charge`);
+  const charges = apiService.getRequest(`unit/rented/${unitId}/charge`);
 
   return (
     <>
