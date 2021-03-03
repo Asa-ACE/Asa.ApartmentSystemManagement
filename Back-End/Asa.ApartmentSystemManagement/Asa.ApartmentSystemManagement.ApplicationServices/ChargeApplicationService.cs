@@ -46,5 +46,11 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             var charges = await _chargeManager.GetRentedUnitChargesAsync(unitId, userId);
             return charges.ToModel();
         }
+
+        public async Task<IEnumerable<FormulaResponse>> GetFormulasAsync()
+        {
+            var formulas = await _chargeManager.GetFormulas();
+            return formulas.ToModel();
+        }
     }
 }
