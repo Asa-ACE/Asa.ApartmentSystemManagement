@@ -56,6 +56,18 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             int id = 0;
             using (var connection = new SqlConnection(_connectionString))
             {
+                connection.Open();
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpGetUserIdByUserName]";
+                    cmd.Parameters.AddWithValue("@userName", ownership.PersonName);
+                    cmd.Connection = connection;
+                    var result = await cmd.ExecuteScalarAsync();
+                    if (result == null)
+                       throw new ArgumentException("Username Not Exist");
+                    ownership.PersonId = Convert.ToInt32(result);
+                }
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -65,7 +77,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     cmd.Parameters.AddWithValue("@from", ownership.From);
                     cmd.Parameters.AddWithValue("@to", ownership.To);
                     cmd.Connection = connection;
-                    cmd.Connection.Open();
                     var result = await cmd.ExecuteScalarAsync();
                     id = Convert.ToInt32(result);
                 }

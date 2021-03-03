@@ -8,14 +8,16 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
 {
     public static class TenantMapper
     {
-        public static TenancyDTO ToDTO(this TenantRequest owner)
+        public static TenancyDTO ToDTO(this TenantRequest tenant)
         {
             TenancyDTO dto = new TenancyDTO
             {
-                PersonId = owner.PersonId,
-                From = owner.From,
-                To = owner.To,
-                UnitId = owner.UnitId
+                PersonId = tenant.PersonId,
+                PersonName = tenant.PersonName,
+                From = tenant.From,
+                To = tenant.To,
+                UnitId = tenant.UnitId,
+                NumberOfPeople = tenant.NumberOfPeople
             };
             return dto;
         }

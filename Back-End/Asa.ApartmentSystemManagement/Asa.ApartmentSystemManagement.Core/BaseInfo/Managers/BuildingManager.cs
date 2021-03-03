@@ -119,6 +119,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
 
         public async Task AddOwnershipAsync(OwnershipDTO ownership)
 		{
+
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
             /*ValidateOwership(ownership);*/
             var id = await gateway.InsertOwnershipAsync(ownership).ConfigureAwait(false);
