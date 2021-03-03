@@ -10,14 +10,14 @@ function App() {
   return (
     <>
       <Switch>
-        <Route path="/" exact>
-          <Dashboard />
-        </Route>
         <Route path="/login">
           <Login />
         </Route>
         <Route path="/signup">
           <Register />
+        </Route>
+        <Route path="/">
+          <Dashboard />
         </Route>
       </Switch>
     </>
