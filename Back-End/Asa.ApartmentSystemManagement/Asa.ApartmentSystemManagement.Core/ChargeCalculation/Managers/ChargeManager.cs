@@ -64,6 +64,14 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
             return expenses;
         }
 
+        public async Task UpdateChargeAsync(int chargeId, ChargeDTO chargeDTO)
+        {
+            var gateway = _gatewayFactory.CreateChargeTableGateway();
+            chargeDTO.Id = chargeId;
+            await gateway.UpdateChargeAsync(chargeDTO);
+
+        }
+
         private async Task<IEnumerable<ShareInfo>> GetShareInfosAsync(CalculationDTO calculationInfo)
 		{
             if(calculationInfo.IsForOwner)

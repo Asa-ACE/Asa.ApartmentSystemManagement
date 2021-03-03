@@ -58,5 +58,10 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             var charges = await _chargeManager.GetChargesAsync(buildingId);
             return charges.ToModel();
         }
+
+        public async Task UpdateChargeAsync(int chargeId, CreateChargeRequest charge)
+        {
+            await _chargeManager.UpdateChargeAsync(chargeId, charge.ToDTO());
+        }
     }
 }

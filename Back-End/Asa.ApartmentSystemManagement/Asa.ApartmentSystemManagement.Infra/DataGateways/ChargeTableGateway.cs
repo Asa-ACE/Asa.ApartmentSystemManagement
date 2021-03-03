@@ -127,9 +127,23 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
-        public Task UpdateChargeAsync(ChargeDTO charge)
+        public async Task UpdateChargeAsync(ChargeDTO charge)
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpChargeUpdate]";
+                    cmd.Parameters.AddWithValue("@chargeId", charge.Id);
+                    cmd.Parameters.AddWithValue("@buildingId", charge.BuildingId);
+                    cmd.Parameters.AddWithValue("@from", charge.From);
+                    cmd.Parameters.AddWithValue("@to", charge.To);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
         }
     }
 }
