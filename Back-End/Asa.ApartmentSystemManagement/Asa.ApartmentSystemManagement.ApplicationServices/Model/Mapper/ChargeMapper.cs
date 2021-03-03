@@ -19,7 +19,26 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
             };
             return dto;
         }
+        
+        public static IEnumerable<ChargeResponseBuilding> ToModel(this IEnumerable<ChargeDTO> charges)
+        {
+            List<ChargeResponseBuilding> model = new List<ChargeResponseBuilding>();
+            foreach (var charge in charges)
+            {
+                model.Add(charge.ToModel());
+            }
+            return model;
+        }
 
+        public static ChargeResponseBuilding ToModel(this ChargeDTO charge)
+        {
+            var model = new ChargeResponseBuilding();
+            model.ChargeId = charge.Id;
+            model.BuildingId = charge.BuildingId;
+            model.From = charge.From;
+            model.To = charge.To;
+            return model;
+        }
 
     }
 }

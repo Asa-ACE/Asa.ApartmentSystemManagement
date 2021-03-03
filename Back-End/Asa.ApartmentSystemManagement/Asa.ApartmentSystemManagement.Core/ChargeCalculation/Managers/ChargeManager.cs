@@ -40,6 +40,7 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
                 chargeItems.Concat(formula.Calculate(calculationInfo.Amount, shareInfos, calculationInfo.ExpenseId, calculationInfo.IsForOwner));
 			}
             var gateway = _gatewayFactory.CreateChargeItemTableGateway();
+            await gateway.InsertChargeItemsAsync(chargeItems, chargeId);
 		}
 
 		public async Task<IEnumerable<UnitChargeDTO>> GetOwnedUnitChargesAsync(int unitId, int userId)
@@ -82,6 +83,12 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Managers
         public async Task<IEnumerable<FormulaName>> GetFormulas()
         {
             return await Task.Run(()=>CalculationFormulaFactory.GetAll());
+        }
+        public async Task<IEnumerable<ChargeDTO>> GetChargesAsync(int buildingId)
+        {
+            var gateway = _gatewayFactory.CreateChargeTableGateway();
+            var charges = await gateway.GetChargesAsync(buildingId);
+            return charges;
         }
 
     }

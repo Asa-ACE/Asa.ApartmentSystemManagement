@@ -14,5 +14,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
 		Task DeleteChargeAsync(int chargeId);
 		Task UpdateChargeAsync(ChargeDTO charge);
 		Task<ChargeDTO> GetChargeAsync(int chargeId);
+		Task<IEnumerable<ChargeDTO>> GetChargesAsync(int buildingId);
 	}
 }

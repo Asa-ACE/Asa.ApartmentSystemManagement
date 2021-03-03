@@ -41,6 +41,35 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<ChargeDTO>> GetChargesAsync(int buildingId)
+        {
+            var result = new List<ChargeDTO>();
+            using (var connecion = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpGetCharges]";
+                    cmd.Parameters.AddWithValue("@buildingId", buildingId);
+                    cmd.Connection = connecion;
+                    cmd.Connection.Open();
+                    using (var dataReader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await dataReader.ReadAsync())
+                        {
+                            var charge = new ChargeDTO();
+                            charge.Id = Convert.ToInt32(dataReader["ChargeID"]);
+                            charge.BuildingId = buildingId;
+                            charge.From = Convert.ToDateTime(dataReader["From"]);
+                            charge.To = Convert.ToDateTime(dataReader["To"]);
+                            result.Add(charge);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
         public async Task<IEnumerable<CalculationDTO>> GetOwnersCalculationInfosAsync(int chargeId)
         {
             var result = new List<CalculationDTO>();

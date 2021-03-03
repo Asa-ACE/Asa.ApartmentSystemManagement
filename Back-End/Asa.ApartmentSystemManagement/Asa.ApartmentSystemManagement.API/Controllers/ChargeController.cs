@@ -31,12 +31,23 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         [Route("Charge")]
         public async Task<IActionResult> AddCharge([FromBody] CreateChargeRequest charge)
         {
-            var chargeId = Convert.ToInt32(HttpContext.Items["User"]);
-            var buildingId = charge.BuildingId;
-            var from = charge.From;
-            var to = charge.To;
             var id = await _chargeApplicationService.CreateChargeAsync(charge);
             return Ok(id);
+        }
+
+        [HttpPost]
+        [Route("charge/{chargeId:int}/calculate")]
+        public async Task<IActionResult> CalculateCharge([FromRoute] int chargeId)
+        {
+            await _chargeApplicationService.CalculateChargeAsync(chargeId);
+            return Ok(chargeId);
+        }
+        [HttpGet]
+        [Route("Charge")]
+        public async Task<IActionResult> GetCharges([FromRoute] int buildingId)
+        {
+            var charges = await _chargeApplicationService.GetChargesAsync(buildingId);
+            return Ok(charges);
         }
 
     }
