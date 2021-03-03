@@ -12,7 +12,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
         {
             OwnershipDTO dto = new OwnershipDTO
             {
-                PersonName = owner.PersonName,
+                UserName = owner.PersonName,
                 PersonId = owner.PersonId,
                 From = owner.From,
                 To = owner.To,
@@ -25,7 +25,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
         {
             OwnershipDTO dto = new OwnershipDTO
             {
-                PersonName = owner.PersonName,
+                UserName = owner.PersonName,
                 PersonId = owner.PersonId,
                 From = owner.From,
                 To = owner.To,

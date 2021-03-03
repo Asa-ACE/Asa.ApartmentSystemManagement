@@ -61,7 +61,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpGetUserIdByUserName]";
-                    cmd.Parameters.AddWithValue("@userName", ownership.PersonName);
+                    cmd.Parameters.AddWithValue("@userName", ownership.UserName);
                     cmd.Connection = connection;
                     var result = await cmd.ExecuteScalarAsync();
                     if (result == null)
@@ -91,10 +91,10 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SPUpdateOwnership]";
+                    cmd.CommandText = "[dbo].[SpUpdateOwnership]";
                     cmd.Parameters.AddWithValue("@oldFrom", oldFrom);
                     cmd.Parameters.AddWithValue("@unitId", ownership.UnitId);
-                    cmd.Parameters.AddWithValue("@personName", ownership.PersonName);
+                    cmd.Parameters.AddWithValue("@username", ownership.UserName);
                     cmd.Parameters.AddWithValue("@from", ownership.From);
                     cmd.Parameters.AddWithValue("@to", ownership.To);
                     cmd.Connection = connection;

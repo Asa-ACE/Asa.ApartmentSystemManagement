@@ -95,9 +95,24 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
-		public Task UpdateExpenseCategoryAsync(ExpenseCategoryDTO expenseCategory)
+		public async Task UpdateExpenseCategoryAsync(ExpenseCategoryDTO expenseCategory)
 		{
-			throw new NotImplementedException();
-		}
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.CommandText = "[dbo].[SpUpdateExpenseCategory]";
+                    cmd.Parameters.AddWithValue("@categoryId", expenseCategory.CategoryId);
+                    cmd.Parameters.AddWithValue("@name", expenseCategory.Name);
+                    cmd.Parameters.AddWithValue("@formulaType", expenseCategory.FormulaType);
+                    cmd.Parameters.AddWithValue("@isForOwner", expenseCategory.IsForOwner);
+                    cmd.Connection = connection;
+                    cmd.Connection.Open();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+        }
 	}
 }

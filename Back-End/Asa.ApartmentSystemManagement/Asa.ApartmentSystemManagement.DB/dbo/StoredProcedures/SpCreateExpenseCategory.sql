@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[SpCreateExpenseCategory]
 	@name nvarchar(50),
-	@formulaType nvarchar(20),
+	@formulaType nvarchar(100),
 	@isForOwner bit
 AS
 BEGIN

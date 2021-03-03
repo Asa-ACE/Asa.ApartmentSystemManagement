@@ -116,7 +116,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpUpdateExpense]";
-                    cmd.Parameters.AddWithValue("@expenceId", expense.ExpenseId);
+                    cmd.Parameters.AddWithValue("@expenseId", expense.ExpenseId);
                     cmd.Parameters.AddWithValue("@buildingId", expense.BuildingId);
                     cmd.Parameters.AddWithValue("@categoryId", expense.CategoryId);
                     cmd.Parameters.AddWithValue("@from", expense.From);
@@ -154,7 +154,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                             expenseDTO.From = Convert.ToDateTime(dataReader["From"]);
                             expenseDTO.To = Convert.ToDateTime(dataReader["To"]);
                             expenseDTO.Name = Convert.ToString(dataReader["Name"]);
-                            expenseDTO.BuildingId = Convert.ToInt32(dataReader["BuildingId"]);
+                            expenseDTO.BuildingId = buildingId;
                             result.Add(expenseDTO);
                         }
                     }

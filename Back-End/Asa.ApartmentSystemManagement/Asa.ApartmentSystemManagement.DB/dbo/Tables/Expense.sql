@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Expense]
 (
-	[ExpenseID] INT NOT NULL PRIMARY KEY, 
+	[ExpenseID] INT IDENTITY NOT NULL PRIMARY KEY, 
     [BuildingID] INT NOT NULL, 
     [CategoryID] INT NOT NULL, 
     [From] DATE NOT NULL, 
