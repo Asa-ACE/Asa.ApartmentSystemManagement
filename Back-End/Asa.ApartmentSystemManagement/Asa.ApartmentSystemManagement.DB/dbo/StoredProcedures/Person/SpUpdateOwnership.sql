@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[SpUpdateOwnership]
-	@ownershipId int,
+	@oldFrom date,
     @unitId int,
     @personId int,
     @from date,
@@ -10,6 +10,5 @@ BEGIN
 
 	UPDATE [dbo].[Ownership]
 	SET UnitID = @unitId, PersonID = @personId, [From] = @from, [To] = @to
-	WHERE
-	OwnershipID = @ownershipId
+	WHERE [From] = @oldFrom AND [UnitID] = @unitId
 END

@@ -13,7 +13,6 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
             UnitResponse model = new UnitResponse();
             model.Id = unit.Id;
             model.Area = unit.Area;
-            model.Description = unit.Description;
             model.UnitNumber = unit.UnitNumber;
             return model;
         }

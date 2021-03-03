@@ -6,5 +6,6 @@ BEGIN
 	SELECT [Person].[PersonID], [FirstName], [LastName], [PhoneNumber], [UserName]
 	FROM [Person]
 	INNER JOIN [Ownership] ON [Ownership].[PersonID] = [Person].[PersonID]
+	WHERE [UnitID] = @unitId
 END
 

@@ -9,6 +9,5 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Request
     {
         public decimal Area { get; set; }
         public int UnitNumber { get; set; }
-        public string Description { get; set; }
     }
 }

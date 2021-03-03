@@ -32,11 +32,10 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                         while (await dataReader.ReadAsync())
                         {
                             var unitDTO = new UnitDTO();
-                            unitDTO.BuildingId = Convert.ToInt32(dataReader["BuildingId"]);
+                            unitDTO.BuildingId = id;
                             unitDTO.Id = Convert.ToInt32(dataReader["UnitId"]);
                             unitDTO.Area = Convert.ToDecimal(dataReader["Area"]);
-                            unitDTO.UnitNumber = Convert.ToInt32(dataReader["UnitNumber"]);
-                            unitDTO.Description = Convert.ToString(dataReader["Description"]);
+                            unitDTO.UnitNumber = Convert.ToInt32(dataReader["Number"]);
                             result.Add(unitDTO);
                         }
                     }
@@ -47,6 +46,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
         public async Task<UnitDTO> GetUnitByIdAsync(int id)
         {
             SqlDataReader reader;
+            UnitDTO result;
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
@@ -57,18 +57,16 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     reader = await cmd.ExecuteReaderAsync();
+                    await reader.ReadAsync();
+                    result = new UnitDTO
+                    {
+                        Id = id,
+                        BuildingId = Convert.ToInt32(reader["BuildingId"]),
+                        Area = Convert.ToDecimal(reader["Area"]),
+                        UnitNumber = Convert.ToInt32(reader["Number"])
+                    };
                 }
             }
-
-            await reader.ReadAsync();
-            var result = new UnitDTO
-            {
-                BuildingId = id,
-                Area = Convert.ToDecimal("Area"),
-                UnitNumber = Convert.ToInt32("UnitNumber"),
-                Description = Convert.ToString("Description"),
-            };
-
             return result;
         }
         public async Task<int> InsertUnitAsync(UnitDTO unit)
@@ -83,7 +81,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     cmd.Parameters.AddWithValue("BuildingId", unit.BuildingId);
                     cmd.Parameters.AddWithValue("@Area", unit.Area);
                     cmd.Parameters.AddWithValue("@UnitNumber", unit.UnitNumber);
-                    cmd.Parameters.AddWithValue("@Description", unit.Description);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     var result = await cmd.ExecuteScalarAsync();
@@ -113,7 +110,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                             unitDTO.Id = Convert.ToInt32(dataReader["UnitID"]);
                             unitDTO.Area = Convert.ToDecimal(dataReader["Area"]);
                             unitDTO.UnitNumber = Convert.ToInt32(dataReader["Number"]);
-                            unitDTO.Description = Convert.ToString(dataReader["Description"]);
                             result.Add(unitDTO);
                         }
                     }
@@ -142,7 +138,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                             unitDTO.Id = Convert.ToInt32(dataReader["UnitID"]);
                             unitDTO.Area = Convert.ToDecimal(dataReader["Area"]);
                             unitDTO.UnitNumber = Convert.ToInt32(dataReader["Number"]);
-                            unitDTO.Description = Convert.ToString(dataReader["Description"]);
                             result.Add(unitDTO);
                         }
                     }

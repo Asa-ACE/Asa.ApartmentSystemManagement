@@ -3,7 +3,7 @@
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT [BuildingID], [UnitID], [Area], [Number], [Description]
+	SELECT [BuildingID], [UnitID], [Area], [Number]
 	FROM [dbo].[Unit]
 	WHERE [UnitID] = @unitId
 END

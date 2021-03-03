@@ -47,7 +47,7 @@ namespace Asa.ApartmentSystemManagement.API.MiddleWares
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
-
+                
                 context.Items["User"] = userId;
             }
             catch { }

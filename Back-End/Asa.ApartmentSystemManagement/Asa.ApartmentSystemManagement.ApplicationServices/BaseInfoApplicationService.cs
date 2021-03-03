@@ -34,9 +34,9 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return buildingDto.Id;
         }
 
-        public async Task<int> CreateUnitAsync(int buildingId, decimal area, int number, string description)
+        public async Task<int> CreateUnitAsync(int buildingId, decimal area, int number)
         {
-            var unitDto = new UnitDTO { BuildingId = buildingId, Area = area, UnitNumber = number, Description = description };
+            var unitDto = new UnitDTO { BuildingId = buildingId, Area = area, UnitNumber = number};
             await _buildingManager.AddUnitAsync(unitDto);
             return unitDto.Id;
         }
@@ -67,9 +67,10 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             return tenantDto.TenancyId;
         }
 
-        public async Task<BuildingDTO> GetBuildingByIdAsync(int id)
+        public async Task<BuildingResponse> GetBuildingByIdAsync(int id)
         {
-            return await _buildingManager.GetBuildingByIdAsync(id).ConfigureAwait(false);
+            var building =  await _buildingManager.GetBuildingByIdAsync(id).ConfigureAwait(false);
+            return building.ToModel();
         }
 
         public async Task<IEnumerable<BuildingResponse>> GetBuildingsAsync(int userId)
@@ -106,18 +107,16 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             await _buildingManager.UpdateBuildingNameAsync(id, name).ConfigureAwait(false);
         }
 
-        public async Task ChangeOwnerAsync(int ownershipId , OwnerRequest newOwner)
+        public async Task ChangeOwnerAsync(ChangeOwnerRequest newOwner)
         {
             var owner = newOwner.ToDTO();
-            owner.Id = ownershipId;
-            await _buildingManager.UpdateOwnershipAsync(owner).ConfigureAwait(false);
+            await _buildingManager.UpdateOwnershipAsync(newOwner.OldFrom, owner).ConfigureAwait(false);
         }
 
-        public async Task ChangeTenantAsync(int tenantId, TenantRequest newTenant)
+        public async Task ChangeTenantAsync(ChangeTenantRequest newTenant)
         {
             var tenant = newTenant.ToDTO();
-            tenant.TenancyId = tenantId;
-            await _buildingManager.UpdateTenancyAsync(tenant).ConfigureAwait(false);
+            await _buildingManager.UpdateTenancyAsync(newTenant.OldFrom, tenant).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<ExpenseCategoryResponse>> GetExpenseCategoriesAsync()

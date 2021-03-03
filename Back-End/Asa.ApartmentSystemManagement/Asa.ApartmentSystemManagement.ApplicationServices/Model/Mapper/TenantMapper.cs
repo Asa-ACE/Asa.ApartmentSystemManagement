@@ -21,5 +21,20 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
             };
             return dto;
         }
+        public static TenancyDTO ToDTO(this ChangeTenantRequest tenant)
+        {
+            TenancyDTO dto = new TenancyDTO
+            {
+                PersonId = tenant.PersonId,
+                PersonName = tenant.PersonName,
+                From = tenant.From,
+                To = tenant.To,
+                UnitId = tenant.UnitId,
+                NumberOfPeople = tenant.NumberOfPeople
+            };
+            return dto;
+        }
+
     }
+
 }

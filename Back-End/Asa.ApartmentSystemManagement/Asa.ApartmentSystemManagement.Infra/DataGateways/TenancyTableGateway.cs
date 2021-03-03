@@ -86,7 +86,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
-        public async Task UpdateTenancyAsync(TenancyDTO tenancy)
+        public async Task UpdateTenancyAsync(DateTime oldFrom, TenancyDTO tenancy)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -94,12 +94,12 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpUpdateTenancy]";
-                    cmd.Parameters.AddWithValue("tenancyId", tenancy.UnitId).Value = tenancy.TenancyId;
-                    cmd.Parameters.AddWithValue("unitId", tenancy.UnitId).Value = tenancy.UnitId;
-                    cmd.Parameters.AddWithValue("@personId", tenancy.PersonId).Value = tenancy.PersonId;
-                    cmd.Parameters.AddWithValue("@from", tenancy.From).Value = tenancy.From;
-                    cmd.Parameters.AddWithValue("@to", tenancy.To).Value = tenancy.To;
-                    cmd.Parameters.AddWithValue("@numberOfPeople", tenancy.NumberOfPeople).Value = tenancy.NumberOfPeople;
+                    cmd.Parameters.AddWithValue("@oldFrom", oldFrom);
+                    cmd.Parameters.AddWithValue("@unitId", tenancy.UnitId);
+                    cmd.Parameters.AddWithValue("@personId", tenancy.PersonId);
+                    cmd.Parameters.AddWithValue("@from", tenancy.From);
+                    cmd.Parameters.AddWithValue("@to", tenancy.To);
+                    cmd.Parameters.AddWithValue("@numberOfPeople", tenancy.NumberOfPeople);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     await cmd.ExecuteNonQueryAsync();

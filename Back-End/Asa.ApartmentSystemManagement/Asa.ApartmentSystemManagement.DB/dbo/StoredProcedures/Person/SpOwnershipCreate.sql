@@ -2,7 +2,7 @@
     @unitId int,
     @personId int,
     @from date,
-    @to date
+    @to date = NULL
 
 AS
 BEGIN

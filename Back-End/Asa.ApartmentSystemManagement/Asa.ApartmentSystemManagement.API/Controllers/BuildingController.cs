@@ -36,6 +36,14 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             var buildings = await _baseInfoApplicationService.GetBuildingsAsync(userId);
             return Ok(buildings);
         }
+        
+        [HttpGet]
+        [Route("{buildingId:int}")]
+        public async Task<IActionResult> GetBuildingById([FromRoute] int buildingId)
+        {
+            var building = await _baseInfoApplicationService.GetBuildingByIdAsync(buildingId);
+            return Ok(building);
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddBuilding([FromBody] BuildingRequest building)
@@ -71,8 +79,8 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         [Route("{buildingId:int}/Unit")]
         public async Task<IActionResult> AddUnit([FromRoute] int buildingId, [FromBody] UnitRequest unit)
         {
-            await _baseInfoApplicationService.CreateUnitAsync(buildingId, unit.Area, unit.UnitNumber, unit.Description);
-            return Ok();
+            var id = await _baseInfoApplicationService.CreateUnitAsync(buildingId, unit.Area, unit.UnitNumber);
+            return Ok(id);
         }
 
         //owner
@@ -93,10 +101,10 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpPut]
-        [Route("{buildingId:int}/Unit/{unitId:int}/Owner/{ownerId:int}")]
-        public async Task<IActionResult> ChangeOwner([FromRoute] int ownershipId, [FromBody] OwnerRequest owner)
+        [Route("{buildingId:int}/Unit/{unitId:int}/Owner")]
+        public async Task<IActionResult> ChangeOwner([FromBody] ChangeOwnerRequest owner)
         {
-            await _baseInfoApplicationService.ChangeOwnerAsync(ownershipId, owner);
+            await _baseInfoApplicationService.ChangeOwnerAsync(owner);
             return Ok();
         }
 
@@ -118,10 +126,10 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpPut]
-        [Route("{buildingId:int}/Unit/{unitId:int}/Tenant/{tenantId:int}")]
-        public async Task<IActionResult> ChangeTenant([FromRoute] int tenantId, [FromBody] TenantRequest tenant)
+        [Route("{buildingId:int}/Unit/{unitId:int}/Tenant")]
+        public async Task<IActionResult> ChangeTenant([FromBody] ChangeTenantRequest tenant)
         {
-            await _baseInfoApplicationService.ChangeTenantAsync(tenantId, tenant);
+            await _baseInfoApplicationService.ChangeTenantAsync(tenant);
             return Ok();
         }
         
@@ -181,7 +189,5 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             await _baseInfoApplicationService.DeleteExpenseAsync(expenseId);
             return Ok();
         }
-
-
     }
 }

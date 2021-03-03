@@ -47,17 +47,8 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         public async Task UpdatePersonAsync(PersonDTO personDTO)
         {
             var gateway = _tableGatewayFactory.CreatePersonTableGateway();
-            var person = await gateway.GetPersonByIdAsync(personDTO.Id);
-            var result = new PersonDTO
-            {
-                Id = person.Id,
-                FirstName = person.FirstName,
-                LastName = person.LastName,
-                PhoneNumber = person.PhoneNumber,
-                UserName = person.UserName,
-                Password = person.Password
-            };
-            await gateway.UpdatePersonAsync(result).ConfigureAwait(false);
+
+            await gateway.UpdatePersonAsync(personDTO).ConfigureAwait(false);
         }
     }
 }

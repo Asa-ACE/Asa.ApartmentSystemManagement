@@ -11,6 +11,5 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Response
         public int BuildingId { get; set; }
         public decimal Area { get; set; }
         public int UnitNumber { get; set; }
-        public string Description { get; set; }
     }
 }

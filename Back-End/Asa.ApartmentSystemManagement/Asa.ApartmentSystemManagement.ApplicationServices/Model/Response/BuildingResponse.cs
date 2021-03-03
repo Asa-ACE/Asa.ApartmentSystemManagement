@@ -10,5 +10,6 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Response
         public int Id { get; set; }
         public string Name { get; set; }
         public int NumberOfUnits { get; set; }
+        public string Address { get; set; }
     }
 }

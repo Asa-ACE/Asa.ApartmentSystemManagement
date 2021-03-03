@@ -3,8 +3,7 @@
 	[UnitID] int identity(1,1) PRIMARY KEY not null,
 	[BuildingID] int not null,
 	[Area] DECIMAL(18, 2) not null,
-	[Number] smallint not null,
-	[Description] nvarchar(250), 
+	[Number] smallint not null
     CONSTRAINT [FK_Unit_Building] FOREIGN KEY ([BuildingID]) REFERENCES [Building]([BuildingID])
 )
 GO

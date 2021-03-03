@@ -17,35 +17,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             _connectionString = connectionString;
         }
 
-        public async Task<PersonDTO> GetPersonByIdAsync(int id)
-        {
-            SqlDataReader reader;
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                using (var cmd = new SqlCommand())
-                {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpPersonGet]";
-                    cmd.Parameters.AddWithValue("@personId", id);
-                    cmd.Connection = connection;
-                    connection.Open();
-                    reader = await cmd.ExecuteReaderAsync();
-                }
-            }
 
-            await reader.ReadAsync();
-            var result = new PersonDTO
-            {
-                Id = id,
-                FirstName = Convert.ToString("[firstName]"),
-                LastName = Convert.ToString("[lastName]"),
-                PhoneNumber = Convert.ToString("[phoneNumber]"),
-                UserName = Convert.ToString("[userName]")
-                //maybe add password?
-            };
-
-            return result;
-        }
 
         public async Task<int> InsertPersonAsync(PersonDTO person)
         {
@@ -56,7 +28,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpPersonCreate]";
-                    cmd.Parameters.AddWithValue("@fisrtName", person.FirstName);
+                    cmd.Parameters.AddWithValue("@firstName", person.FirstName);
                     cmd.Parameters.AddWithValue("@lastName", person.LastName);
                     cmd.Parameters.AddWithValue("@phoneNumber", person.PhoneNumber);
                     cmd.Parameters.AddWithValue("@userName", person.UserName);
@@ -153,6 +125,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
         public async Task<PersonDTO> AuthenticatePerson(string username, string password)
         {
             SqlDataReader reader;
+            PersonDTO person;
             using(var connection = new SqlConnection(_connectionString))
             {
                 using(var cmd = new SqlCommand())
@@ -164,20 +137,20 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     reader = await cmd.ExecuteReaderAsync();
+                    if (await reader.ReadAsync())
+                    {
+                        person = new PersonDTO
+                        {
+                            Id = Convert.ToInt32(reader["PersonID"]),
+                            FirstName = Convert.ToString(reader["FirstName"]),
+                            LastName = Convert.ToString(reader["LastName"]),
+                            UserName = Convert.ToString(reader["UserName"]),
+                            Password = Convert.ToString(reader["Password"]),
+                            PhoneNumber = Convert.ToString(reader["PhoneNumber"])
+                        };
+                        return person;
+                    }
                 }
-            }
-            if(await reader.ReadAsync())
-            {
-                var person = new PersonDTO
-                {
-                    Id = Convert.ToInt32(reader["PersonID"]),
-                    FirstName = Convert.ToString(reader["FirstName"]),
-                    LastName = Convert.ToString(reader["LastName"]),
-                    UserName = Convert.ToString(reader["UserName"]),
-                    Password = Convert.ToString(reader["Password"]),
-                    PhoneNumber = Convert.ToString(reader["PhoneNumber"])
-                };
-                return person;
             }
             return null;
         }

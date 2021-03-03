@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[SpUpdateTenancy]
-	@tenancyId int,
+	@oldFrom date,
 	@unitId int,
 	@personId int,
 	@from date,
@@ -10,5 +10,5 @@ AS
     SET NOCOUNT ON;
 	Update [dbo].[Tenancy]
 	SET UnitID = @unitId, PersonID = @personId, [From] = @from, [To] = @to, NumberOfPeopel = @numberOfPeople
-	WHERE TenancyID = @tenancyId
+	WHERE [From]=@oldFrom AND [UnitID] = @unitId
 END

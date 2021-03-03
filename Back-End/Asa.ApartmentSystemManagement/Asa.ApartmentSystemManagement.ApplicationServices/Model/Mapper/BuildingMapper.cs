@@ -8,12 +8,15 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
 {
     public static class BuildingMapper
     {
-        public  static BuildingResponse ToModel(this BuildingDTO building)
+        public static BuildingResponse ToModel(this BuildingDTO building)
         {
-            BuildingResponse model = new BuildingResponse();
-            model.Id = building.Id;
-            model.Name = building.Name;
-            model.NumberOfUnits = building.NumberOfUnits;
+            BuildingResponse model = new BuildingResponse
+            {
+                Id = building.Id,
+                Name = building.Name,
+                NumberOfUnits = building.NumberOfUnits,
+                Address = building.Address
+            };
             return model;
         }
 

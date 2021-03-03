@@ -6,7 +6,10 @@ import { apiService } from "./apiService";
 const login = async (username, password) => {
   let data = { username, password };
   try {
-    let user = await axios.post("user/authenticate", JSON.stringify(data));
+    let user = await axios.post(
+      `${apiService.apiURL}user/authenticate`,
+      JSON.stringify(data)
+    );
     localStorage.setItem("currentUser", JSON.stringify(user));
   } catch (err) {
     alert(err);

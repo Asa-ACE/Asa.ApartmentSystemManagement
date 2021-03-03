@@ -20,6 +20,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
         public async Task<BuildingDTO> GetBuildingByIdAsync(int id)
         {
             SqlDataReader reader;
+            BuildingDTO result;
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
@@ -30,17 +31,16 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     reader = await cmd.ExecuteReaderAsync();
+                    await reader.ReadAsync();
+                    result = new BuildingDTO
+                    {
+                        Id = id,
+                        Name = Convert.ToString(reader["Name"]),
+                        NumberOfUnits = Convert.ToInt32(reader["NumberOfUnits"]),
+                        Address = Convert.ToString(reader["Address"])
+                    };
                 }
             }
-
-            await reader.ReadAsync();
-            var result = new BuildingDTO
-            {
-                Id = id,
-                Name = Convert.ToString(reader["name"]),
-                NumberOfUnits = Convert.ToInt32(reader["numberOfUnits"])
-            };
-
             return result;
         }
 
@@ -104,8 +104,10 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpBuildingUpdate]";
-                    cmd.Parameters.AddWithValue("@name", building.Name).Value = building.Name;
-                    cmd.Parameters.AddWithValue("@address", building.Address).Value = building.Address;
+                    cmd.Parameters.AddWithValue("@buildingId", building.Id);
+                    cmd.Parameters.AddWithValue("@numberOfUnits", building.NumberOfUnits);
+                    cmd.Parameters.AddWithValue("@name", building.Name);
+                    cmd.Parameters.AddWithValue("@address", building.Address);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     await cmd.ExecuteNonQueryAsync();

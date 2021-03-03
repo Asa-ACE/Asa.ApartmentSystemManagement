@@ -9,7 +9,6 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
     public interface IPersonTableGateway
     {
         Task<int> InsertPersonAsync(PersonDTO person);
-        Task<PersonDTO> GetPersonByIdAsync(int id);
         Task UpdatePersonAsync(PersonDTO person);
         Task<IEnumerable<PersonDTO>> GetOwnersByUnitIdAsync(int unitId);
         Task<IEnumerable<PersonDTO>> GetTenantsByUnitIdAsync(int unitId);

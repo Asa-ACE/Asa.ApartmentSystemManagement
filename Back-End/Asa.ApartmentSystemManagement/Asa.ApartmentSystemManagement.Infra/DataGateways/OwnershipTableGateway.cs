@@ -84,7 +84,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
-        public async Task UpdateOwnershipAsync(OwnershipDTO ownership)
+        public async Task UpdateOwnershipAsync(DateTime oldFrom, OwnershipDTO ownership)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -92,11 +92,11 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SPUpdateOwnership]";
-                    cmd.Parameters.AddWithValue("@ownershipId", ownership.To).Value = ownership.Id;
-                    cmd.Parameters.AddWithValue("@unitId", ownership.UnitId).Value = ownership.UnitId;
-                    cmd.Parameters.AddWithValue("@personId", ownership.PersonId).Value = ownership.PersonId;
-                    cmd.Parameters.AddWithValue("@from", ownership.From).Value = ownership.From;
-                    cmd.Parameters.AddWithValue("@to", ownership.To).Value = ownership.To;
+                    cmd.Parameters.AddWithValue("@oldFrom", oldFrom);
+                    cmd.Parameters.AddWithValue("@unitId", ownership.UnitId);
+                    cmd.Parameters.AddWithValue("@personName", ownership.PersonName);
+                    cmd.Parameters.AddWithValue("@from", ownership.From);
+                    cmd.Parameters.AddWithValue("@to", ownership.To);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     await cmd.ExecuteNonQueryAsync();

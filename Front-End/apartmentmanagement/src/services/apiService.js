@@ -1,9 +1,6 @@
 import axios from "axios";
 import { authenticationService } from "./authenticationService";
-axios.interceptors.a.use(
-  (r) => r,
-  (err) => console.log(err.response)
-);
+
 const apiURL = "http://localhost:12560/";
 const handleError = (err) => {
   console.log(err.response);
@@ -79,4 +76,5 @@ export const apiService = {
   putRequest,
   patchRequest,
   deleteRequest,
+  apiURL,
 };

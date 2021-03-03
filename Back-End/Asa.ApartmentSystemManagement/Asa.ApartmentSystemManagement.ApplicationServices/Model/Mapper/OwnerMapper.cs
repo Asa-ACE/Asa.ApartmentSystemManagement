@@ -20,5 +20,18 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
             };
             return dto;
         }
+
+        public static OwnershipDTO ToDTO(this ChangeOwnerRequest owner)
+        {
+            OwnershipDTO dto = new OwnershipDTO
+            {
+                PersonName = owner.PersonName,
+                PersonId = owner.PersonId,
+                From = owner.From,
+                To = owner.To,
+                UnitId = owner.UnitId
+            };
+            return dto;
+        }
     }
 }
