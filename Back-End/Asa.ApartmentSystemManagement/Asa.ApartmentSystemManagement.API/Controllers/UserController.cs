@@ -56,5 +56,12 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         }
 
         [HttpPost]
+        [Route("User")]
+        public async Task<IActionResult> AddUser([FromBody] UserRequest user)
+        {
+            var userId = await _userApplicationService.AddUserAsync(user);
+            return Ok(userId);
+        }
+
     }
 }

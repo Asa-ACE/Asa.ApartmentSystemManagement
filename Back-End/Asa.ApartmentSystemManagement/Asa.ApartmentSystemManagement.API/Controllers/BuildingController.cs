@@ -160,7 +160,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         [HttpPost]
         [Route("{buildingId:int}/Expense")]
-        public async Task<IActionResult> AddExpense([FromRoute] int buildingId , ExpenseRequest expense)
+        public async Task<IActionResult> AddExpense([FromRoute] int buildingId ,[FromBody] ExpenseRequest expense)
         {
             var id = await _baseInfoApplicationService.CreateExpenseAsync(buildingId, expense);
             return Ok(id);
@@ -168,7 +168,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         [HttpPut]
         [Route("{buildingId:int}/Expense/{expenseId:int}")]
-        public async Task<IActionResult> ChangeExpense([FromRoute] int buildingId , [FromRoute] int expenseId , ExpenseRequest expense)
+        public async Task<IActionResult> ChangeExpense([FromRoute] int buildingId , [FromRoute] int expenseId , [FromBody] ExpenseRequest expense)
         {
             await _baseInfoApplicationService.ChangeExpenseAsync(buildingId , expenseId , expense);
             return Ok();

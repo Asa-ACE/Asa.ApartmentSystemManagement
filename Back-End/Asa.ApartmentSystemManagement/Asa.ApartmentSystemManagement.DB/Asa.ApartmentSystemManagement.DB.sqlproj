@@ -112,6 +112,7 @@
     <Build Include="dbo\StoredProcedures\Charge\SpGetCharges.sql" />
     <Build Include="dbo\StoredProcedures\SpAdminCreate.sql" />
     <Build Include="dbo\StoredProcedures\Expense\SpExpenseCreate.sql" />
+    <Build Include="dbo\StoredProcedures\Person\SpGetUserIdByUserName.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Asa.ApartmentSystemManagement.DB.refactorlog" />

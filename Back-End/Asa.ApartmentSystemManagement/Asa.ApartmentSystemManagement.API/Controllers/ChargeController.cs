@@ -29,8 +29,9 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
         //charge
         [HttpPost]
         [Route("Charge")]
-        public async Task<IActionResult> AddCharge([FromBody] CreateChargeRequest charge)
+        public async Task<IActionResult> AddCharge([FromRoute] int buildingId,[FromBody] CreateChargeRequest charge)
         {
+            charge.BuildingId = buildingId;
             var id = await _chargeApplicationService.CreateChargeAsync(charge);
             return Ok(id);
         }
