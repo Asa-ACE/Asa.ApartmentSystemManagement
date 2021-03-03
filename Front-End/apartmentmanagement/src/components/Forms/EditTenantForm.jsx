@@ -19,13 +19,12 @@ import { AirlineSeatIndividualSuiteSharp } from "@material-ui/icons";
 import { useState } from "react";
 import useForm from "./useForm";
 import { apiService } from "../../services/apiService";
-import { useParams } from "react-router-dom";
 
 const initialValues = {
   username: null,
   from: null,
   to: null,
-  numberOfPeople: 0,
+  NumberOfPeople: 0,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -37,26 +36,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AddTenantForm(props) {
+function EditTenantForm(props) {
   const { handleClose } = props;
   const { values, setValues, handleInputChange } = useForm(initialValues);
-  const { buildingId, unitId } = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {
-      PersonName: values.username,
-      From: values.from,
-      To: values.to,
-      NumberOfPeaople: values.numberOfPeople,
-    };
-    apiService.postRequest(
-      `building/${buildingId}/unit/${unitId}/tenant`,
-      data
-    );
   };
 
-  const categories = apiService.getRequest("/formulatype");
+  //const categories = apiService.getRequest("/formulatype");
+  const categories = [
+    { CategoryId: 1, Name: "yyyy" },
+    { CategoryId: 2, Name: "yyyyss" },
+  ];
 
   const classes = useStyles();
 
@@ -133,7 +125,7 @@ function AddTenantForm(props) {
           </Grid>
           <Grid item xs={2}>
             <Button variant="contained" color="primary" fullWidth type="submit">
-              Add
+              Edit
             </Button>
           </Grid>
           <Grid item xs={2}>
@@ -152,4 +144,4 @@ function AddTenantForm(props) {
   );
 }
 
-export default AddTenantForm;
+export default EditTenantForm;

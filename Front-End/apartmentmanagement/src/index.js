@@ -4,6 +4,8 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import axios from "axios";
+import { authenticationService } from "./services/authenticationService";
 
 ReactDOM.render(
   <React.StrictMode>

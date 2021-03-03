@@ -4,8 +4,8 @@ import { apiService } from "../../../services/apiService";
 
 function BuildingInfo() {
   const { buildingId } = useParams();
-  // const building = apiService.getRequest(`/building/${buildingId}`);
-  const building = { Name: "Hard", NumberOfUnits: 10, Address: "ssssss" };
+  const building = apiService.getRequest(`/building/${buildingId}`);
+  //const building = { Name: "Hard", NumberOfUnits: 10, Address: "ssssss" };
   return (
     <>
       <Typography variant="h3">{building.Name}</Typography>
