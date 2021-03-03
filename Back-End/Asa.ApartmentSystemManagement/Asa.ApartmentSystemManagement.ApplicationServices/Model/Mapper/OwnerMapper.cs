@@ -12,7 +12,8 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
         {
             OwnershipDTO dto = new OwnershipDTO
             {
-                Id = owner.PersonId,
+                PersonName = owner.PersonName,
+                PersonId = owner.PersonId,
                 From = owner.From,
                 To = owner.To,
                 UnitId = owner.UnitId
