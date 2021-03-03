@@ -9,7 +9,7 @@ function AuthenticationService(props){
 
     const {children} = props;
     return (
-        <AuthContext.Provider value={{loggedIn}}>
+        <AuthContext.Provider value={{isLoggedIn}}>
             {children}
         </AuthContext.Provider>
     )
