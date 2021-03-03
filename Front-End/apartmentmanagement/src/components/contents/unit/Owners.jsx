@@ -5,10 +5,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Paper,
 } from "@material-ui/core";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiService } from "../../../services/apiService";
+import AddOwnerForm from "../../Forms/AddOwnerForm";
 import ModalForm from "../../ModalForm";
 
 function Owners() {
@@ -22,7 +24,7 @@ function Owners() {
 
   return (
     <>
-      <TableContainer component={paper}>
+      <TableContainer component={Paper}>
         <Table aria-label="list-table">
           <TableHead>
             <TableRow>
@@ -70,7 +72,9 @@ function Owners() {
         open={openAddForm}
         title="New Owner"
         onClose={() => setOpenAddForm(false)}
-      ></ModalForm>
+      >
+        <AddOwnerForm />
+      </ModalForm>
     </>
   );
 }

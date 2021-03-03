@@ -4,6 +4,7 @@ import { useRouteMatch, Switch, Route } from "react-router-dom";
 import OwnedUnits from "./OwnedUnits";
 import RentedUnits from "./RentedUnits";
 import OwnedUnitCharges from "../OwnedUnitCharges";
+import RentedUnitCharges from "../RentedUnitChrages";
 
 function Units() {
   const { path, url } = useRouteMatch();
@@ -20,10 +21,10 @@ function Units() {
           </TabItem>
         </TabsContainer>
       </Route>
-      <Route path={`${path}/owned-charges`}>
+      <Route path={`${path}/owned/:unitId/charges`}>
         <OwnedUnitCharges />
       </Route>
-      <Route path={`${path}/rented-charges`}>
+      <Route path={`${path}/rented/:unitId/charges`}>
         <RentedUnitCharges />
       </Route>
     </Switch>

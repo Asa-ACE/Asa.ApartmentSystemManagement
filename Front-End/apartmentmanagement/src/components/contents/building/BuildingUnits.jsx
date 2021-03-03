@@ -5,6 +5,7 @@ import {
   TableHead,
   Button,
   TableRow,
+  Paper,
 } from "@material-ui/core";
 import { useParams, Link, useRouteMatch } from "react-router-dom";
 import { apiService } from "../../../services/apiService";
@@ -14,7 +15,7 @@ function BuildingUnits() {
   const units = apiService.getRequest(`/building/${buildingId}/units`);
   const { path, url } = useRouteMatch();
   return (
-    <TableContainer component={paper}>
+    <TableContainer component={Paper}>
       <Table aria-label="list-table">
         <TableHead>
           <TableRow>

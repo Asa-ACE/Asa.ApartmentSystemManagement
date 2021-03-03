@@ -5,22 +5,22 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Paper,
 } from "@material-ui/core";
 import { apiService } from "../../../services/apiService";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useRouteMatch } from "react-router-dom";
 import ModalForm from "../../ModalForm";
 
 function RentedUnits() {
   const { buildingId, unitId } = useParams();
-  const owners = apiService.getRequest(
-    `building/${buildingId}/units/${unitId}/tenants`
-  );
+  const owners = apiService.getRequest(`unit/rented`);
   const [rows, setRows] = useState(owners);
+  const { path, url } = useRouteMatch();
 
   return (
     <>
-      <TableContainer component={paper}>
+      <TableContainer component={Paper}>
         <Table aria-label="list-table">
           <TableHead>
             <TableRow>
@@ -37,7 +37,7 @@ function RentedUnits() {
                   variant="contained"
                   color="primary"
                   component={Link}
-                  to={`${url}/rented-charge`}
+                  to={`${url}/rented/${unit.Id}/charges`}
                 >
                   Check Charges
                 </Button>

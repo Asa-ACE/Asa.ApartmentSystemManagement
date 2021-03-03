@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import ModalForm from "../../ModalForm";
 import { apiService } from "../../services/apiService";
 import UnitChargeTable from "../UnitChargeTable";
 
 function OwnedUnitCharges() {
   const { buildingId, unitId } = useParams();
-  const charges = apiService.getRequest(`unit/owner/${unitI}/charge`);
+  const charges = apiService.getRequest(`unit/owner/${unitId}/charge`);
 
   return (
     <>

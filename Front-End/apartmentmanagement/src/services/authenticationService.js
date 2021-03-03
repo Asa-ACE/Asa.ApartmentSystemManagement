@@ -1,18 +1,11 @@
-import { createContext, useState } from "react";
+const login = (username, password) => {};
 
+const getCurrentUser = () => {};
 
+const logout = () => {};
 
-export const AuthContext = createContext()
-
-function AuthenticationService(props){
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    const {children} = props;
-    return (
-        <AuthContext.Provider value={{isLoggedIn}}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
-
-export default AuthenticationService;
+export const authenticationService = {
+  login,
+  getCurrentUser,
+  logout,
+};
