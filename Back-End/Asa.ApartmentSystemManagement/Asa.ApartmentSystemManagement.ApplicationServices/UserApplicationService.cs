@@ -27,5 +27,12 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
             var person = await _personManager.AuthenticatePerson(authInfo.Username, authInfo.Password);
             return person.ToUserModel();
         }
+
+        public async Task<int> AddUserAsync(UserRequest user)
+        {
+            var personDto = user.ToDTO();
+            await _personManager.AddPersonAsync(personDto);
+            return personDto.Id;
+        }
     }
 }

@@ -55,5 +55,13 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             user.Token = tokenHandler.WriteToken(token);
         }
 
+        [HttpPost]
+        [Route("User")]
+        public async Task<IActionResult> AddUser([FromBody] UserRequest user)
+        {
+            var userId = await _userApplicationService.AddUserAsync(user);
+            return Ok(userId);
+        }
+
     }
 }
