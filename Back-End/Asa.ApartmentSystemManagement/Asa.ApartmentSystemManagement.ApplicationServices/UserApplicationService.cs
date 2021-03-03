@@ -31,7 +31,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices
         public async Task<int> AddUserAsync(UserRequest user)
         {
             var personDto = user.ToDTO();
-            await _personManager.AddPerson(personDto);
+            await _personManager.AddPersonAsync(personDto);
             return personDto.Id;
         }
     }

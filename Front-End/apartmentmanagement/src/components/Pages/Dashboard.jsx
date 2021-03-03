@@ -21,17 +21,16 @@ import Units from "../contents/units/Units";
 
 function Dashboard() {
   const { path, url } = useRouteMatch();
-  console.log(url);
   return (
     <Template>
       <Switch>
         <Route exact path={path}>
           <Redirect to={`/buildings`} />
         </Route>
-        <PrivateRoute path={`${path}/buildings`}>
+        <PrivateRoute path={`${path}buildings`}>
           <Buildings />
         </PrivateRoute>
-        <PrivateRoute path={`${path}/units`}>
+        <PrivateRoute path={`${path}units`}>
           <Units />
         </PrivateRoute>
       </Switch>

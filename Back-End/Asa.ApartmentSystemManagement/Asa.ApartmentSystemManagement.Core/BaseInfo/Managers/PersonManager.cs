@@ -24,7 +24,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             return person;
         }
 
-        public async Task AddPerson(PersonDTO person)
+        public async Task AddPersonAsync(PersonDTO person)
         {
             ValidatePerson(person);
             var gateway = _tableGatewayFactory.CreatePersonTableGateway();
