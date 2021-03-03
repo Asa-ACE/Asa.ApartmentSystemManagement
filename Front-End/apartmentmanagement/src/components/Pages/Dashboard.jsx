@@ -16,24 +16,25 @@ import AddOwnerForm from "../Forms/AddOwnerForm";
 import AddTenantForm from "../Forms/AddTenantForm";
 import AddUnitForm from "../Forms/AddUnitForm";
 import EditBuildingNameForm from "../Forms/EditBuildingNameForm";
+import PrivateRoute from "../PrivateRoute";
+import Units from "../contents/units/Units";
 
 function Dashboard() {
   const { path, url } = useRouteMatch();
   console.log(url);
   return (
     <Template>
-      {/* <Switch>
+      <Switch>
         <Route exact path={path}>
           <Redirect to={`/buildings`} />
         </Route>
-        <Route path={`${path}/buildings`}>
+        <PrivateRoute path={`${path}/buildings`}>
           <Buildings />
-        </Route>
-        <Route path={`${path}/units`}></Route>
-      </Switch> */}
-      <ModalForm open={true} title="New Charge">
-        <EditBuildingNameForm />
-      </ModalForm>
+        </PrivateRoute>
+        <PrivateRoute path={`${path}/units`}>
+          <Units />
+        </PrivateRoute>
+      </Switch>
     </Template>
   );
 }

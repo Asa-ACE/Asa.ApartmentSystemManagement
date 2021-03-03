@@ -2,8 +2,19 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import ModalForm from "../../ModalForm";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import { IconButton } from "@material-ui/core";
+import {
+  IconButton,
+  Table,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  Button,
+  Paper,
+} from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import AddChargeForm from "../../Forms/AddChargeForm";
+import { apiService } from "../../../services/apiService";
 
 function BuildingCharges() {
   const { buildingId, unitId } = useParams();
@@ -13,12 +24,11 @@ function BuildingCharges() {
   const [openAddForm, setOpenAddForm] = useState(false);
 
   const handleCalculate = () => {
-    apiService.postRequest("");
+    apiService.postRequest(`/building/${buildingId}/charge/calculate`);
   };
-
   return (
     <>
-      <TableContainer component={paper}>
+      <TableContainer component={Paper}>
         <Table aria-label="list-table">
           <TableHead>
             <TableRow>
@@ -27,7 +37,7 @@ function BuildingCharges() {
               <TableCell>To</TableCell>
             </TableRow>
           </TableHead>
-          {rows.map((owner) => (
+          {rows.map((charge) => (
             <TableRow>
               <TableCell>
                 <Button
@@ -64,7 +74,9 @@ function BuildingCharges() {
         open={openAddForm}
         title="New Charge"
         onClose={() => setOpenAddForm(false)}
-      ></ModalForm>
+      >
+        <AddChargeForm />
+      </ModalForm>
     </>
   );
 }

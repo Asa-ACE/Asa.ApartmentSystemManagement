@@ -16,7 +16,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
     [Authorize]
     [Route("[controller]")]
     [EnableCors("React")]
-    public class UnitController : ControllerBase 
+    public class UnitController : ControllerBase
     {
         private BaseInfoApplicationService _baseInfoApplicationService;
         private ChargeApplicationService _chargeApplicationService;
@@ -28,7 +28,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         //Owner
         [HttpGet]
-        [Route("Owner")]
+        [Route("Owned")]
         public async Task<IActionResult> GetOwnedUnits()
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
@@ -47,7 +47,7 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
 
         //Tenant
         [HttpGet]
-        [Route("Tenant")]
+        [Route("Rented")]
         public async Task<IActionResult> GetRentedUnits()
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);

@@ -5,11 +5,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Paper,
 } from "@material-ui/core";
 import { apiService } from "../../../services/apiService";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import ModalForm from "../../ModalForm";
+import AddTenantForm from "../../Forms/AddTenantForm";
 
 function Tenants() {
   const { buildingId, unitId } = useParams();
@@ -22,7 +24,7 @@ function Tenants() {
 
   return (
     <>
-      <TableContainer component={paper}>
+      <TableContainer component={Paper}>
         <Table aria-label="list-table">
           <TableHead>
             <TableRow>
@@ -72,7 +74,9 @@ function Tenants() {
         open={openAddForm}
         title="New Tenant"
         onClose={() => setOpenAddForm(false)}
-      ></ModalForm>
+      >
+        <AddTenantForm />
+      </ModalForm>
     </>
   );
 }

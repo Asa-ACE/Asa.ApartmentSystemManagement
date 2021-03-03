@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import ModalForm from "../../ModalForm";
+import { apiService } from "../../services/apiService";
 import UnitChargeTable from "../UnitChargeTable";
 
 function RentedUnitCharges() {

@@ -18,6 +18,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Button from "@material-ui/core/Button";
 import { CardActionArea } from "@material-ui/core";
 import { BorderAllRounded } from "@material-ui/icons";
+import { Link, useRouteMatch } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,17 +32,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function BuildingCard({ BuildingData, bg }) {
+function BuildingCard({ building, bg }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-  const { Name, Id, NumberOfUnits } = BuildingData;
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const { Name, Id, NumberOfUnits } = building;
+  const { path, url } = useRouteMatch();
 
   return (
-    <CardActionArea>
+    <CardActionArea component={Link} to={`${url}/${Id}`}>
       <Card className={classes.root} style={{ backgroundColor: bg }}>
         <CardHeader title={Name} subheader={Id} />
         <CardMedia

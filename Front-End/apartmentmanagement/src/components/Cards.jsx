@@ -1,6 +1,7 @@
 import React from "react";
 import BuildingCard from "./BuildingCard";
 import Box from "@material-ui/core/Box";
+import { apiService } from "../services/apiService";
 
 const defaultProps = {
   bgcolor: "background.paper",
@@ -20,10 +21,11 @@ const backgroundColors = [
   "#fff3e0",
   "#eceff1",
 ];
-function Cards({ BuildingData }) {
+function Cards() {
+  const buildings = apiService.getRequest("/building");
   return (
     <Box display="flex" flexWrap="wrap" justifyContent="center">
-      {BuildingData.map((item, index) => {
+      {buildings.map((item, index) => {
         return (
           <Box
             borderRadius={5}
@@ -33,7 +35,7 @@ function Cards({ BuildingData }) {
             key={index}
           >
             <BuildingCard
-              BuildingData={item}
+              building={item}
               key={index}
               bg={backgroundColors[index % backgroundColors.length]}
             />
