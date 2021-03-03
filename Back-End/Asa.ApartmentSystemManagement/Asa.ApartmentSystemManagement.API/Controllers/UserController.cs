@@ -55,6 +55,5 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             user.Token = tokenHandler.WriteToken(token);
         }
 
-        [HttpPost]
     }
 }
