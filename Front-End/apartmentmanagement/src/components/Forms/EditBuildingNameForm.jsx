@@ -21,10 +21,7 @@ import useForm from "./useForm";
 import { apiService } from "../../services/apiService";
 
 const initialValues = {
-  username: null,
-  from: null,
-  to: null,
-  NumberOfPeople: 0,
+  buildingName: null,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AddTenantForm(props) {
+function EditBuildingNameForm(props) {
   const { handleClose } = props;
   const { values, setValues, handleInputChange } = useForm(initialValues);
 
@@ -56,14 +53,14 @@ function AddTenantForm(props) {
     <form onSubmit={handleSubmit}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Grid container spacing={1}>
-          <Grid item xs={12} sm={8}>
+          <Grid item xs={12}>
             <TextField
               variant="outlined"
               margin="normal"
               required
-              label="Username"
-              name="username"
-              value={values.username}
+              label="Building Name"
+              name="buildingName"
+              value={values.buildingName}
               on
               onChange={handleInputChange}
               autoFocus
@@ -71,61 +68,9 @@ function AddTenantForm(props) {
               type="text"
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              label="Number Of People"
-              name="numberOfPeople"
-              value={values.numberOfPeople}
-              on
-              onChange={handleInputChange}
-              autoFocus
-              fullWidth
-              type="number"
-              InputProps={{
-                inputProps: {
-                  min: 1,
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <KeyboardDatePicker
-              margin="normal"
-              label="From"
-              format="MM/dd/yyyy"
-              value={values.from}
-              fullWidth
-              required
-              onChange={(val) =>
-                handleInputChange({ target: { name: "from", value: val } })
-              }
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <KeyboardDatePicker
-              margin="normal"
-              label="To"
-              format="MM/dd/yyyy"
-              value={values.to}
-              fullWidth
-              required
-              onChange={(val) =>
-                handleInputChange({ target: { name: "to", value: val } })
-              }
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-            />
-          </Grid>
           <Grid item xs={2}>
             <Button variant="contained" color="primary" fullWidth type="submit">
-              Add
+              Ok
             </Button>
           </Grid>
           <Grid item xs={2}>
@@ -144,4 +89,4 @@ function AddTenantForm(props) {
   );
 }
 
-export default AddTenantForm;
+export default EditBuildingNameForm;

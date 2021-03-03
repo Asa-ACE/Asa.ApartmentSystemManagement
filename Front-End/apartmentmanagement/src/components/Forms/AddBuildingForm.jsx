@@ -1,27 +1,26 @@
 import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
 import { AirlineSeatIndividualSuiteSharp } from "@material-ui/icons";
 import { useState } from "react";
+import useForm from "./useForm";
 
 const initialValues = {
   buildingName: "",
-  numberOfUnits: 0,
+  numberOfUnits: 1,
   address: "",
 };
 
-function AddBuildingForm() {
-  const [values, setValues] = useState(initialValues);
+function AddBuildingForm(props) {
+  const { handleClose } = props;
+  const { values, setValues, handleInputChange } = useForm(initialValues);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e;
-    setValues({
-      ...values,
-      [name]: value,
-    });
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={9}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -29,11 +28,14 @@ function AddBuildingForm() {
             label="Building Name"
             name="buildingName"
             value={values.buildingName}
+            on
+            onChange={handleInputChange}
             autoFocus
             fullWidth
+            type="text"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={3}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -41,7 +43,14 @@ function AddBuildingForm() {
             label="Number Of Units"
             name="numberOfUnits"
             value={values.numberOfUnits}
+            onChange={handleInputChange}
             fullWidth
+            type="number"
+            InputProps={{
+              inputProps: {
+                min: 1,
+              },
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -52,16 +61,23 @@ function AddBuildingForm() {
             label="Address"
             name="address"
             value={values.address}
+            onChange={handleInputChange}
+            type="text"
             fullWidth
           />
         </Grid>
         <Grid item xs={2}>
-          <Button variant="contained" color="primary" fullWidth>
+          <Button variant="contained" color="primary" fullWidth type="submit">
             Add
           </Button>
         </Grid>
         <Grid item xs={2}>
-          <Button variant="contained" color="secondary" fullWidth>
+          <Button
+            variant="contained"
+            color="secondary"
+            fullWidth
+            onClick={handleClose}
+          >
             Cancel
           </Button>
         </Grid>
