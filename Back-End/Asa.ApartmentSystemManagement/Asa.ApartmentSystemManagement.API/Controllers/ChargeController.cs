@@ -51,5 +51,13 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
             return Ok(charges);
         }
 
+        [HttpPut]
+        [Route("charge/{chargeId:int}/update")]
+        public async Task<IActionResult> UpdateCharge([FromRoute] int chargeId, [FromBody] CreateChargeRequest charge)
+        {
+            await _chargeApplicationService.UpdateChargeAsync(chargeId, charge);
+            return Ok();
+        }
+
     }
 }
