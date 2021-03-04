@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import useForm from "../Forms/useForm";
 import { apiService } from "../../services/apiService";
+import { authenticationService } from "../../services/authenticationService";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,16 +61,17 @@ function Register() {
 
   const classes = useStyles();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       Username: values.username,
       Password: values.password,
-      FirstName: values.firsName,
+      FirstName: values.firstName,
       LastName: values.lastName,
       PhoneNumber: values.phoneNumber,
     };
-    apiService.postRequest("user", data);
+    await apiService.postRequest("user", data);
+    authenticationService.login(data.Username, data.Password);
   };
 
   return (
@@ -97,6 +99,7 @@ function Register() {
               type="text"
               autoFocus
               value={values.username}
+              onChange={handleInputChange}
             />
             <TextField
               variant="outlined"
@@ -108,6 +111,7 @@ function Register() {
               type="password"
               id="password"
               value={values.password}
+              onChange={handleInputChange}
             />
             <TextField
               variant="outlined"
@@ -119,6 +123,7 @@ function Register() {
               type="password"
               id="passwordRepeat"
               value={values.passwordRepeat}
+              onChange={handleInputChange}
             />
 
             <TextField
@@ -131,6 +136,7 @@ function Register() {
               type="name"
               id="firstName"
               value={values.firstName}
+              onChange={handleInputChange}
             />
             <TextField
               variant="outlined"
@@ -142,6 +148,7 @@ function Register() {
               type="name"
               id="lastName"
               value={values.lastName}
+              onChange={handleInputChange}
             />
             <TextField
               variant="outlined"
@@ -153,6 +160,7 @@ function Register() {
               type="phonenumber"
               id="phoneNumber"
               value={values.phoneNumber}
+              onChange={handleInputChange}
             />
             <Button
               type="submit"

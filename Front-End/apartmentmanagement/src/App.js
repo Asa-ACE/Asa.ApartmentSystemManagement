@@ -5,6 +5,7 @@ import { Switch, Redirect, Route } from "react-router-dom";
 import Login from "./components/Pages/Login";
 import Register from "./components/Pages/Register";
 import Dashboard from "./components/Pages/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -16,9 +17,7 @@ function App() {
         <Route path="/signup">
           <Register />
         </Route>
-        <Route path="/">
-          <Dashboard />
-        </Route>
+        <PrivateRoute path="/" component={Dashboard} />
       </Switch>
     </>
   );

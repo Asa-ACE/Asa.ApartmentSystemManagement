@@ -7,7 +7,7 @@ import {
   TableRow,
   Paper,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiService } from "../../../services/apiService";
 import AddOwnerForm from "../../Forms/AddOwnerForm";
@@ -16,10 +16,13 @@ import ModalForm from "../../ModalForm";
 
 function Owners() {
   const { buildingId, unitId } = useParams();
-  const owners = apiService.getRequest(
-    `building/${buildingId}/unit/${unitId}/owner`
-  );
-  const [rows, setRows] = useState(owners);
+  const [owners, setOwners] = useState([]);
+  useEffect(async () => {
+    const data = await apiService.getRequest(
+      `building/${buildingId}/unit/${unitId}/owner`
+    );
+    setOwners(data);
+  }, []);
   const [openEditForm, setOpenEditForm] = useState(false);
   const [openAddForm, setOpenAddForm] = useState(false);
 
@@ -37,7 +40,7 @@ function Owners() {
               <TableCell>To</TableCell>
             </TableRow>
           </TableHead>
-          {rows.map((owner) => (
+          {owners.map((owner) => (
             <TableRow>
               <TableCell>
                 <Button
@@ -48,11 +51,11 @@ function Owners() {
                   Edit Owner
                 </Button>
               </TableCell>
-              <TableCell>{owner.FirstName}</TableCell>
-              <TableCell>{owner.LastName}</TableCell>
-              <TableCell>{owner.PhoneNumber}</TableCell>
-              <TableCell>{owner.From}</TableCell>
-              <TableCell>{owner.To}</TableCell>
+              <TableCell>{owner.firstName}</TableCell>
+              <TableCell>{owner.lastName}</TableCell>
+              <TableCell>{owner.phoneNumber}</TableCell>
+              <TableCell>{owner.from}</TableCell>
+              <TableCell>{owner.to}</TableCell>
             </TableRow>
           ))}
         </Table>

@@ -5,16 +5,19 @@ import { apiService } from "./apiService";
 
 const login = async (username, password) => {
   let data = { username, password };
-  try {
-    let user = await axios.post(
-      `${apiService.apiURL}user/authenticate`,
-      JSON.stringify(data)
-    );
-    localStorage.setItem("currentUser", JSON.stringify(user));
-  } catch (err) {
-    alert(err);
-    Promise.reject(err);
-  }
+  const user = await axios.post(
+    `${apiService.apiURL}user/authenticate`,
+    JSON.stringify(data),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  localStorage.setItem("currentUser", JSON.stringify(user));
+  console.log(user);
+  debugger;
+  window.location.href = "http://localhost:3000/";
 };
 
 const userSubject = new BehaviorSubject(
@@ -25,6 +28,7 @@ const getCurrentUser = () => userSubject.value;
 const logout = () => {
   localStorage.removeItem("currentUser");
   userSubject.next(null);
+  window.location.href = "http://localhost:3000/login";
 };
 
 export const authenticationService = {

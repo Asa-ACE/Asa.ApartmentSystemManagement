@@ -7,12 +7,18 @@ import {
   TableRow,
   Paper,
 } from "@material-ui/core";
+import { useEffect, useState } from "react";
 import { useParams, Link, useRouteMatch } from "react-router-dom";
 import { apiService } from "../../../services/apiService";
 
 function BuildingUnits() {
   const { buildingId } = useParams();
-  const units = apiService.getRequest(`/building/${buildingId}/unit`);
+  const [units, setUnits] = useState([]);
+  useEffect(async () => {
+    const data = await apiService.getRequest(`building/${buildingId}/unit`);
+    setUnits(data);
+  }, []);
+
   const { path, url } = useRouteMatch();
   return (
     <TableContainer component={Paper}>
@@ -29,15 +35,15 @@ function BuildingUnits() {
             <TableCell>
               <Button
                 component={Link}
-                to={`${url}/${unit.Id}`}
+                to={`${url}/${unit.id}`}
                 variant="contained"
                 color="primary"
               >
                 Enter
               </Button>
             </TableCell>
-            <TableCell>{unit.Area}</TableCell>
-            <TableCell>{unit.UnitNumber}</TableCell>
+            <TableCell>{unit.area}</TableCell>
+            <TableCell>{unit.unitNumber}</TableCell>
           </TableRow>
         ))}
       </Table>

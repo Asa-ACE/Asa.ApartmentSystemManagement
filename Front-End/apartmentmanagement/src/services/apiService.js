@@ -3,71 +3,62 @@ import { authenticationService } from "./authenticationService";
 
 const apiURL = "http://localhost:12560/";
 const handleError = (err) => {
-  console.log(err.response);
-  if ([401, 403].indexOf(err.response.status) !== -1) {
-    alert("You're not logged in :)");
-    authenticationService.logout();
-    window.location.reload();
-  }
   alert(err);
-  Promise.reject(err);
+  return Promise.reject(err);
 };
+
+axios.interceptors.response.use(
+  (res) => res.data,
+  (err) => {
+    alert(err);
+    return Promise.reject(err);
+  }
+);
+axios.interceptors.request.use((req) => {
+  const currentUser = authenticationService.getCurrentUser();
+  if (currentUser && currentUser.token) {
+    req.headers.Authorization = currentUser.token;
+  }
+  req.headers["Content-Type"] = "application/json";
+  return req;
+});
 
 const authHeader = () => {
   let currentUser = authenticationService.getCurrentUser();
-  if (currentUser && currentUser.Token) {
-    return { Authorization: `Bearer ${currentUser.token}` };
+  console.log(currentUser);
+  if (currentUser && currentUser.token) {
+    return {
+      Authorization: `Bearer ${currentUser.token}`,
+      "Content-Type": "application/json",
+    };
   } else {
-    return {};
+    return { "Content-Type": "application/json" };
   }
 };
 
-async function getRequest(route) {
-  try {
-    let res = await axios.get(`${apiURL}${route}`, {
-      headers: authHeader(),
-    });
-  } catch ({ response }) {
-    handleError(response);
-  }
+function getRequest(route) {
+  const res = axios.get(`${apiURL}${route}`);
+  return res;
 }
 
-async function postRequest(route, data) {
-  try {
-    let res = await axios.post(`${apiURL}${route}`, JSON.stringify(data), {
-      headers: authHeader(),
-    });
-  } catch (err) {
-    handleError(err);
-  }
+function postRequest(route, data) {
+  const res = axios.post(`${apiURL}${route}`, JSON.stringify(data));
+  return res;
 }
 
-async function putRequest(route, data) {
-  try {
-    let res = await axios.put(`${apiURL}${route}`, JSON.stringify(data), {
-      headers: authHeader(),
-    });
-  } catch (err) {
-    handleError(err);
-  }
+function putRequest(route, data) {
+  const res = axios.put(`${apiURL}${route}`, JSON.stringify(data));
+  return res;
 }
 
 async function patchRequest(route, data) {
-  try {
-    let res = await axios.patch(`${apiURL}${route}`, JSON.stringify(data), {
-      headers: authHeader(),
-    });
-  } catch (err) {
-    handleError(err);
-  }
+  const res = axios.patch(`${apiURL}${route}`, JSON.stringify(data));
+  return res;
 }
 
 async function deleteRequest(route, data) {
-  try {
-    let res = await axios.delete(`${apiURL}${route}`, JSON.stringify(data));
-  } catch (err) {
-    handleError(err);
-  }
+  const res = await axios.delete(`${apiURL}${route}`, JSON.stringify(data));
+  return res;
 }
 
 export const apiService = {

@@ -8,14 +8,17 @@ import {
   Paper,
 } from "@material-ui/core";
 import { apiService } from "../../../services/apiService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams, useRouteMatch } from "react-router-dom";
 import ModalForm from "../../ModalForm";
 
 function RentedUnits() {
   const { buildingId, unitId } = useParams();
-  const owners = apiService.getRequest(`unit/rented`);
-  const [rows, setRows] = useState(owners);
+  const [units, setUnits] = useState([]);
+  useEffect(async () => {
+    const data = await apiService.getRequest(`unit/rented`);
+    setUnits(data);
+  }, []);
   const { path, url } = useRouteMatch();
 
   return (
@@ -25,26 +28,24 @@ function RentedUnits() {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell>Building Name</TableCell>
               <TableCell>Unit Number</TableCell>
               <TableCell>Area</TableCell>
             </TableRow>
           </TableHead>
-          {rows.map((unit) => (
+          {units.map((unit) => (
             <TableRow>
               <TableCell>
                 <Button
                   variant="contained"
                   color="primary"
                   component={Link}
-                  to={`${url}/rented/${unit.Id}/charge`}
+                  to={`${url}/rented/${unit.id}/charge`}
                 >
                   Check Charges
                 </Button>
               </TableCell>
-              <TableCell>{unit.BuildingName}</TableCell>
-              <TableCell>{unit.UnitNumber}</TableCell>
-              <TableCell>{unit.Area}</TableCell>
+              <TableCell>{unit.unitNumber}</TableCell>
+              <TableCell>{unit.area}</TableCell>
             </TableRow>
           ))}
         </Table>

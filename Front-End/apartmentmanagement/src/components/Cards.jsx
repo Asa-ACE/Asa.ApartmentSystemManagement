@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BuildingCard from "./BuildingCard";
 import Box from "@material-ui/core/Box";
 import { apiService } from "../services/apiService";
@@ -22,7 +22,14 @@ const backgroundColors = [
   "#eceff1",
 ];
 function Cards() {
-  const buildings = apiService.getRequest("/building");
+  const [buildings, setBuildings] = useState([]);
+  useEffect(async () => {
+    const data = await apiService.getRequest("building");
+    console.log(data);
+    setBuildings(data);
+  }, []);
+  console.log(buildings);
+
   return (
     <Box display="flex" flexWrap="wrap" justifyContent="center">
       {buildings.map((item, index) => {

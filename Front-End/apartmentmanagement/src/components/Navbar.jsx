@@ -16,6 +16,7 @@ import { SidebarContext } from "./Template";
 import clsx from "clsx";
 import { drawerWidth } from "./Template";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
+import { authenticationService } from "../services/authenticationService";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,7 +93,7 @@ function Navbar() {
                 {...bindTrigger(popupState)}
               >
                 <Typography variant="h6" className={classes.profile}>
-                  AmirHossein
+                  {authenticationService.getCurrentUser().userName}
                 </Typography>
               </Button>
               <Popover
@@ -107,7 +108,11 @@ function Navbar() {
                 }}
               >
                 <Box p={2}>
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={authenticationService.logout}
+                  >
                     <Typography>Logout</Typography>
                   </Button>
                 </Box>

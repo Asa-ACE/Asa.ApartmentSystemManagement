@@ -55,9 +55,6 @@ function AddTenantForm(props) {
       data
     );
   };
-
-  const categories = apiService.getRequest("/formulatype");
-
   const classes = useStyles();
 
   return (

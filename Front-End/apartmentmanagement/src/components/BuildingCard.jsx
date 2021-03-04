@@ -34,13 +34,12 @@ const useStyles = makeStyles((theme) => ({
 
 function BuildingCard({ building, bg }) {
   const classes = useStyles();
-  const { Name, Id, NumberOfUnits } = building;
+  const { name, id, numberOfUnits } = building;
   const { path, url } = useRouteMatch();
-
   return (
-    <CardActionArea component={Link} to={`${url}/${Id}`}>
+    <CardActionArea component={Link} to={`${url}/${id}`}>
       <Card className={classes.root} style={{ backgroundColor: bg }}>
-        <CardHeader title={Name} subheader={Id} />
+        <CardHeader title={name} subheader={id} />
         <CardMedia
           className={classes.media}
           image="https://specials-images.forbesimg.com/dam/imageserve/947014356/960x0.jpg"
@@ -48,7 +47,7 @@ function BuildingCard({ building, bg }) {
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            <b>Number of Units : {NumberOfUnits}</b>
+            <b>Number of Units : {numberOfUnits}</b>
           </Typography>
         </CardContent>
       </Card>

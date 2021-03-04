@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ModalForm from "../../ModalForm";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
@@ -19,15 +19,20 @@ import EditChargeForm from "../../Forms/EditChargeForm";
 
 function BuildingCharges() {
   const { buildingId, unitId } = useParams();
-  const charges = apiService.getRequest(`building/${buildingId}/charge`);
-  const [rows, setRows] = useState(charges);
+  const [charges, setCharges] = useState([]);
+  useEffect(async () => {
+    const data = await apiService.getRequest(`building/${buildingId}/charge`);
+    setCharges(data);
+  }, []);
   const [openEditForm, setOpenEditForm] = useState(false);
   const [openAddForm, setOpenAddForm] = useState(false);
+  const [id, setId] = useState(0);
 
-  const handleCalculate = (chargeId) => {
-    apiService.postRequest(
-      `/building/${buildingId}/charge/${chargeId}/calculate`
+  const handleCalculate = async (chargeId) => {
+    await apiService.postRequest(
+      `building/${buildingId}/charge/${chargeId}/calculate`
     );
+    alert("Charge has been calculated :)");
   };
   return (
     <>
@@ -36,17 +41,18 @@ function BuildingCharges() {
           <TableHead>
             <TableRow>
               <TableCell />
+              <TableCell />
               <TableCell>From</TableCell>
               <TableCell>To</TableCell>
             </TableRow>
           </TableHead>
-          {rows.map((charge) => (
+          {charges.map((charge) => (
             <TableRow>
               <TableCell>
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => handleCalculate(charge.ChargeId)}
+                  onClick={() => handleCalculate(charge.chargeId)}
                 >
                   Calculate
                 </Button>
@@ -54,13 +60,16 @@ function BuildingCharges() {
               <TableCell>
                 <IconButton
                   color="primary"
-                  onClick={() => setOpenEditForm(true)}
+                  onClick={() => {
+                    setId(charge.chargeId);
+                    setOpenEditForm(true);
+                  }}
                 >
                   <EditRoundedIcon />
                 </IconButton>
               </TableCell>
-              <TableCell>{charge.From}</TableCell>
-              <TableCell>{charge.To}</TableCell>
+              <TableCell>{charge.from.substring(0, 10)}</TableCell>
+              <TableCell>{charge.to.substring(0, 10)}</TableCell>
             </TableRow>
           ))}
         </Table>
@@ -73,14 +82,22 @@ function BuildingCharges() {
         title="Edit Charge"
         onClose={() => setOpenEditForm(false)}
       >
-        <EditChargeForm />
+        <EditChargeForm
+          setCharges={setCharges}
+          chargeId={id}
+          handleClose={() => setOpenAddForm(false)}
+        />
       </ModalForm>
       <ModalForm
         open={openAddForm}
         title="New Charge"
         onClose={() => setOpenAddForm(false)}
       >
-        <AddChargeForm />
+        <AddChargeForm
+          charges={charges}
+          setCharges={setCharges}
+          handleClose={() => setOpenAddForm(false)}
+        />
       </ModalForm>
     </>
   );

@@ -17,17 +17,29 @@ const initialValues = {
 };
 
 function AddChargeForm(props) {
-  const { handleClose } = props;
+  const { handleClose, setCharges, charges } = props;
   const { values, setValues, handleInputChange } = useForm(initialValues);
   const { buildingId } = useParams();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       From: values.from,
       To: values.to,
     };
-    apiService.postRequest(`building/${buildingId}/charge`, data);
+    const id = await apiService.postRequest(
+      `building/${buildingId}/charge`,
+      data
+    );
+    setCharges([
+      ...charges,
+      {
+        from: data.From.toISOString(),
+        to: data.To.toISOString(),
+        chargeId: id,
+      },
+    ]);
+    handleClose();
   };
 
   return (
@@ -41,7 +53,6 @@ function AddChargeForm(props) {
               format="MM/dd/yyyy"
               value={values.from}
               fullWidth
-              type="date"
               onChange={(val) =>
                 handleInputChange({ target: { name: "from", value: val } })
               }
@@ -55,8 +66,7 @@ function AddChargeForm(props) {
               margin="normal"
               label="To"
               format="MM/dd/yyyy"
-              value={values.from}
-              type="date"
+              value={values.to}
               fullWidth
               onChange={(val) =>
                 handleInputChange({ target: { name: "to", value: val } })

@@ -6,7 +6,6 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 
 function Buildings() {
   const { path, url } = useRouteMatch();
-
   return (
     <Switch>
       <Route path={`${path}`} exact>

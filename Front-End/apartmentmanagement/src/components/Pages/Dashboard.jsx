@@ -27,12 +27,8 @@ function Dashboard() {
         <Route exact path={path}>
           <Redirect to={`/buildings`} />
         </Route>
-        <PrivateRoute path={`${path}buildings`}>
-          <Buildings />
-        </PrivateRoute>
-        <PrivateRoute path={`${path}units`}>
-          <Units />
-        </PrivateRoute>
+        <PrivateRoute component={Buildings} path={`${path}buildings`} />
+        <PrivateRoute path={`${path}units`} component={Units} />
       </Switch>
     </Template>
   );

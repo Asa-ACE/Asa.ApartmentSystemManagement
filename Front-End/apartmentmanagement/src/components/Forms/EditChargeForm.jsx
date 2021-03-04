@@ -8,6 +8,8 @@ import {
 import { AirlineSeatIndividualSuiteSharp } from "@material-ui/icons";
 import { useState } from "react";
 import useForm from "./useForm";
+import { apiService } from "../../services/apiService";
+import { useParams } from "react-router-dom";
 
 const initialValues = {
   from: new Date(),
@@ -15,11 +17,17 @@ const initialValues = {
 };
 
 function EditChargeForm(props) {
-  const { handleClose } = props;
+  const { handleClose, chargeId } = props;
   const { values, setValues, handleInputChange } = useForm(initialValues);
+  const { buildingId } = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const data = {
+      From: values.from,
+      To: values.to,
+    };
+    apiService.putRequest(`building/${buildingId}/charge/${chargeId}`, data);
   };
 
   return (
@@ -33,7 +41,6 @@ function EditChargeForm(props) {
               format="MM/dd/yyyy"
               value={values.from}
               fullWidth
-              type="date"
               onChange={(val) =>
                 handleInputChange({ target: { name: "from", value: val } })
               }
@@ -47,8 +54,7 @@ function EditChargeForm(props) {
               margin="normal"
               label="To"
               format="MM/dd/yyyy"
-              value={values.from}
-              type="date"
+              value={values.to}
               fullWidth
               onChange={(val) =>
                 handleInputChange({ target: { name: "to", value: val } })

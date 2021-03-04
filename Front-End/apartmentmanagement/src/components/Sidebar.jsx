@@ -74,7 +74,7 @@ function Sidebar() {
           </ListItemIcon>
           <ListItemText primary="Buildings" />
         </ListItem>
-        <ListItem button key="Units" component={Link} to="/units~">
+        <ListItem button key="Units" component={Link} to="/units">
           <ListItemIcon>
             <MeetingRoomRoundedIcon />
           </ListItemIcon>

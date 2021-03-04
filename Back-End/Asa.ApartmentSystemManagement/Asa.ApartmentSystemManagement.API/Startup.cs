@@ -25,6 +25,7 @@ namespace Asa.ApartmentSystemManagement.API
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddCors(options => options.AddPolicy("React", options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 			services.AddControllers();
 
 			services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
