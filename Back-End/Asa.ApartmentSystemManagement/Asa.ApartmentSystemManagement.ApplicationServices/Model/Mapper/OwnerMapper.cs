@@ -12,7 +12,21 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
         {
             OwnershipDTO dto = new OwnershipDTO
             {
-                Id = owner.PersonId,
+                UserName = owner.PersonName,
+                PersonId = owner.PersonId,
+                From = owner.From,
+                To = owner.To,
+                UnitId = owner.UnitId
+            };
+            return dto;
+        }
+
+        public static OwnershipDTO ToDTO(this ChangeOwnerRequest owner)
+        {
+            OwnershipDTO dto = new OwnershipDTO
+            {
+                UserName = owner.PersonName,
+                PersonId = owner.PersonId,
                 From = owner.From,
                 To = owner.To,
                 UnitId = owner.UnitId

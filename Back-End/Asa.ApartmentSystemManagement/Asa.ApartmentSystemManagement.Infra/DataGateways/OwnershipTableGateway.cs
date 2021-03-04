@@ -42,6 +42,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                             shareInfo.PersonId = Convert.ToInt32(dataReader["PersonID"]);
                             shareInfo.Days = Convert.ToInt32(dataReader["Days"]);
                             shareInfo.Area = Convert.ToDecimal(dataReader["Area"]);
+                            shareInfo.NumberOfPeopel = 0;
                             result.Add(shareInfo);
                         }
                     }
@@ -55,6 +56,18 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             int id = 0;
             using (var connection = new SqlConnection(_connectionString))
             {
+                connection.Open();
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "[dbo].[SpGetUserIdByUserName]";
+                    cmd.Parameters.AddWithValue("@userName", ownership.UserName);
+                    cmd.Connection = connection;
+                    var result = await cmd.ExecuteScalarAsync();
+                    if (result == null)
+                       throw new ArgumentException("Username Not Exist");
+                    ownership.PersonId = Convert.ToInt32(result);
+                }
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -64,7 +77,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     cmd.Parameters.AddWithValue("@from", ownership.From);
                     cmd.Parameters.AddWithValue("@to", ownership.To);
                     cmd.Connection = connection;
-                    cmd.Connection.Open();
                     var result = await cmd.ExecuteScalarAsync();
                     id = Convert.ToInt32(result);
                 }
@@ -72,18 +84,19 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
-        public async Task UpdateOwnershipAsync(OwnershipDTO ownership)
+        public async Task UpdateOwnershipAsync(DateTime oldFrom, OwnershipDTO ownership)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SPOwnershipUpdate]";
-                    cmd.Parameters.AddWithValue("@unitId", ownership.UnitId).Value = ownership.UnitId;
-                    cmd.Parameters.AddWithValue("@personId", ownership.PersonId).Value = ownership.PersonId;
-                    cmd.Parameters.AddWithValue("@from", ownership.From).Value = ownership.From;
-                    cmd.Parameters.AddWithValue("@to", ownership.To).Value = ownership.To;
+                    cmd.CommandText = "[dbo].[SpUpdateOwnership]";
+                    cmd.Parameters.AddWithValue("@oldFrom", oldFrom);
+                    cmd.Parameters.AddWithValue("@unitId", ownership.UnitId);
+                    cmd.Parameters.AddWithValue("@username", ownership.UserName);
+                    cmd.Parameters.AddWithValue("@from", ownership.From);
+                    cmd.Parameters.AddWithValue("@to", ownership.To);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     await cmd.ExecuteNonQueryAsync();

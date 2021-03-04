@@ -7,6 +7,7 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Request
 {
     public class OwnerRequest
     {
+        public string PersonName { get; set; }
         public int PersonId { get; set; }
         public DateTime From { get; set; }
         public DateTime? To { get; set; }

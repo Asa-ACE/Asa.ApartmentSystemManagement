@@ -1,4 +1,5 @@
-﻿using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
+﻿using Asa.ApartmentSystemManagement.ApplicationServices.Model.Request;
+using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
 using Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs;
 using System;
 using System.Collections.Generic;
@@ -50,5 +51,33 @@ namespace Asa.ApartmentSystemManagement.ApplicationServices.Model.Mapper
             return model;
         }
 
+        public static UserResponse ToUserModel(this PersonDTO person)
+        {
+            if(person == null)
+            {
+                return null;
+            }
+            var model = new UserResponse
+            {
+                UserId = person.Id,
+                UserName = person.UserName,
+                FirstName = person.FirstName,
+                LastName = person.LastName
+            };
+            return model;
+        }
+
+        public static PersonDTO ToDTO(this UserRequest user)
+        {
+            var dto = new PersonDTO()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Password = user.Password,
+                PhoneNumber = user.PhoneNumber,
+                UserName = user.Username
+            };
+            return dto;
+        }
     }
 }

@@ -1,9 +1,10 @@
-﻿using Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices;
-using Asa.ApartmentSystemManagement.API.Model;
-using Asa.ApartmentSystemManagement.API.Model.Request;
-using Asa.ApartmentSystemManagement.API.Model.Response;
+﻿
 using Asa.ApartmentSystemManagement.API.Tools;
+using Asa.ApartmentSystemManagement.ApplicationServices;
+using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,50 +15,53 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
     [ApiController]
     [Authorize]
     [Route("[controller]")]
-    public class UnitController : ControllerBase 
+    [EnableCors("React")]
+    public class UnitController : ControllerBase
     {
-        private IBaseInfoApplicationService _baseInfoApplicationService;
-        private IChargeApplicationService _chargeApplicationService;
-        public UnitController(IBaseInfoApplicationService baseInfoApplicationService, IChargeApplicationService chargeApplicationService)
+        private BaseInfoApplicationService _baseInfoApplicationService;
+        private ChargeApplicationService _chargeApplicationService;
+        public UnitController(IOptions<AppSetting> appSetting)
         {
-            _baseInfoApplicationService = baseInfoApplicationService;
-            _chargeApplicationService = chargeApplicationService;
+            _baseInfoApplicationService = new BaseInfoApplicationService(appSetting.Value.ConnectionString);
+            _chargeApplicationService = new ChargeApplicationService(appSetting.Value.ConnectionString);
         }
 
         //Owner
         [HttpGet]
-        [Route("Owner")]
-        public IEnumerable<UnitResponse> GetUnitsIOwn()
+        [Route("Owned")]
+        public async Task<IActionResult> GetOwnedUnits()
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
-            var units = _baseInfoApplicationService.GetUnitsIOwn(userId);
-            return units;
+            var units = await _baseInfoApplicationService.GetOwnedUnitsAsync(userId);
+            return Ok(units);
         }
+
         [HttpGet]
-        [Route("Owner/{unitId:int}/Charges")]
-        public IEnumerable<ChargeAndChargeItemResponse> GetChargesInUnitIOwn([FromRoute] int unitId)
+        [Route("Owned/{unitId:int}/Charge")]
+        public async Task<IActionResult> GetOwnedUnitCharges([FromRoute] int unitId)
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
-            var charges = _chargeApplicationService.GetChargesInUnitIOwn(userId, unitId);
-            return charges;
+            var charges = await _chargeApplicationService.GetOwnedUnitChargesAsync(unitId, userId);
+            return Ok(charges);
         }
 
         //Tenant
         [HttpGet]
-        [Route("Tenant")]
-        public IEnumerable<UnitResponse> GetUnitsIRent()
+        [Route("Rented")]
+        public async Task<IActionResult> GetRentedUnits()
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
-            var units = _baseInfoApplicationService.GetUnitsIRent(userId);
-            return units;
+            var units = await _baseInfoApplicationService.GetRentedUnitsAsync(userId);
+            return Ok(units);
         }
+
         [HttpGet]
-        [Route("Tenant/{unitId:int}/Charges")]
-        public IEnumerable<ChargeAndChargeItemResponse> GetChargesInUnitIRent([FromRoute] int unitId)
+        [Route("Rented/{unitId:int}/Charge")]
+        public async Task<IActionResult> GetRentedUnitCharges([FromRoute] int unitId)
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
-            var charges = _chargeApplicationService.GetChargesInUnitIRent(userId, unitId);
-            return charges;
+            var charges = await _chargeApplicationService.GetRentedUnitChargesAsync(userId, unitId);
+            return Ok(charges);
         }
 
     }

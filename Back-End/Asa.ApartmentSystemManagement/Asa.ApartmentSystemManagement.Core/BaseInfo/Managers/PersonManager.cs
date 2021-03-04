@@ -17,7 +17,14 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             _tableGatewayFactory = tableGatewayFactory;
         }
 
-        public async Task AddPerson(PersonDTO person)
+        public async Task<PersonDTO> AuthenticatePerson(string username, string password)
+        {
+            var gateway = _tableGatewayFactory.CreatePersonTableGateway();
+            var person = await gateway.AuthenticatePerson(username, password);
+            return person;
+        }
+
+        public async Task AddPersonAsync(PersonDTO person)
         {
             ValidatePerson(person);
             var gateway = _tableGatewayFactory.CreatePersonTableGateway();
@@ -40,17 +47,8 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         public async Task UpdatePersonAsync(PersonDTO personDTO)
         {
             var gateway = _tableGatewayFactory.CreatePersonTableGateway();
-            var person = await gateway.GetPersonByIdAsync(personDTO.Id);
-            var result = new PersonDTO
-            {
-                Id = person.Id,
-                FirstName = person.FirstName,
-                LastName = person.LastName,
-                PhoneNumber = person.PhoneNumber,
-                UserName = person.UserName,
-                Password = person.Password
-            };
-            await gateway.UpdatePersonAsync(result).ConfigureAwait(false);
+
+            await gateway.UpdatePersonAsync(personDTO).ConfigureAwait(false);
         }
     }
 }

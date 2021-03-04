@@ -7,6 +7,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs
 	public class TenancyDTO
 	{
 		public int TenancyId { get; set; }
+		public string UserName { get; set; }
 		public int PersonId { get; set; }
 		public int UnitId { get; set; }
 		public DateTime From { get; set; }

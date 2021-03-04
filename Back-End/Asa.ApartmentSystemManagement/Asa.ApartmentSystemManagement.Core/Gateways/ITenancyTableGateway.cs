@@ -9,8 +9,8 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
     public interface ITenancyTableGateway
     {
         Task<int> InsertTenancyAsync(TenancyDTO tenancy);
-        Task UpdateTenancyAsync(TenancyDTO tenancy);
-        Task<TenancyDTO> GetTenancyAsync(int unitId);
-        Task<IEnumerable<ShareInfo>> GetOwnerShareInfoAsync(int buildingId, DateTime from, DateTime to);
-    }
+        Task UpdateTenancyAsync(DateTime oldFrom, TenancyDTO tenancy);
+
+        Task<IEnumerable<ShareInfo>> GetTenantShareInfoAsync(int buildingId, DateTime from, DateTime to);
+	}
 }

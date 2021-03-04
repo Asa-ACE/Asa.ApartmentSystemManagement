@@ -6,6 +6,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.DTOs
 {
 	public class OwnershipDTO
 	{
+		public string UserName { get; set; }
 		public int Id { get; set; }
 		public int PersonId { get; set; }
 		public int UnitId { get; set; }

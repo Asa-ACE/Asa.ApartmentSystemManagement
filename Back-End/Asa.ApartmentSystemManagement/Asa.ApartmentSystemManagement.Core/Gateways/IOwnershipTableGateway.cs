@@ -8,8 +8,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Gateways
 	public interface IOwnershipTableGateway
 	{
 		Task<int> InsertOwnershipAsync(OwnershipDTO ownership);
-		Task UpdateOwnershipAsync(OwnershipDTO ownership);
+		Task UpdateOwnershipAsync(DateTime oldFrom, OwnershipDTO ownership);
 		Task<IEnumerable<ShareInfo>> GetOwnerShareInfoAsync(int buildingId, DateTime from, DateTime to);
-
     }
 }

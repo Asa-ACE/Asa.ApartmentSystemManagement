@@ -20,6 +20,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
         public async Task<BuildingDTO> GetBuildingByIdAsync(int id)
         {
             SqlDataReader reader;
+            BuildingDTO result;
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
@@ -30,41 +31,42 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     reader = await cmd.ExecuteReaderAsync();
+                    await reader.ReadAsync();
+                    result = new BuildingDTO
+                    {
+                        Id = id,
+                        Name = Convert.ToString(reader["Name"]),
+                        NumberOfUnits = Convert.ToInt32(reader["NumberOfUnits"]),
+                        Address = Convert.ToString(reader["Address"])
+                    };
                 }
             }
-
-            await reader.ReadAsync();
-            var result = new BuildingDTO
-            {
-                Id = id,
-                Name = Convert.ToString(reader["name"]),
-                NumberOfUnits = Convert.ToInt32(reader["numberOfUnits"])
-            };
-
             return result;
         }
 
         public async Task<IEnumerable<BuildingDTO>> GetBuildingsAsync(int userId)
         {
             var result = new List<BuildingDTO>();
-            using (var connecion = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpBuildingsGetAll]";
                     cmd.Parameters.AddWithValue("@userId", userId);
-                    cmd.Connection = connecion;
+                    cmd.Connection = connection;
                     cmd.Connection.Open();
                     using (var dataReader = await cmd.ExecuteReaderAsync())
                     {
                         while (await dataReader.ReadAsync())
                         {
-                            var building = new BuildingDTO();
-                            building.Id = Convert.ToInt32(dataReader["BuildingId"]);
-                            building.Name = Convert.ToString(dataReader["Name"]);
-                            building.NumberOfUnits = Convert.ToInt32(dataReader["NumberOfUnits"]);
-                            building.Address = Convert.ToString(dataReader["Address"]);
+                            var building = new BuildingDTO {
+                                Id = Convert.ToInt32(dataReader["BuildingId"]),
+                                Name = Convert.ToString(dataReader["Name"]),
+                                NumberOfUnits = Convert.ToInt32(dataReader["NumberOfUnits"]),
+                                Address = Convert.ToString(dataReader["Address"]),
+                            };
+
                             result.Add(building);
                         }
                     }
@@ -94,23 +96,6 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
             return id;
         }
 
-        public async Task RemoveBuildingAsync(int id)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                using (var cmd = new SqlCommand())
-                {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "[dbo].[SpBuildingRemove]";
-                    cmd.Connection = connection;
-                    cmd.Connection.Open();
-                    await cmd.ExecuteNonQueryAsync();
-                    cmd.Connection.Close();
-                }
-            }
-
-        }
-
         public async Task UpdateBuildingAsync(BuildingDTO building)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -119,8 +104,10 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[dbo].[SpBuildingUpdate]";
-                    cmd.Parameters.AddWithValue("@name", building.Name).Value = building.Name;
-                    cmd.Parameters.AddWithValue("@address", building.Address).Value = building.Address;
+                    cmd.Parameters.AddWithValue("@buildingId", building.Id);
+                    cmd.Parameters.AddWithValue("@numberOfUnits", building.NumberOfUnits);
+                    cmd.Parameters.AddWithValue("@name", building.Name);
+                    cmd.Parameters.AddWithValue("@address", building.Address);
                     cmd.Connection = connection;
                     cmd.Connection.Open();
                     await cmd.ExecuteNonQueryAsync();

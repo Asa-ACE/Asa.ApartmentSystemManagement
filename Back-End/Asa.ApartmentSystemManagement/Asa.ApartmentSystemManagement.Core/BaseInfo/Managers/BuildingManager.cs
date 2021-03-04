@@ -39,14 +39,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         {
             var gateway = _gatewayFactory.CreateBuildingTableGateway();
             var building = await gateway.GetBuildingByIdAsync(id).ConfigureAwait(false);
-            var result = new BuildingDTO
-            {
-                Id = id,
-                Name = building.Name,
-                NumberOfUnits = building.NumberOfUnits,
-                Address = building.Address
-            };
-            return result;
+            return building;
 
         }
 
@@ -59,12 +52,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             await gateway.UpdateBuildingAsync(building);
         }
 
-        public async Task RemoveBuildingAsync(int id)
-        {
-            var gateway = _gatewayFactory.CreateBuildingTableGateway();
-            await gateway.RemoveBuildingAsync(id).ConfigureAwait(false);
 
-        }
 
         public async Task AddUnitAsync(UnitDTO unit)
         {
@@ -72,6 +60,13 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
             var gateway = _gatewayFactory.CreateUnitTableGateway();
             var id = await gateway.InsertUnitAsync(unit);
             unit.Id = id;
+        }
+
+        public async Task AddAdminAsync(int userId, int buildingId)
+        {
+            var gateway = _gatewayFactory.CreateAdminTableGateway();
+            await gateway.InsertAdminAsync(userId, buildingId);
+
         }
 
         public async Task<IEnumerable<BuildingDTO>> GetBuildingsAsync(int userId)
@@ -93,15 +88,7 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
         {
             var gateway = _gatewayFactory.CreateUnitTableGateway();
             var unit = await gateway.GetUnitByIdAsync(id);
-            var result = new UnitDTO
-            {
-                Id = unit.Id,
-                UnitNumber = unit.UnitNumber,
-                BuildingId = unit.BuildingId,
-                Area = unit.Area,
-                Description = unit.Description
-            };
-            return result;
+            return unit;
         }
 
         public async Task<IEnumerable<PersonDTO>> GetOwnersByUnitIdAsync(int unitId)
@@ -124,72 +111,61 @@ namespace Asa.ApartmentSystemManagement.Core.BaseInfo.Managers
 
         public async Task AddOwnershipAsync(OwnershipDTO ownership)
 		{
+
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
-            ValidateOwership(ownership);
+            /*ValidateOwership(ownership);*/
             var id = await gateway.InsertOwnershipAsync(ownership).ConfigureAwait(false);
             ownership.Id = id;
 		}
 
-        public async Task UpdateOwnershipAsync(OwnershipDTO ownershipDTO)
+        public async Task UpdateOwnershipAsync(DateTime oldFrom, OwnershipDTO ownershipDTO)
         {
             var gateway = _gatewayFactory.CreateOwnershipTableGateway();
-            await gateway.UpdateOwnershipAsync(ownershipDTO);
+            await gateway.UpdateOwnershipAsync(oldFrom, ownershipDTO);
         }
 
-        public async Task<IEnumerable<OwnershipDTO>> GetOwnerPaymentsAsync(int unitId, DateTime from, DateTime to)
-        {
-            var gateway = _gatewayFactory.CreateOwnershipTableGateway();
-            return (IEnumerable<OwnershipDTO>)await gateway.GetOwnerPaymentsAsync(unitId, from, to);
-
-        }
-
-		private void ValidateOwership(OwnershipDTO ownership)
+/*		private void ValidateOwership(OwnershipDTO ownership)
 		{
 			throw new NotImplementedException();
-		}
+		}*/
         public async Task AddTenancyAsync(TenancyDTO tenancy)
         {
             var gateway = _gatewayFactory.CreateTenancyTableGateway();
-            ValidateTenancy(tenancy);
+            /*ValidateTenancy(tenancy);*/
             var id = await gateway.InsertTenancyAsync(tenancy);
-            tenancy.PersonId = id;
+            tenancy.TenancyId = id;
         }
 
-        private void ValidateTenancy(TenancyDTO tenancy)
+/*        private void ValidateTenancy(TenancyDTO tenancy)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
-        public async Task UpdateTenancyAsync(TenancyDTO tenancyDTO)
+        public async Task UpdateTenancyAsync(DateTime oldFrom,TenancyDTO tenancy)
         {
             var gateway = _gatewayFactory.CreateTenancyTableGateway();
-            var tenant = await gateway.GetTenancyAsync(tenancyDTO.UnitId);
-            var result = new TenancyDTO
-            {
-                PersonId = tenant.PersonId,
-                TenancyId = tenant.TenancyId,
-                UnitId = tenant.UnitId,
-                From = tenant.From,
-                To = tenant.To,
-                NumberOfPeople = tenant.NumberOfPeople
-            };
-            await gateway.UpdateTenancyAsync(result).ConfigureAwait(false);
+            await gateway.UpdateTenancyAsync(oldFrom, tenancy);
+
         }
 
-        public async Task<TenancyDTO> GetTenancyAsync(int unitId)
+        public async Task<IEnumerable<UnitDTO>> GetOwnedUnitsAsync(int personId)
         {
-            var gateway = _gatewayFactory.CreateTenancyTableGateway();
-            var tenant = await gateway.GetTenancyAsync(unitId).ConfigureAwait(false);
-            var result = new TenancyDTO
-            {
-                PersonId = tenant.PersonId,
-                TenancyId = tenant.TenancyId,
-                UnitId = tenant.UnitId,
-                From = tenant.From,
-                To = tenant.To,
-                NumberOfPeople = tenant.NumberOfPeople
-            };
-            return result;
+            var gateway = _gatewayFactory.CreateUnitTableGateway();
+            return await gateway.GetOwnedUnitsAsync(personId);
         }
+
+        public async Task<IEnumerable<UnitDTO>> GetRentedUnitsAsync(int personId)
+        {
+            var gateway = _gatewayFactory.CreateUnitTableGateway();
+            return await gateway.GetRentedUnitsAsync(personId);
+        }
+
+        public async Task AddExpenseCategoryAsync(ExpenseCategoryDTO expenseCategory)
+        {
+            var gateway = _gatewayFactory.CreateExpenseCategoryTableGateway();
+            var id = await gateway.InsertExpenseCategoryAsync(expenseCategory);
+            expenseCategory.CategoryId = id;
+        }
+
     }
 }

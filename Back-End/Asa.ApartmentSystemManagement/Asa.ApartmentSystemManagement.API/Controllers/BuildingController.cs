@@ -1,9 +1,10 @@
-﻿using Asa.ApartmentSystemManagement.API.Interfaces.ApplicationServices;
-using Asa.ApartmentSystemManagement.API.Model;
-using Asa.ApartmentSystemManagement.API.Model.Request;
-using Asa.ApartmentSystemManagement.API.Model.Response;
-using Asa.ApartmentSystemManagement.API.Tools;
+﻿using Asa.ApartmentSystemManagement.API.Tools;
+using Asa.ApartmentSystemManagement.ApplicationServices;
+using Asa.ApartmentSystemManagement.ApplicationServices.Model.Request;
+using Asa.ApartmentSystemManagement.ApplicationServices.Model.Response;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,145 +16,178 @@ namespace Asa.ApartmentSystemManagement.API.Controllers
     [ApiController]
     [Authorize]
     [Route("[controller]")]
+    [EnableCors("React")]
     public class BuildingController : ControllerBase
     {
-        private IBaseInfoApplicationService _baseInfoApplicationService;
-        private IChargeApplicationService _chargeApplicationService;
-        public BuildingController(IBaseInfoApplicationService baseInfoApplicationService , IChargeApplicationService chargeApplicationService)
+        private BaseInfoApplicationService _baseInfoApplicationService;
+        private ChargeApplicationService _chargeApplicationService;
+
+        public BuildingController(IOptions<AppSetting> appSetting)
         {
-            _baseInfoApplicationService = baseInfoApplicationService;
-            _chargeApplicationService = chargeApplicationService;
+            _baseInfoApplicationService = new BaseInfoApplicationService(appSetting.Value.ConnectionString);
+            _chargeApplicationService = new ChargeApplicationService(appSetting.Value.ConnectionString);
         }
 
         //building
         [HttpGet]
-        public IEnumerable<BuildingResponse> GetBuildings()
+        public async Task<IActionResult> GetBuildings()
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
-            var buildings = _baseInfoApplicationService.GetBuildings(userId);
-            return buildings;
+            var buildings = await _baseInfoApplicationService.GetBuildingsAsync(userId);
+            return Ok(buildings);
         }
+        
+        [HttpGet]
+        [Route("{buildingId:int}")]
+        public async Task<IActionResult> GetBuildingById([FromRoute] int buildingId)
+        {
+            var building = await _baseInfoApplicationService.GetBuildingByIdAsync(buildingId);
+            return Ok(building);
+        }
+
         [HttpPost]
-        public void AddBuilding([FromBody] BuildingRequest buildingInfo)
+        public async Task<IActionResult> AddBuilding([FromBody] BuildingRequest building)
         {
             var userId = Convert.ToInt32(HttpContext.Items["User"]);
-            var name = buildingInfo.Name;
-            var numberOfUnits = buildingInfo.NumberOfUnits;
-            _baseInfoApplicationService.CreateBuilding(name, numberOfUnits);
+            var name = building.Name;
+            var numberOfUnits = building.NumberOfUnits;
+            var address = building.Address;
+            var buildingId = await _baseInfoApplicationService.CreateBuildingAsync(name, numberOfUnits, address);
+            await _baseInfoApplicationService.CreateAdminAsync(userId, buildingId);
+            return Ok(buildingId);
+        
         }
+
         [HttpPatch]
         [Route("{id:int}")]
-        public void ChangeBuildingName([FromRoute] int id, [FromQuery] string newName)
+        public async Task<IActionResult> ChangeBuildingName([FromRoute] int id, [FromQuery] string newName)
         {
-            _baseInfoApplicationService.ChangeBuildingName(id, newName);
+            await _baseInfoApplicationService.UpdateBuildingNameAsync(id, newName);
+            return Ok();
         }
 
         //unit
         [HttpGet]
-        [Route("{buildingId:int}/Units")]
-        public IEnumerable<UnitResponse> GetUnits([FromRoute] int buildingId)
+        [Route("{buildingId:int}/Unit")]
+        public async Task<IActionResult> GetUnits([FromRoute] int buildingId)
         {
-            var units = _baseInfoApplicationService.GetUnits(buildingId);
-            return units;
+            var units = await _baseInfoApplicationService.GetUnitsByBuildingIdAsync(buildingId);
+            return Ok(units);
         }
+
         [HttpPost]
-        [Route("{buildingId:int}/Units")]
-        public void AddUnit([FromRoute] int buildingId, [FromBody] UnitRequest unitInfo)
+        [Route("{buildingId:int}/Unit")]
+        public async Task<IActionResult> AddUnit([FromRoute] int buildingId, [FromBody] UnitRequest unit)
         {
-            _baseInfoApplicationService.CreateUnit(buildingId, unitInfo.Area, unitInfo.UnitNumber, unitInfo.Description);
+            var id = await _baseInfoApplicationService.CreateUnitAsync(buildingId, unit.Area, unit.UnitNumber);
+            return Ok(id);
         }
 
         //owner
         [HttpGet]
-        [Route("{buildingId:int}/Units/{unitId:int}/Owner")]
-        public IEnumerable<OwnerResponse> GetOwners([FromRoute] int unitId)
+        [Route("{buildingId:int}/Unit/{unitId:int}/Owner")]
+        public async Task<IActionResult> GetOwners([FromRoute] int unitId)
         {
-            var units = _baseInfoApplicationService.GetOwners(unitId);
-            return units;
+            var units = await _baseInfoApplicationService.GetOwnersByUnitIdAsync(unitId);
+            return Ok(units);
         }
+
         [HttpPost]
-        [Route("{buildingId:int}/Units/{unitId:int}/Owner")]
-        public void AddOwner([FromRoute] int unitId, [FromBody] OwnerRequest ownerInfo)
+        [Route("{buildingId:int}/Unit/{unitId:int}/Owner")]
+        public async Task<IActionResult> AddOwner([FromRoute] int unitId, [FromBody] OwnerRequest owner)
         {
-            _baseInfoApplicationService.AddOwner(unitId, ownerInfo.PersonId, ownerInfo.From, ownerInfo.To);
+            var id = await _baseInfoApplicationService.CreateOwnershipAsync(unitId, owner.PersonName, owner.From, owner.To);
+            return Ok(id);
         }
+
         [HttpPut]
-        [Route("{buildingId:int}/Units/{unitId:int}/Owner/{ownerId:int}")]
-        public void ChangeOwnerInfo([FromRoute] int ownerId, [FromBody] OwnerRequest ownerInfo)
+        [Route("{buildingId:int}/Unit/{unitId:int}/Owner")]
+        public async Task<IActionResult> ChangeOwner([FromBody] ChangeOwnerRequest owner)
         {
-            _baseInfoApplicationService.ChangeOwnerInfo(ownerId, ownerInfo.PersonId, ownerInfo.From, ownerInfo.To);
+            await _baseInfoApplicationService.ChangeOwnerAsync(owner);
+            return Ok();
         }
 
         //tenant
         [HttpGet]
-        [Route("{buildingId:int}/Units/{unitId:int}/Tenant")]
-        public IEnumerable<TenantResponse> GetTenants([FromRoute] int unitId)
+        [Route("{buildingId:int}/Unit/{unitId:int}/Tenant")]
+        public async Task<IActionResult> GetTenants([FromRoute] int unitId)
         {
-            var units = _baseInfoApplicationService.GetTenants(unitId);
-            return units;
-        }
-        [HttpPost]
-        [Route("{buildingId:int}/Units/{unitId:int}/Tenant")]
-        public void AddTenant([FromRoute] int unitId, [FromBody] TenantRequest tenantInfo)
-        {
-            _baseInfoApplicationService.AddTenant(unitId , tenantInfo.PersonId , tenantInfo.From , tenantInfo.To , tenantInfo.NumberOfPeople);
-        }
-        [HttpPut]
-        [Route("{buildingId:int}/Units/{unitId:int}/Tenant/{tenantId:int}")]
-        public void ChangeTenantInfo([FromRoute] int tenantId, [FromBody] TenantRequest tenantInfo)
-        {
-            _baseInfoApplicationService.ChangeTenantInfo(tenantId, tenantInfo.PersonId, tenantInfo.From, tenantInfo.To, tenantInfo.NumberOfPeople);
+            var units = await _baseInfoApplicationService.GetTenantsByUnitIdAsync(unitId);
+            return Ok(units) ;
         }
 
-        //ExpenceCategory
-        [HttpGet]
-        [Route("ExpenceCategory")]
-        public IEnumerable<ExpenceCategoryResponse> GetExpenceCategories()
-        {
-            var userId = Convert.ToInt32(HttpContext.Items["User"]);
-            var expenseCategories =  _baseInfoApplicationService.GetExpenceCategories(userId);
-            return expenseCategories;
-        }
         [HttpPost]
-        [Route("ExpenceCategory")]
-        public void AddExpenceCategory([FromBody] ExpenceCategoryRequest expenceCategoryInfo)
+        [Route("{buildingId:int}/Unit/{unitId:int}/Tenant")]
+        public async Task<IActionResult> AddTenant([FromRoute] int unitId, [FromBody] TenantRequest tenant)
         {
-            _baseInfoApplicationService.AddExpenceCategory(expenceCategoryInfo.Name, expenceCategoryInfo.FormulaType, expenceCategoryInfo.IsForOwner);
-        }
-        [HttpPut]
-        [Route("ExpenceCategory/{categoryId:int}")]
-        public void ChangeExpenceCategoryInfo([FromRoute] int categoryId , [FromBody] ExpenceCategoryRequest expenceCategoryInfo)
-        {
-            _baseInfoApplicationService.ChangeExpenceCategoryInfo(categoryId, expenceCategoryInfo.Name, expenceCategoryInfo.FormulaType, expenceCategoryInfo.IsForOwner);
+            var id = await _baseInfoApplicationService.CreateTenancyAsync(unitId , tenant.UserName , tenant.From , tenant.To , tenant.NumberOfPeople);
+            return Ok(id);
         }
 
-        //Expance
-        [HttpGet]
-        [Route("{buildingId:int}/Expence")]
-        public IEnumerable<ExpenceResponse> GetExpences([FromRoute] int buildingId)
-        {
-            var expences = _baseInfoApplicationService.GetExpences(buildingId);
-            return expences;
-        }
-        [HttpPost]
-        [Route("{buildingId:int}/Expence")]
-        public void AddExpence([FromRoute] int buildingId , ExpenseRequest expenseInfo)
-        {
-            _baseInfoApplicationService.AddExpence(buildingId, expenseInfo.CategoryId, expenseInfo.From, expenseInfo.To, expenseInfo.Amount, expenseInfo.Name);
-        }
         [HttpPut]
-        [Route("{buildingId:int}/Expence/{expenceId:int}")]
-        public void ChangeExpenceInfo([FromRoute] int buildingId , [FromRoute] int expenceId , ExpenseRequest expenseInfo)
+        [Route("{buildingId:int}/Unit/{unitId:int}/Tenant")]
+        public async Task<IActionResult> ChangeTenant([FromBody] ChangeTenantRequest tenant)
         {
-            _baseInfoApplicationService.ChangeExpenceInfo(expenceId, expenseInfo.CategoryId, expenseInfo.From, expenseInfo.To, expenseInfo.Amount, expenseInfo.Name);
+            await _baseInfoApplicationService.ChangeTenantAsync(tenant);
+            return Ok();
         }
+        
+        //ExpenseCategory
+        [HttpGet]
+        [Route("ExpenseCategory")]
+        public async Task<IActionResult> GetExpenseCategories()
+        {
+            var expenseCategories =  await _baseInfoApplicationService.GetExpenseCategoriesAsync();
+            return Ok(expenseCategories);
+        }
+
+        [HttpPost]
+        [Route("ExpenseCategory")]
+        public async Task<IActionResult> AddExpenseCategory([FromBody] ExpenseCategoryRequest expenseCategory)
+        {
+            var id = await _baseInfoApplicationService.CreateExpenseCategoryAsync(expenseCategory);
+            return Ok(id);
+        }
+
+        [HttpPut]
+        [Route("ExpenseCategory/{categoryId:int}")]
+        public async Task<IActionResult> ChangeExpenseCategory([FromRoute] int categoryId , [FromBody] ExpenseCategoryRequest expenseCategory)
+        {
+            await _baseInfoApplicationService.ChangeExpenseCategoryAsync(categoryId, expenseCategory); 
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("{buildingId:int}/Expense")]
+        public async Task<IActionResult> GetExpenses([FromRoute] int buildingId)
+        {
+            var expenses = await _baseInfoApplicationService.GetExpensesAsync(buildingId);
+            return Ok(expenses);
+        }
+
+        [HttpPost]
+        [Route("{buildingId:int}/Expense")]
+        public async Task<IActionResult> AddExpense([FromRoute] int buildingId ,[FromBody] ExpenseRequest expense)
+        {
+            var id = await _baseInfoApplicationService.CreateExpenseAsync(buildingId, expense);
+            return Ok(id);
+        }
+
+        [HttpPut]
+        [Route("{buildingId:int}/Expense/{expenseId:int}")]
+        public async Task<IActionResult> ChangeExpense([FromRoute] int buildingId , [FromRoute] int expenseId , [FromBody] ExpenseRequest expense)
+        {
+            await _baseInfoApplicationService.ChangeExpenseAsync(buildingId , expenseId , expense);
+            return Ok();
+        }
+
         [HttpDelete]
-        [Route("{buildingId:int}/Expence/{expenceId:int}")]
-        public void DeleteExpence([FromRoute] int expenceId)
+        [Route("{buildingId:int}/Expense/{expenseId:int}")]
+        public async Task<IActionResult> DeleteExpense([FromRoute] int expenseId)
         {
-            _baseInfoApplicationService.DeleteExpence(expenceId);
+            await _baseInfoApplicationService.DeleteExpenseAsync(expenseId);
+            return Ok();
         }
-
-
     }
 }

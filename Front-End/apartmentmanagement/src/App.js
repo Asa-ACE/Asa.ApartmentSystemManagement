@@ -1,16 +1,24 @@
-import React from 'react';
+import React from "react";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import "./index.css";
-import Navbar from './components/Navbar';
-import Login from "./components/Login";
-import Register from "./components/Register";
+import { Switch, Redirect, Route } from "react-router-dom";
+import Login from "./components/Pages/Login";
+import Register from "./components/Pages/Register";
+import Dashboard from "./components/Pages/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
     <>
-      <Navbar>
-      </Navbar>
-      <Register/>
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/signup">
+          <Register />
+        </Route>
+        <PrivateRoute path="/" component={Dashboard} />
+      </Switch>
     </>
   );
 }

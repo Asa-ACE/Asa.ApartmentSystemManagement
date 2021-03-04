@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormula
+namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain.CalculationFormula
 {
     public static class CalculationFormulaFactory
     {
@@ -11,18 +11,18 @@ namespace ASa.ApartmentManagement.Core.ChargeCalculation.Domain.CalculationFormu
         static Dictionary<string, Type> formulaTypesDictionary;
         static Dictionary<string, IFormula> formulaInstances = new Dictionary<string, IFormula>();
         static readonly object lockToken = new object();
+
+        public static void Initiate()
+        {
+            lock (lockToken)
+            {
+                ExtractFormulaNames();
+            }
+        }
+
         public static List<FormulaName> GetAll()
         {
-            if (formulaNames == null)
-            {
-                lock (lockToken)
-                {
-                    if (formulaNames == null)
-                    {
-                        ExtractFormulaNames();
-                    }
-                }
-            }
+
             return formulaNames;
         }
 
