@@ -11,7 +11,7 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain.Calculatio
         public List<ChargeItemDTO> Calculate(decimal amount, IEnumerable<ShareInfo> shareInfos, int expenseId, bool isOwner)
         {
             decimal sum = 0;
-            List<ChargeItemDTO> chargeItems = null;
+            List<ChargeItemDTO> chargeItems = new List<ChargeItemDTO>();
 
             foreach (var shareInfo in shareInfos)
             {
@@ -25,6 +25,7 @@ namespace Asa.ApartmentSystemManagement.Core.ChargeCalculation.Domain.Calculatio
                 chargeItem.PersonId = shareInfo.PersonId;
                 chargeItem.UnitId = shareInfo.UnitId;
                 chargeItem.IsOwner = isOwner;
+                chargeItems.Add(chargeItem);
             }
 
             return chargeItems;
