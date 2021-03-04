@@ -48,7 +48,7 @@ function AddExpenseForm(props) {
       CategoryId: values.categoryId,
       From: values.from,
       To: values.to,
-      Amount: values.amount,
+      Amount: parseFloat(values.amount),
       Name: values.name,
     };
     const id = await apiService.postRequest(
