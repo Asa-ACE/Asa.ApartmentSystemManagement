@@ -15,7 +15,7 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import { AirlineSeatIndividualSuiteSharp } from "@material-ui/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useForm from "./useForm";
 import { apiService } from "../../services/apiService";
 import { useParams } from "react-router-dom";
@@ -38,11 +38,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AddExpenseForm(props) {
-  const { handleClose } = props;
+  const { handleClose, expenses, setExpenses } = props;
   const { values, setValues, handleInputChange } = useForm(initialValues);
   const { buildingId } = useParams();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       CategoryId: values.categoryId,
@@ -51,10 +51,18 @@ function AddExpenseForm(props) {
       Amount: values.amount,
       Name: values.name,
     };
-    apiService.postRequest(`building/${buildingId}/expense`, data);
+    const id = await apiService.postRequest(
+      `building/${buildingId}/expense`,
+      data
+    );
+    handleClose();
+    window.location.reload();
   };
-
-  const categories = apiService.getRequest("/expensecategory");
+  const [categories, setCategories] = useState([]);
+  useEffect(async () => {
+    const data = await apiService.getRequest("building/expensecategory");
+    setCategories(data);
+  }, []);
 
   const classes = useStyles();
 
@@ -79,7 +87,7 @@ function AddExpenseForm(props) {
           </Grid>
           <Grid item xs={12}>
             <FormControl required fullWidth>
-              <InputLabel id="select-category">Payer</InputLabel>
+              <InputLabel id="select-category">Expense Categories</InputLabel>
               <Select
                 labelId="select-category"
                 value={values.categoryId}
@@ -87,8 +95,8 @@ function AddExpenseForm(props) {
                 name="categoryId"
               >
                 {categories.map((category) => (
-                  <MenuItem value={category.CategoryId}>
-                    {category.Name}
+                  <MenuItem value={category.categoryId}>
+                    {category.name}
                   </MenuItem>
                 ))}
               </Select>

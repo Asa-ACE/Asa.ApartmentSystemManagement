@@ -17,24 +17,20 @@ import AddChargeForm from "../../Forms/AddChargeForm";
 import { apiService } from "../../../services/apiService";
 import EditChargeForm from "../../Forms/EditChargeForm";
 import AddUnitForm from "../../Forms/AddUnitForm";
+import AddExpenseForm from "../../Forms/AddExpenseForm";
+import EditExpenseForm from "../../Forms/EditExpenseForm";
 
-function BuildingCharges() {
+function BuildingExpenses() {
   const { buildingId, unitId } = useParams();
-  const [charges, setCharges] = useState([]);
+  const [expenses, setExpenses] = useState([]);
   useEffect(async () => {
-    const data = await apiService.getRequest(`building/${buildingId}/charge`);
-    setCharges(data);
+    const data = await apiService.getRequest(`building/${buildingId}/expense`);
+    setExpenses(data);
   }, []);
   const [openEditForm, setOpenEditForm] = useState(false);
   const [openAddForm, setOpenAddForm] = useState(false);
   const [id, setId] = useState(0);
 
-  const handleCalculate = async (chargeId) => {
-    await apiService.postRequest(
-      `building/${buildingId}/charge/${chargeId}/calculate`
-    );
-    alert("Charge has been calculated :)");
-  };
   return (
     <>
       <TableContainer component={Paper}>
@@ -42,35 +38,29 @@ function BuildingCharges() {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell />
+              <TableCell>Name</TableCell>
               <TableCell>From</TableCell>
               <TableCell>To</TableCell>
+              <TableCell>Amount</TableCell>
             </TableRow>
           </TableHead>
-          {charges.map((charge) => (
+          {expenses.map((expense) => (
             <TableRow>
-              <TableCell>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleCalculate(charge.chargeId)}
-                >
-                  Calculate
-                </Button>
-              </TableCell>
               <TableCell>
                 <IconButton
                   color="primary"
                   onClick={() => {
-                    setId(charge.chargeId);
+                    setId(expense.expenseId);
                     setOpenEditForm(true);
                   }}
                 >
                   <EditRoundedIcon />
                 </IconButton>
               </TableCell>
-              <TableCell>{charge.from.substring(0, 10)}</TableCell>
-              <TableCell>{charge.to.substring(0, 10)}</TableCell>
+              <TableCell>{expense.name}</TableCell>
+              <TableCell>{expense.from.substring(0, 10)}</TableCell>
+              <TableCell>{expense.to.substring(0, 10)}</TableCell>
+              <TableCell>{expense.amount}</TableCell>
             </TableRow>
           ))}
         </Table>
@@ -80,24 +70,24 @@ function BuildingCharges() {
       </IconButton>
       <ModalForm
         open={openEditForm}
-        title="Edit Charge"
+        title="Edit Expense"
         onClose={() => setOpenEditForm(false)}
       >
-        <EditChargeForm
-          setCharges={setCharges}
-          charges={charges}
-          chargeId={id}
+        <EditExpenseForm
+          setExpenses={setExpenses}
+          expenses={expenses}
+          expenseId={id}
           handleClose={() => setOpenEditForm(false)}
         />
       </ModalForm>
       <ModalForm
         open={openAddForm}
-        title="New Charge"
+        title="New Expense"
         onClose={() => setOpenAddForm(false)}
       >
-        <AddChargeForm
-          charges={charges}
-          setCharges={setCharges}
+        <AddExpenseForm
+          expenses={expenses}
+          setExpenses={setExpenses}
           handleClose={() => setOpenAddForm(false)}
         />
       </ModalForm>
@@ -105,4 +95,4 @@ function BuildingCharges() {
   );
 }
 
-export default BuildingCharges;
+export default BuildingExpenses;
