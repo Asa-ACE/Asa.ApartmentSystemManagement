@@ -11,17 +11,27 @@ const initialValues = {
 };
 
 function AddBuildingForm(props) {
-  const { handleClose } = props;
+  const { handleClose, buildings, setBuildings } = props;
   const { values, setValues, handleInputChange } = useForm(initialValues);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       Name: values.buildingName,
-      NumberOfUnits: values.numberOfUnits,
+      NumberOfUnits: parseInt(values.numberOfUnits),
       Address: values.address,
     };
-    apiService.postRequest(`building`, data);
+    const id = await apiService.postRequest(`building`, data);
+    setBuildings([
+      ...buildings,
+      {
+        name: data.Name,
+        numberOfUnits: data.NumberOfUnits,
+        address: data.Address,
+        id: id,
+      },
+    ]);
+    handleClose();
   };
 
   return (
