@@ -33,7 +33,7 @@ namespace Asa.ApartmentSystemManagement.Infra.DataGateways
                         {
                             var unitDTO = new UnitDTO();
                             unitDTO.BuildingId = id;
-                            unitDTO.Id = Convert.ToInt32(dataReader["UnitId"]);
+                            unitDTO.Id = Convert.ToInt32(dataReader["UnitID"]);
                             unitDTO.Area = Convert.ToDecimal(dataReader["Area"]);
                             unitDTO.UnitNumber = Convert.ToInt32(dataReader["Number"]);
                             result.Add(unitDTO);
