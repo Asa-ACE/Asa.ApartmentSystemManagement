@@ -17,7 +17,7 @@ const initialValues = {
 };
 
 function EditChargeForm(props) {
-  const { handleClose, chargeId } = props;
+  const { handleClose, chargeId, setCharges, charges } = props;
   const { values, setValues, handleInputChange } = useForm(initialValues);
   const { buildingId } = useParams();
 
@@ -28,6 +28,18 @@ function EditChargeForm(props) {
       To: values.to,
     };
     apiService.putRequest(`building/${buildingId}/charge/${chargeId}`, data);
+    setCharges(
+      charges.map((charge) =>
+        charge.chargeId == chargeId
+          ? {
+              chargeId: chargeId,
+              from: data.From.toString(),
+              to: data.To.toString(),
+            }
+          : charge
+      )
+    );
+    handleClose();
   };
 
   return (

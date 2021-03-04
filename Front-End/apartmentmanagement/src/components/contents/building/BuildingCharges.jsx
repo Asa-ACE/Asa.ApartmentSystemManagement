@@ -85,6 +85,7 @@ function BuildingCharges() {
       >
         <EditChargeForm
           setCharges={setCharges}
+          charges={charges}
           chargeId={id}
           handleClose={() => setOpenEditForm(false)}
         />
