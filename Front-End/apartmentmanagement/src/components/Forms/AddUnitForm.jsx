@@ -35,14 +35,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AddUnitForm(props) {
-  const { unitNumber, handleClose } = props;
+  const { unitNumber, handleClose, units, setUnits } = props;
   const { values, setValues, handleInputChange } = useForm(initialValues);
   const { buildingId } = useParams();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { Area: values.area, UnitNumber: unitNumber };
-    apiService.postRequest(`building/${buildingId}/unit`, data);
+    const data = {
+      Area: parseFloat(values.area),
+      UnitNumber: parseInt(unitNumber),
+    };
+    const id = await apiService.postRequest(
+      `building/${buildingId}/unit`,
+      data
+    );
+    setUnits([
+      ...units,
+      {
+        area: data.Area,
+        unitNumber: data.UnitNumber,
+        id: data.id,
+      },
+    ]);
+    handleClose();
   };
 
   const classes = useStyles();

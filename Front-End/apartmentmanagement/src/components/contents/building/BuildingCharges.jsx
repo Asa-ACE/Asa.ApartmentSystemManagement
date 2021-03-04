@@ -16,6 +16,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddChargeForm from "../../Forms/AddChargeForm";
 import { apiService } from "../../../services/apiService";
 import EditChargeForm from "../../Forms/EditChargeForm";
+import AddUnitForm from "../../Forms/AddUnitForm";
 
 function BuildingCharges() {
   const { buildingId, unitId } = useParams();
@@ -85,12 +86,12 @@ function BuildingCharges() {
         <EditChargeForm
           setCharges={setCharges}
           chargeId={id}
-          handleClose={() => setOpenAddForm(false)}
+          handleClose={() => setOpenEditForm(false)}
         />
       </ModalForm>
       <ModalForm
         open={openAddForm}
-        title="New Charge"
+        title="New Unit"
         onClose={() => setOpenAddForm(false)}
       >
         <AddChargeForm
